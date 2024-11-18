@@ -5,11 +5,11 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-purple.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://github.com/mcmah309/rust/actions/workflows/test.yml/badge.svg)](https://github.com/mcmah309/rust/actions)
 
-[rust](https://github.com/mcmah309/rust) is a pure Dart implementation of patterns found in Rust's core library, bringing the power of Rust to Dart!
+[rust](https://github.com/mcmah309/rust) (formally known as [rust_core](https://pub.dev/packages/rust_core)) is a pure Dart implementation of patterns found in the [Rust programming language](https://www.rust-lang.org/), bringing the power of Rust to Dart!
 
 Types include [Result](https://mcmah309.github.io/rust/libs/result/result.html), [Option](https://mcmah309.github.io/rust/libs/option/option.html), [Cell](https://mcmah309.github.io/rust/libs/cell/cell.html), [Slice](https://mcmah309.github.io/rust/libs/slice/slice.html), [Array](https://mcmah309.github.io/rust/libs/array/array.html), [Iterator](https://mcmah309.github.io/rust/libs/iter/iter.html), [Channels](https://mcmah309.github.io/rust/libs/sync/channels.html), [Mutex](https://mcmah309.github.io/rust/libs/sync/mutex.html), and more.
 
-See the [Rust Core Book 📖](https://mcmah309.github.io/rust)
+See the [Book 📖](https://mcmah309.github.io/rust)
 
 ## Example
 > Goal: Get the index of every "!" in a string not followed by a "?"
@@ -43,8 +43,8 @@ fn main() {
 import 'package:rust/rust.dart';
 
 void main() {
-  String string = "kl!sd!?!";
-  List<int> answer = [];
+  final string = "kl!sd!?!";
+  Vec<int> answer = [];
   Peekable<(int, Arr<String>)> iter = string
       .chars()
       .mapWindows(2, identity)
@@ -56,9 +56,9 @@ void main() {
       case ["!", "?"]:
         break;
       case ["!", _]:
-        answer.add(index);
+        answer.push(index);
       case [_, "!"] when iter.peek().isNone():
-        answer.add(index + 1);
+        answer.push(index + 1);
     }
   }
   expect(answer, [2, 7]);
