@@ -1,3 +1,7 @@
+## 1.3.5
+
+- Sync version number
+
 ## 1.3.4
 
 - Rust rename notification
