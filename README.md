@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/mcmah309/rust/master/.github/DR.png" width="500px">
+<img src="https://raw.githubusercontent.com/mcmah309/rust/master/.github/DR.png" width="250px">
 
 [![Pub Version](https://img.shields.io/pub/v/rust.svg)](https://pub.dev/packages/rust)
 [![Dart Package Docs](https://img.shields.io/badge/documentation-pub.dev-blue.svg)](https://pub.dev/documentation/rust/latest/)
@@ -50,6 +50,7 @@ void main() {
       .mapWindows(2, identity)
       .enumerate()
       .peekable();
+
   while (iter.moveNext()) {
     final (index, window) = iter.current;
     switch (window) {
