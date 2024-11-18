@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:rust/sync.dart';
+import 'package:rust/rust.dart';
 import 'package:test/test.dart';
 
 class RWTester {

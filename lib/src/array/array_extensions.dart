@@ -1,4 +1,4 @@
-import 'package:rust/array.dart';
+import 'package:rust/rust.dart';
 
 extension ArrayOnListExtension<T> on List<T> {
   /// Transmutes a List into an Array

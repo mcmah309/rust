@@ -1,8 +1,4 @@
-import 'package:rust/ops.dart';
-import 'package:rust/result.dart';
-import 'package:rust/slice.dart';
-import 'package:rust/option.dart';
-import 'package:rust/iter.dart';
+import 'package:rust/rust.dart';
 
 /// A fixed-size array, denoted as [T; N] in Rust.
 extension type Arr<T>._(List<T> list) implements Iterable<T> {

@@ -1,13 +1,7 @@
 // ignore_for_file: avoid_types_as_parameter_names
 
-import 'package:rust/array.dart';
-import 'package:rust/ops.dart';
-import 'package:rust/option.dart';
-import 'package:rust/panic.dart';
-import 'package:rust/result.dart';
-import 'package:rust/str.dart';
+import 'package:rust/rust.dart';
 import 'package:test/test.dart';
-import 'package:rust/slice.dart';
 
 main() {
   test("arrayWindows", () {

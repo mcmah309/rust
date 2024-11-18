@@ -1,5 +1,4 @@
-import 'package:rust/ops.dart';
-import 'package:rust/panic.dart';
+import 'package:rust/rust.dart';
 import 'package:test/test.dart';
 
 void main() {

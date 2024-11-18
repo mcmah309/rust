@@ -1,4 +1,4 @@
-import 'package:rust/iter.dart';
+import 'package:rust/rust.dart';
 
 extension StringExtension on String {
   /// An Iterator of code units of this [String] represented as individual [String]s

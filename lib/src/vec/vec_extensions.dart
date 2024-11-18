@@ -1,5 +1,4 @@
-import 'vec.dart';
-import 'package:rust/array.dart';
+import 'package:rust/rust.dart';
 
 extension VecOnIterableExtension<T> on Iterable<T> {
   @pragma('vm:prefer-inline')

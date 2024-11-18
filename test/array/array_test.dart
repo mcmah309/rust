@@ -1,6 +1,5 @@
-import 'package:rust/result.dart';
+import 'package:rust/rust.dart';
 import 'package:test/test.dart';
-import 'package:rust/array.dart';
 
 void main() {
   test("map", () {

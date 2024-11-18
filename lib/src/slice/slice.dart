@@ -2,14 +2,7 @@
 
 import 'dart:math';
 
-import 'package:rust/ops.dart';
-import 'package:rust/option.dart';
-import 'package:rust/iter.dart';
-import 'package:rust/panic.dart';
-import 'package:rust/result.dart';
-import 'package:rust/array.dart';
-import 'package:rust/slice.dart';
-import 'package:rust/src/slice/errors.dart';
+import 'package:rust/rust.dart';
 
 part 'slice_extensions.dart';
 
