@@ -1,3 +1,3 @@
 library str;
 
-export 'src/str/str.dart';
+export "package:rust/str.dart";

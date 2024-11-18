@@ -1,3 +1,3 @@
 library option;
 
-export 'src/option/option.dart';
+export "package:rust/option.dart";

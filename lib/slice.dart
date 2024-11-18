@@ -1,4 +1,3 @@
 library slice;
 
-export 'src/slice/slice.dart';
-export 'src/slice/errors.dart';
+export "package:rust/slice.dart";

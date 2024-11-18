@@ -1,4 +1,3 @@
 library panic;
 
-export 'src/panic/panic.dart';
-export 'src/panic/unreachable.dart';
+export "package:rust/panic.dart";

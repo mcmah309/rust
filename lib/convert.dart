@@ -1,3 +1,3 @@
 library convert;
 
-export 'src/convert/convert.dart';
+export "package:rust/convert.dart";

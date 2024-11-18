@@ -1,5 +1,5 @@
 import 'package:rust_core/option.dart';
-import 'package:rust_core/src/panic/panic.dart';
+import 'package:rust_core/panic.dart';
 import 'package:test/test.dart';
 
 void main() {

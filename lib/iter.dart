@@ -1,3 +1,3 @@
 library iter;
 
-export "src/iter/iterator.dart";
+export "package:rust/iter.dart";
