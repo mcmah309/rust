@@ -1,6 +1,6 @@
 # Cell
 ***
-Cell is library of useful wrappers types (cells) - [pub.dev](https://pub.dev/documentation/rust_core/latest/cell/cell-library.html).
+Cell is library of useful wrappers types (cells) - [pub.dev](https://pub.dev/documentation/rust/latest/cell/cell-library.html).
 
 [Cell](#cell) - A wrapper with interior mutability.
 

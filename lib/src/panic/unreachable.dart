@@ -1,4 +1,4 @@
-import 'package:rust_core/panic.dart';
+import 'package:rust/panic.dart';
 
 /// Indicates unreachable code.
 /// This is useful any time that the compiler can’t determine that some code is unreachable. For example:

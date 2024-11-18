@@ -1,6 +1,6 @@
-import 'package:rust_core/slice.dart';
-import 'package:rust_core/option.dart';
-import 'package:rust_core/vec.dart';
+import 'package:rust/slice.dart';
+import 'package:rust/option.dart';
+import 'package:rust/vec.dart';
 import 'package:test/test.dart';
 
 main() {

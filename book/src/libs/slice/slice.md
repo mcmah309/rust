@@ -24,7 +24,7 @@ thus slices are more efficient than creating a sub-list, but they do not own the
 Create overlapping windows of a specified size from a list:
 
 ```dart
-import 'package:rust_core/slice.dart';
+import 'package:rust/slice.dart';
 
 void main() {
   var list = [1, 2, 3, 4, 5];
@@ -39,7 +39,7 @@ void main() {
 Split a list into chunks of a specified size:
 
 ```dart
-import 'package:rust_core/slice.dart';
+import 'package:rust/slice.dart';
 
 void main() {
   var list = [1, 2, 3, 4, 5];
@@ -55,7 +55,7 @@ void main() {
 Perform binary search on a sorted list:
 
 ```dart
-import 'package:rust_core/slice.dart';
+import 'package:rust/slice.dart';
 
 void main() {
   Slice<num> s = [0, 1, 1, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55].slice();
@@ -69,7 +69,7 @@ void main() {
 Rotate elements to the left or right:
 
 ```dart
-import 'package:rust_core/slice.dart';
+import 'package:rust/slice.dart';
 
 void main() {
   var list = ['a', 'b', 'c', 'd', 'e', 'f'];
@@ -87,7 +87,7 @@ void main() {
 Remove duplicate elements based on a custom equality function:
 
 ```dart
-import 'package:rust_core/slice.dart';
+import 'package:rust/slice.dart';
 
 void main() {
   var list = ["foo", "Foo", "BAZ", "Bar", "bar", "baz", "BAZ"];
@@ -103,7 +103,7 @@ void main() {
 Sort elements in-place:
 
 ```dart
-import 'package:rust_core/slice.dart';
+import 'package:rust/slice.dart';
 
 void main() {
   var list = [5, 4, 3, 2, 1];
@@ -118,7 +118,7 @@ void main() {
 Reverse the elements in a list:
 
 ```dart
-import 'package:rust_core/slice.dart';
+import 'package:rust/slice.dart';
 
 void main() {
   var list = [1, 2, 3, 4, 5];
@@ -133,7 +133,7 @@ void main() {
 Partition elements into those that satisfy a predicate and those that don't:
 
 ```dart
-import 'package:rust_core/slice.dart';
+import 'package:rust/slice.dart';
 
 void main() {
   var list = [1, 2, 2, 3, 3, 2, 1, 1];
@@ -149,7 +149,7 @@ void main() {
 Copy elements within a list or to another list:
 
 ```dart
-import 'package:rust_core/slice.dart';
+import 'package:rust/slice.dart';
 
 void main() {
   var srcList = [1, 2, 3, 4, 5];

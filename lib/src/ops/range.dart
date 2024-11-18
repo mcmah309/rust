@@ -1,5 +1,5 @@
-import 'package:rust_core/panic.dart';
-import 'package:rust_core/slice.dart';
+import 'package:rust/panic.dart';
+import 'package:rust/slice.dart';
 
 // https://stackoverflow.com/a/60358200
 const int _intMaxValue = 9007199254740991;

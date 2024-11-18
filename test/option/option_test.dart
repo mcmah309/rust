@@ -1,6 +1,6 @@
 // ignore_for_file: pattern_never_matches_value_type
 
-import 'package:rust_core/rust_core.dart';
+import 'package:rust/rust.dart';
 import 'package:test/test.dart';
 
 void main() {

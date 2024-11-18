@@ -1,8 +1,8 @@
 @TestOn('vm')
 
-import 'package:rust_core/ops.dart';
-import 'package:rust_core/result.dart';
-import 'package:rust_core/sync.dart';
+import 'package:rust/ops.dart';
+import 'package:rust/result.dart';
+import 'package:rust/sync.dart';
 import 'package:test/test.dart';
 
 void main() async {

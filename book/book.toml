@@ -3,9 +3,9 @@ authors = ["mcmah309"]
 language = "en"
 multilingual = false
 src = "src"
-title = "rust_core"
+title = "rust"
 
 [output.html]
 fold.enable = true
 default-theme = "rust"
-git-repository-url = "https://github.com/mcmah309/rust_core"
+git-repository-url = "https://github.com/mcmah309/rust"

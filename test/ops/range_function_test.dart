@@ -1,5 +1,5 @@
-import 'package:rust_core/ops.dart';
-import 'package:rust_core/panic.dart';
+import 'package:rust/ops.dart';
+import 'package:rust/panic.dart';
 import 'package:test/test.dart';
 
 void main() {

@@ -1,15 +1,15 @@
-<img src="https://raw.githubusercontent.com/mcmah309/rust_core/master/.github/DR.png" width="500px">
+<img src="https://raw.githubusercontent.com/mcmah309/rust/master/.github/DR.png" width="500px">
 
-[![Pub Version](https://img.shields.io/pub/v/rust_core.svg)](https://pub.dev/packages/rust_core)
-[![Dart Package Docs](https://img.shields.io/badge/documentation-pub.dev-blue.svg)](https://pub.dev/documentation/rust_core/latest/)
+[![Pub Version](https://img.shields.io/pub/v/rust.svg)](https://pub.dev/packages/rust)
+[![Dart Package Docs](https://img.shields.io/badge/documentation-pub.dev-blue.svg)](https://pub.dev/documentation/rust/latest/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-purple.svg)](https://opensource.org/licenses/MIT)
-[![Build Status](https://github.com/mcmah309/rust_core/actions/workflows/test.yml/badge.svg)](https://github.com/mcmah309/rust_core/actions)
+[![Build Status](https://github.com/mcmah309/rust/actions/workflows/test.yml/badge.svg)](https://github.com/mcmah309/rust/actions)
 
-[rust_core](https://github.com/mcmah309/rust_core) is a pure Dart implementation of patterns found in Rust's core library, bringing the power of Rust to Dart!
+[rust](https://github.com/mcmah309/rust) is a pure Dart implementation of patterns found in Rust's core library, bringing the power of Rust to Dart!
 
-Types include [Result](https://mcmah309.github.io/rust_core/libs/result/result.html), [Option](https://mcmah309.github.io/rust_core/libs/option/option.html), [Cell](https://mcmah309.github.io/rust_core/libs/cell/cell.html), [Slice](https://mcmah309.github.io/rust_core/libs/slice/slice.html), [Array](https://mcmah309.github.io/rust_core/libs/array/array.html), [Iterator](https://mcmah309.github.io/rust_core/libs/iter/iter.html), [Channels](https://mcmah309.github.io/rust_core/libs/sync/channels.html), [Mutex](https://mcmah309.github.io/rust_core/libs/sync/mutex.html), and more.
+Types include [Result](https://mcmah309.github.io/rust/libs/result/result.html), [Option](https://mcmah309.github.io/rust/libs/option/option.html), [Cell](https://mcmah309.github.io/rust/libs/cell/cell.html), [Slice](https://mcmah309.github.io/rust/libs/slice/slice.html), [Array](https://mcmah309.github.io/rust/libs/array/array.html), [Iterator](https://mcmah309.github.io/rust/libs/iter/iter.html), [Channels](https://mcmah309.github.io/rust/libs/sync/channels.html), [Mutex](https://mcmah309.github.io/rust/libs/sync/mutex.html), and more.
 
-See the [Rust Core Book 📖](https://mcmah309.github.io/rust_core)
+See the [Rust Core Book 📖](https://mcmah309.github.io/rust)
 
 ## Example
 > Goal: Get the index of every "!" in a string not followed by a "?"
@@ -40,7 +40,7 @@ fn main() {
 ```
 **Dart:**
 ```dart
-import 'package:rust_core/rust_core.dart';
+import 'package:rust/rust.dart';
 
 void main() {
   String string = "kl!sd!?!";
@@ -66,9 +66,9 @@ void main() {
 ```
 
 ## Project Goals
-rust_core's primary goal is to give Dart developers access to powerful tools previously only available to Rust developers.
+rust's primary goal is to give Dart developers access to powerful tools previously only available to Rust developers.
 
 To accomplish this, Rust's functionalities are carefully adapted to Dart's paradigms, focusing on a smooth idiomatic language-compatible integration.
 The result is developers now have a whole new toolset to tackle problems in Dart.
 
-True to the Rust philosophy, rust_core strives to bring reliability and performance in every feature. Every feature is robustly tested. Over 500 meaningful test suites and counting.
+True to the Rust philosophy, rust strives to bring reliability and performance in every feature. Every feature is robustly tested. Over 500 meaningful test suites and counting.

@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:rust_core/convert.dart';
-import 'package:rust_core/panic.dart';
-import 'package:rust_core/option.dart';
-import 'package:rust_core/iter.dart';
+import 'package:rust/convert.dart';
+import 'package:rust/panic.dart';
+import 'package:rust/option.dart';
+import 'package:rust/iter.dart';
 
 part 'future_result.dart';
 

@@ -2,7 +2,7 @@
 ***
 A Rust `Iterator` is analogous to the union of a Dart `Iterable` and `Iterator`. Since Dart already has an `Iterator` class, to avoid confusion,
 the Dart implementation of the Rust iterator is `Iter`. `Iter`
-makes working with collections of `rust_core` types and regular Dart types a breeze. e.g.
+makes working with collections of `rust` types and regular Dart types a breeze. e.g.
 
 ```dart
 List<int> list = [1, 2, 3, 4, 5];
@@ -41,12 +41,12 @@ expect(iter,[]);
 ```
 
 `Iter` contains many more useful methods than the base Dart `Iterable` class and works in all places you
-would reach for an `Iterator` - [pub.dev](https://pub.dev/documentation/rust_core/latest/iter/iter-library.html)
+would reach for an `Iterator` - [pub.dev](https://pub.dev/documentation/rust/latest/iter/iter-library.html)
 
 ## Dart vs Rust Example
 Goal: Get the index of every "!" in a string not followed by a "?"
 ```dart
-import 'package:rust_core/rust_core.dart';
+import 'package:rust/rust.dart';
 
 void main() {
   List<int> answer = [];

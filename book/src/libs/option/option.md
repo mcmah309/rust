@@ -3,7 +3,7 @@
 Option represents the union of two types - `Some<T>` and `None`. An `Option<T>` is an extension type of `T?`. Therefore, `Option`
 has zero runtime cost.
 
-rust_core support nullable and `Option` implementations of classes and methods for ergonomic convenience where possible, but you
+rust support nullable and `Option` implementations of classes and methods for ergonomic convenience where possible, but you
 can easily switch between the two with no runtime cost.
 
 ```dart
@@ -27,7 +27,7 @@ Option<double> val = intOptionFunc()
     .map(halfVal);
 expect(val.unwrapOr(2), 2);
 ```
-See the [docs](https://pub.dev/documentation/rust_core/latest/option/option-library.html) for all methods and extensions.
+See the [docs](https://pub.dev/documentation/rust/latest/option/option-library.html) for all methods and extensions.
 
 You can also use Option in pattern matching
 ```dart

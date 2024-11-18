@@ -1,4 +1,4 @@
-import 'package:rust_core/cell.dart';
+import 'package:rust/cell.dart';
 import 'package:test/test.dart';
 
 void main() {

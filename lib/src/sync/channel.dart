@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:rust_core/iter.dart';
-import 'package:rust_core/result.dart';
+import 'package:rust/iter.dart';
+import 'package:rust/result.dart';
 
 /// Creates a new channel, returning the [Sender] and [LocalClosableReceiver]. Each item [T] sent by the [Sender]
 /// will only be seen once by the [LocalClosableReceiver]. Even if the [Sender] calls [close] while the [LocalClosableReceiver]s buffer

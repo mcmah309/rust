@@ -3,10 +3,10 @@
 Welcome to Dart!
 
 Dart is a great language choice for fast cross platform development and scripting.
-You'll find that rust_core is great start to learn Dart's semantics as you will feel like you are writing native rust.
-rust_core will introduce you to a few new types you may find useful as a Dart developer:
+You'll find that rust is great start to learn Dart's semantics as you will feel like you are writing native rust.
+rust will introduce you to a few new types you may find useful as a Dart developer:
 
-| Rust Type         | Dart Equivalent | rust_core | Description                                             |
+| Rust Type         | Dart Equivalent | rust | Description                                             |
 |-------------------|-----------------|----------------------|---------------------------------------------------------|
 | `[T; N]`          | `const [...]`/`List<T>(growable: false)` | `Arr<T>`            | Fixed size array or list                                   |
 | `Iterator<T>`     | `Iterator<T>`/`Iterable<T>`   |  `Iter<T>`                  | Consumable iteration
@@ -20,6 +20,6 @@ rust_core will introduce you to a few new types you may find useful as a Dart de
 | `Path`            | - | `Path`*  | Type for file system path manipulation and interaction
 | `Vec<T>`          | `List<T>`       | `Vec<T>`                    | Dynamic/Growable array                              |
 
-> *: Implemented through additional packages found [here](../misc/packages_built_on_rust_core.md)
+> *: Implemented through additional packages found [here](../misc/packages_built_on_rust.md)
 
 To learn more about the Dart programming language, checkout [dart.dev](https://dart.dev/language)!

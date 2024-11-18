@@ -1,6 +1,6 @@
-import 'package:rust_core/iter.dart';
-import 'package:rust_core/slice.dart';
-import 'package:rust_core/option.dart';
+import 'package:rust/iter.dart';
+import 'package:rust/slice.dart';
+import 'package:rust/option.dart';
 
 import 'extract_if.dart';
 

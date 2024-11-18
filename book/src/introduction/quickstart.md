@@ -4,38 +4,38 @@
 ***
 ### Install
 
-rust_core can be installed like any other Dart package.
+rust can be installed like any other Dart package.
 
 Dart:
 ```shell
-dart pub add rust_core
+dart pub add rust
 ```
 Flutter:
 ```shell
-flutter pub add rust_core
+flutter pub add rust
 ```
 
 or add directly to your `pubspec.yaml`:
 ```yaml
 dependencies:
-  rust_core: <version>
+  rust: <version>
 ```
 
 ### Imports
 
-rust_core follows the same library structure and naming as [Rust's core library](https://doc.rust-lang.org/core/).
+rust follows the same library structure and naming as [Rust's core library](https://doc.rust-lang.org/core/).
 
 To that extent, each library can be imported individually
 ```dart
-import 'package:rust_core/result.dart';
+import 'package:rust/result.dart';
 ```
 or all libraries
 ```dart
-import 'package:rust_core/rust_core.dart';
+import 'package:rust/rust.dart';
 ```
 ## General Notes
 ***
-All of rust_core's classes and methods are well documented in the [docs](https://pub.dev/documentation/rust_core/latest/), but
+All of rust's classes and methods are well documented in the [docs](https://pub.dev/documentation/rust/latest/), but
 being an implementation of Rust's core library, you can also refer to [Rust core](https://doc.rust-lang.org/beta/core/index.html) if anything is unclear.
 The functionally is the same.
 
@@ -86,8 +86,8 @@ var (slice1, slice2) = array.splitSlice(3);
 ```
 
 #### Iter
-rust_core implements the entirety of Rust's stable and unstable [Iterator](https://doc.rust-lang.org/beta/core/iter/trait.Iterator.html) methods.
-There are a lot of methods here that many Dart developers may not be familiar with. Definitely worth a look - [docs](https://pub.dev/documentation/rust_core/latest/iter/iter-library.html)
+rust implements the entirety of Rust's stable and unstable [Iterator](https://doc.rust-lang.org/beta/core/iter/trait.Iterator.html) methods.
+There are a lot of methods here that many Dart developers may not be familiar with. Definitely worth a look - [docs](https://pub.dev/documentation/rust/latest/iter/iter-library.html)
 
 ```dart
 List<int> list = [1, 2, 3, 4, 5];
@@ -117,7 +117,7 @@ expect(slice, [2, 3]);
 slice[1] = 10;
 expect(list, [1, 2, 10, 4, 5]);
 ```
-`Slice` also has <u>a lot</u> of efficient methods for in-place mutation within and between slices - [docs](https://pub.dev/documentation/rust_core/latest/slice/slice-library.html)
+`Slice` also has <u>a lot</u> of efficient methods for in-place mutation within and between slices - [docs](https://pub.dev/documentation/rust/latest/slice/slice-library.html)
 
 ## Whats Next?
 ***

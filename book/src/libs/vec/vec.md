@@ -11,13 +11,13 @@ List<int> list = vec;
 vec = list;
 ```
 `Vec` is a nice compliment to [Arr](../array/array.md) (array) type. `Vec` is not included in 
-`'package:rust_core/rust_core.dart'` instead it is included included in `'package:rust_core/vec.dart'`.
+`'package:rust/rust.dart'` instead it is included included in `'package:rust/vec.dart'`.
 
 ## Usage
 
 ```dart
-import 'package:rust_core/rust_core.dart';
-import 'package:rust_core/vec.dart';
+import 'package:rust/rust.dart';
+import 'package:rust/vec.dart';
 
 void main() {
   Vec<int> vec = [1, 2, 3, 4];

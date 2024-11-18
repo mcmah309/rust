@@ -8,7 +8,7 @@ To better understand the motivation around the `Result` type refer to this [arti
 ***
 By using the `Result` type, there is no web of `try`/`catch` statements to maintain and hidden control flow bugs, all control flow is defined.
 ```dart
-import 'package:rust_core/result.dart';
+import 'package:rust/result.dart';
 
 void main() {
   final result = processOrder("Bob", 2);
@@ -134,4 +134,4 @@ FutureResult<int, String> earlyReturn() => Result.async(($) async {
 });
 ```
 
-[docs]:https://pub.dev/documentation/rust_core/latest/result/result-library.html
+[docs]:https://pub.dev/documentation/rust/latest/result/result-library.html

@@ -1,4 +1,4 @@
-import 'package:rust_core/cell.dart';
+import 'package:rust/cell.dart';
 
 /// A value which is initialized on the first access. Nullable implementation of [LazyCell]
 ///

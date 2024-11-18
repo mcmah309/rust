@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:rust_core/sync.dart';
+import 'package:rust/sync.dart';
 import 'package:test/test.dart';
 
 //************************************************************************//

@@ -1,7 +1,7 @@
-import 'package:rust_core/ops.dart';
-import 'package:rust_core/panic.dart';
-import 'package:rust_core/array.dart';
-import 'package:rust_core/slice.dart';
+import 'package:rust/ops.dart';
+import 'package:rust/panic.dart';
+import 'package:rust/array.dart';
+import 'package:rust/slice.dart';
 import 'package:test/test.dart';
 
 void main() {

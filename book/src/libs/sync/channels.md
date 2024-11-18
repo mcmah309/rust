@@ -1,6 +1,6 @@
 # channel
 
-rust_core supports two types of channels, "local" channels (same isolate) and "isolate" channels (different isolates).
+rust supports two types of channels, "local" channels (same isolate) and "isolate" channels (different isolates).
 
 ## Local Channels
 ***
@@ -15,7 +15,7 @@ is not empty, the `Receiver` will still yield the remaining items in the buffer 
 In this example, a single sender sends data to a single receiver. The receiver retrieves the data and processes it.
 
 ```dart
-import 'package:rust_core/sync.dart';
+import 'package:rust/sync.dart';
 
 void main() async {
   final (tx, rx) = channel<int>();
@@ -36,7 +36,7 @@ void main() async {
 This example shows how to handle timeouts when receiving data from a channel.
 
 ```dart
-import 'package:rust_core/sync.dart';
+import 'package:rust/sync.dart';
 
 void main() async {
   final (tx, rx) = channel<int>();
@@ -57,7 +57,7 @@ void main() async {
 In this example, we see how to handle errors that might occur while receiving data from a channel.
 
 ```dart
-import 'package:rust_core/sync.dart';
+import 'package:rust/sync.dart';
 
 void main() async {
   final (tx, rx) = channel<int>();
@@ -82,7 +82,7 @@ void main() async {
 This example demonstrates how to iterate over the received data using the iter method.
 
 ```dart
-import 'package:rust_core/sync.dart';
+import 'package:rust/sync.dart';
 
 void main() async {
   final (tx, rx) = channel<int>();
@@ -103,7 +103,7 @@ void main() async {
 In this example, we see how to use the receiver as a stream, allowing for asynchronous data handling.
 
 ```dart
-import 'package:rust_core/sync.dart';
+import 'package:rust/sync.dart';
 
 void main() async {
   final (tx, rx) = channel<int>();

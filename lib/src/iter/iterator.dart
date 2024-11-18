@@ -1,6 +1,6 @@
-import 'package:rust_core/option.dart';
-import 'package:rust_core/result.dart';
-import 'package:rust_core/array.dart';
+import 'package:rust/option.dart';
+import 'package:rust/result.dart';
+import 'package:rust/array.dart';
 
 part 'array_chunks.dart';
 part 'cast.dart';

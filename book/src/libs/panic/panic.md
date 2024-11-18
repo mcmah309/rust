@@ -21,7 +21,7 @@ throw Panic("Panic message here.");
 panic("Panic message here.");
 ```
 
-rust_core was designed with safety in mind. The only time rust_core will ever throw is if you `unwrap` incorrectly (as 
+rust was designed with safety in mind. The only time rust will ever throw is if you `unwrap` incorrectly (as 
 above), in
 this case a `Panic`'s can be thrown. But the good news is you can usually avoid using these
 methods. See [How to Never Unwrap Incorrectly] section to avoid ever using `unwrap`.
@@ -35,4 +35,4 @@ throw Unreachable();
 unreachable();
 ```
 
-[How to Never Unwrap Incorrectly]:https://github.com/mcmah309/rust_core/tree/master/lib/src/result#how-to-never-unwrap-incorrectly
+[How to Never Unwrap Incorrectly]:https://github.com/mcmah309/rust/tree/master/lib/src/result#how-to-never-unwrap-incorrectly

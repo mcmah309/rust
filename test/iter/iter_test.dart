@@ -1,13 +1,13 @@
 // ignore_for_file: pattern_never_matches_value_type
 
-import 'package:rust_core/convert.dart';
-import 'package:rust_core/iter.dart';
-import 'package:rust_core/result.dart';
-import 'package:rust_core/slice.dart';
-import 'package:rust_core/str.dart';
+import 'package:rust/convert.dart';
+import 'package:rust/iter.dart';
+import 'package:rust/result.dart';
+import 'package:rust/slice.dart';
+import 'package:rust/str.dart';
 import 'package:test/test.dart';
-import 'package:rust_core/option.dart';
-import 'package:rust_core/array.dart';
+import 'package:rust/option.dart';
+import 'package:rust/array.dart';
 
 main() {
   test("advanceBy", () {

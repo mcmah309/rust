@@ -1,6 +1,6 @@
 // ignore_for_file: unused_local_variable
 
-import 'package:rust_core/rust_core.dart';
+import 'package:rust/rust.dart';
 
 void main() {
   usingTheEarlyReturnKeyExample();

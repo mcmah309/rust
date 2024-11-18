@@ -1,4 +1,4 @@
-import 'package:rust_core/array.dart';
+import 'package:rust/array.dart';
 import 'package:test/test.dart';
 
 void main() {
