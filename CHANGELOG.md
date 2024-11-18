@@ -1,3 +1,7 @@
+## 1.3.4
+
+- Rust rename notification
+
 ## 1.3.3
 
 - Deprecate `toNullable`
