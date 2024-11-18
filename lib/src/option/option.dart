@@ -308,15 +308,6 @@ extension OptionMethodsExtension<T extends Object> on Option<T> {
 
   //************************************************************************//
 
-  /// Returns the inner type as the nullable version of [T]
-  @pragma("vm:prefer-inline")
-  @Deprecated("Use `v`")
-  T? toNullable() {
-    return v;
-  }
-
-  //************************************************************************//
-
   /// Functions an "Early Return Operator" when given an "Early Return key" "$". See [Option.$] for more information.
   @pragma("vm:prefer-inline")
   T operator [](_OptionEarlyReturnKey op) {
@@ -422,12 +413,6 @@ extension SomeMethodsExtension<T extends Object> on Some<T> {
   @pragma("vm:prefer-inline")
   Some<T> orElse(Option<T> Function() f) {
     return Some(v);
-  }
-
-  @pragma("vm:prefer-inline")
-  @Deprecated("Use `v`")
-  T? toNullable() {
-    return v;
   }
 
   @pragma("vm:prefer-inline")
@@ -605,15 +590,6 @@ extension NoneMethodsExtension on _None {
   _None zipWith<U extends Object, R extends Object>(
       Option<U> other, R Function(void p1, U p2) f) {
     return None;
-  }
-
-  //************************************************************************//
-
-  @pragma("vm:prefer-inline")
-  @Deprecated("Use `v`")
-  // ignore: prefer_void_to_null
-  T? toNullable<T>() {
-    return null;
   }
 
   //************************************************************************//

@@ -11,9 +11,6 @@ part 'cycle.dart';
 part 'flat_map.dart';
 part 'zip.dart';
 
-@Deprecated("Use `Iter` instead.")
-typedef RIterator<T> = Iter<T>;
-
 /// Iter is the union between an Iterator and an Iterable. Most iterator methods are consuming
 /// and should be assumed to be so unless otherwise stated.
 class Iter<T> extends Iterable<T> implements Iterator<T>, _Iter<T> {

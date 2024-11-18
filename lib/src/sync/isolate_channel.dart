@@ -38,10 +38,8 @@ class IsolateSender<T> extends Sender<T> {
   void close() => _sPort.send(const _CloseSignal());
 }
 
-// ignore: deprecated_member_use_from_same_package
 class IsolateReceiver<T> extends ReceiverImpl<T> {
   IsolateReceiver._(SendCodec<T>? codec, ReceivePort rPort)
-      // ignore: deprecated_member_use_from_same_package
       : super.internal(
             rPort
                 .map((data) {

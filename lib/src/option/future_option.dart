@@ -129,14 +129,6 @@ extension FutureOptionExtension<T extends Object> on FutureOption<T> {
   //************************************************************************//
 
   @pragma("vm:prefer-inline")
-  @Deprecated("Use `v`")
-  Future<T?> toNullable() {
-    return then((option) => option.toNullable());
-  }
-
-  //************************************************************************//
-
-  @pragma("vm:prefer-inline")
   // ignore: library_private_types_in_public_api
   Future<T> operator [](_OptionEarlyReturnKey op) {
     return then((value) => value[op]);
