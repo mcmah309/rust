@@ -488,6 +488,15 @@ main() {
     expect(iter.nextChunk(2).unwrapErr(), [5]);
   });
 
+  test("nth", (){
+    var list = [1, 2, 3, 4, 5];
+    var nth = list.iter().nth(2);
+    expect(nth, Some(3));
+
+    var nth2 = list.iter().nth(5);
+    expect(nth2, None);
+  });
+
   test("partition", () {
     var list = [1, 2, 3, 4, 5];
     var partitioned = list.iter().partition((e) => e % 2 == 0);
