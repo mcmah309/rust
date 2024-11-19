@@ -1,3 +1,7 @@
+## 1.3.7
+
+- Doc update
+
 ## 1.3.6
 
 - Sync version number
