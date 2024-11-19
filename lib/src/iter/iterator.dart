@@ -501,7 +501,7 @@ class Iter<T> extends Iterable<T> implements Iterator<T>, _Iter<T> {
     final arr = Arr<T?>(null, size);
     for (var i = 0; i < size; i++) {
       if (!moveNext()) {
-        return Err(this);
+        return Err(arr.take(i).cast<T>());
       }
       arr[i] = current;
     }

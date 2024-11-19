@@ -1,5 +1,7 @@
 // ignore_for_file: pattern_never_matches_value_type
 
+import 'dart:math';
+
 import 'package:rust/rust.dart';
 import 'package:test/test.dart';
 
@@ -465,6 +467,25 @@ main() {
     expect(windows[0], [1, 2, 3]);
     expect(windows[1], [2, 3, 4]);
     expect(windows[2], [3, 4, 5]);
+  });
+
+  test("nextChunk", () {
+    var list = [1, 2, 3, 4, 5];
+    var chunked = list.iter().nextChunk(3);
+    expect(chunked.unwrap(), [1, 2, 3]);
+
+    var chunked2 = list.iter().nextChunk(5);
+    expect(chunked2.unwrap(), [1, 2, 3, 4, 5]);
+
+    var chunked3 = list.iter().nextChunk(6);
+    expect(chunked3.unwrapErr().toList(), [1, 2, 3, 4, 5]);
+    
+    final iter = list.iter();
+    var chunked4 = iter.nextChunk(2);
+    expect(chunked4.unwrap(), [1, 2]);
+    var chunked5 = iter.nextChunk(2);
+    expect(chunked5.unwrap(), [3, 4]);
+    expect(iter.nextChunk(2).unwrapErr(), [5]);
   });
 
   test("partition", () {
