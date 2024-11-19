@@ -404,7 +404,7 @@ class Iter<T> extends Iterable<T> implements Iterator<T>, _Iter<T> {
   }
 
   Iterable<U> _mapWindowsHelper<U>(int size, U Function(Arr<T>) f) sync* {
-    final window = Arr<T?>(null, size);
+    Arr<T?> window = Arr<T?>(null, size);
     int index = 0;
     int lastIndex = size - 1;
     while (moveNext()) {
@@ -412,7 +412,7 @@ class Iter<T> extends Iterable<T> implements Iterator<T>, _Iter<T> {
       index++;
       if (index == size) {
         index = lastIndex;
-        yield f(window.cast<T>());
+        yield f(window.cast<T>().toArr());
         T? newest = window[lastIndex];
         T? secondNewest;
         for (int j = lastIndex; j > 0; j--) {
