@@ -198,18 +198,18 @@ extension type WindowsPath._(String string) implements Object {
   }
 
   /// {@macro path.Path.readDirSync}
-  Result<io.ReadDir, IoError> readDirSync() => io.readDirSync(string);
+  Result<io.ReadDir, PathIoError> readDirSync() => io.readDirSync(string);
 
   /// {@macro path.Path.readDir}
-  Future<Result<io.ReadDir, IoError>> readDir() => io.readDir(string);
+  Future<Result<io.ReadDir, PathIoError>> readDir() => io.readDir(string);
 
   /// {@macro path.Path.readLinkSync}
-  Result<WindowsPath, IoError> readLinkSync() =>
-      io.readLinkSync(string) as Result<WindowsPath, IoError>;
+  Result<WindowsPath, PathIoError> readLinkSync() =>
+      io.readLinkSync(string) as Result<WindowsPath, PathIoError>;
 
   /// {@macro path.Path.readLink}
-  Future<Result<WindowsPath, IoError>> readLink() =>
-      io.readLink(string) as Future<Result<WindowsPath, IoError>>;
+  Future<Result<WindowsPath, PathIoError>> readLink() =>
+      io.readLink(string) as Future<Result<WindowsPath, PathIoError>>;
 
   /// {@macro path.Path.startsWith}
   bool startsWith(WindowsPath other) => string.startsWith(other.string);
@@ -224,10 +224,10 @@ extension type WindowsPath._(String string) implements Object {
   }
 
   /// {@macro path.Path.symlinkMetadataSync}
-  Result<io.Metadata, IoError> symlinkMetadataSync() => io.symlinkMetadataSync(string);
+  Result<io.Metadata, PathIoError> symlinkMetadataSync() => io.symlinkMetadataSync(string);
 
   /// {@macro path.Path.symlinkMetadata}
-  Future<Result<io.Metadata, IoError>> symlinkMetadata() => io.symlinkMetadata(string);
+  Future<Result<io.Metadata, PathIoError>> symlinkMetadata() => io.symlinkMetadata(string);
 
   /// {@macro path.Path.withExtension}
   WindowsPath withExtension(String extension) {

@@ -1,7 +1,5 @@
 // ignore_for_file: pattern_never_matches_value_type
 
-import 'dart:math';
-
 import 'package:rust/rust.dart';
 import 'package:test/test.dart';
 
@@ -462,7 +460,7 @@ main() {
     expect(mapped2, [6, 9, 12]);
 
     Vec<Arr<int>> windows = [];
-    var mapped3 = list2.iter().mapWindows(3, (window) {
+    var _ = list2.iter().mapWindows(3, (window) {
       windows.push(window);
       return 1;
     }).toList();

@@ -275,27 +275,27 @@ extension type UnixPath._(String string) implements Object {
   /// Returns an iterator over the entries within a directory.
   /// Note: using this method results in the program no longer being able to compile to web.
   /// {@endtemplate}
-  Result<io.ReadDir, IoError> readDirSync() =>
+  Result<io.ReadDir, PathIoError> readDirSync() =>
       io.readDirSync(string);
 
   /// {@template path.Path.readDir}
   /// Returns an iterator over the entries within a directory.
   /// Note: using this method results in the program no longer being able to compile to web.
   /// {@endtemplate}
-  Future<Result<io.ReadDir, IoError>> readDir() =>
+  Future<Result<io.ReadDir, PathIoError>> readDir() =>
       io.readDir(string);
 
   /// {@template path.Path.readLinkSync}
   /// Reads a symbolic link, returning the file that the link points to.
   /// {@endtemplate}
-  Result<UnixPath, IoError> readLinkSync() =>
-      io.readLinkSync(string) as Result<UnixPath, IoError>;
+  Result<UnixPath, PathIoError> readLinkSync() =>
+      io.readLinkSync(string) as Result<UnixPath, PathIoError>;
 
   /// {@template path.Path.readLink}
   /// Reads a symbolic link, returning the file that the link points to.
   /// {@endtemplate}
-  Future<Result<UnixPath, IoError>> readLink() =>
-      io.readLink(string) as Future<Result<UnixPath, IoError>>;
+  Future<Result<UnixPath, PathIoError>> readLink() =>
+      io.readLink(string) as Future<Result<UnixPath, PathIoError>>;
 
   /// {@template path.Path.relativeTo}
   /// Determines whether other is a prefix of this.
@@ -317,14 +317,14 @@ extension type UnixPath._(String string) implements Object {
   /// Returns the metadata for the symlink.
   /// Note: using this method means that the program can no longer compile for the web.
   /// {@endtemplate}
-  Result<io.Metadata, IoError> symlinkMetadataSync() =>
+  Result<io.Metadata, PathIoError> symlinkMetadataSync() =>
       io.symlinkMetadataSync(string);
 
   /// {@template path.Path.symlinkMetadata}
   /// Returns the metadata for the symlink.
   /// Note: using this method means that the program can no longer compile for the web.
   /// {@endtemplate}
-  Future<Result<io.Metadata, IoError>> symlinkMetadata() =>
+  Future<Result<io.Metadata, PathIoError>> symlinkMetadata() =>
       io.symlinkMetadata(string);
 
 // to_path_buf: Will not implement, implementing a PathBuf does not make sense at the present (equality cannot hold for extension types and a potential PathBuf would likely be `StringBuffer` or `List<String>`).

@@ -1,70 +1,74 @@
-sealed class IoError implements Exception {
+sealed class PathIoError implements Exception {
   final String path;
 
-  const IoError(this.path);
+  const PathIoError(this.path);
+
+  factory PathIoError.notADirectory(String path) = PathIoError$NotADirectory;
+  factory PathIoError.notAFile(String path) = PathIoError$NotAFile;
+  factory PathIoError.notALink(String path) = PathIoError$NotALink;
+  factory PathIoError.notAValidPath(String path) = PathIoError$NotAValidPath;
+  factory PathIoError.unknown(String path, [Object? error]) = PathIoError$Unknown;
 
   @override
   String toString() {
-    return "IoError";
+    return "PathIoError";
   }
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == runtimeType &&
-        other is IoError &&
-        other.path == path;
+    return other.runtimeType == runtimeType && other is PathIoError && other.path == path;
   }
 
   @override
   int get hashCode => path.hashCode ^ runtimeType.hashCode;
 }
 
-final class IoErrorNotADirectory extends IoError {
-  const IoErrorNotADirectory(super.path);
+final class PathIoError$NotADirectory extends PathIoError {
+  const PathIoError$NotADirectory(super.path);
 
   @override
   String toString() {
-    return "IoError: The path '$path' is not a directory.";
+    return "PathIoError: The path '$path' is not a directory.";
   }
 }
 
-final class IoErrorNotAFile extends IoError {
-  const IoErrorNotAFile(super.path);
+final class PathIoError$NotAFile extends PathIoError {
+  const PathIoError$NotAFile(super.path);
 
   @override
   String toString() {
-    return "IoError: The path '$path' is not a file.";
+    return "PathIoError: The path '$path' is not a file.";
   }
 }
 
-final class IoErrorNotALink extends IoError {
-  const IoErrorNotALink(super.path);
+final class PathIoError$NotALink extends PathIoError {
+  const PathIoError$NotALink(super.path);
 
   @override
   String toString() {
-    return "IoError: The path '$path' is not a link.";
+    return "PathIoError: The path '$path' is not a link.";
   }
 }
 
-final class IoErrorNotAValidPath extends IoError {
-  const IoErrorNotAValidPath(super.path);
+final class PathIoError$NotAValidPath extends PathIoError {
+  const PathIoError$NotAValidPath(super.path);
 
   @override
   String toString() {
-    return "IoError: The path '$path' is not a valid path.";
+    return "PathIoError: The path '$path' is not a valid path.";
   }
 }
 
-final class IoErrorUnknown extends IoError {
+final class PathIoError$Unknown extends PathIoError {
   final Object? error;
 
-  const IoErrorUnknown(super.path, [this.error]);
+  const PathIoError$Unknown(super.path, [this.error]);
 
   @override
   String toString() {
     if (error != null) {
-      return "IoError: An unknown error occurred with path '$path'. Error: $error";
+      return "PathIoError: An unknown error occurred with path '$path'. Error: $error";
     }
-    return "IoError: An unknown error occurred with path '$path'.";
+    return "PathIoError: An unknown error occurred with path '$path'.";
   }
 }

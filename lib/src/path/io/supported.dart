@@ -45,9 +45,9 @@ Future<bool> isSymlink(String path) => io.FileSystemEntity.isLink(path);
 @pragma('vm:prefer-inline')
 bool isSymlinkSync(String path) => io.FileSystemEntity.isLinkSync(path);
 
-Future<Result<ReadDir, IoError>> readDir(String path) async {
+Future<Result<ReadDir, PathIoError>> readDir(String path) async {
   if (!await isDir(path)) {
-    return Err(IoErrorNotADirectory(path));
+    return Err(PathIoError$NotADirectory(path));
   }
   try {
     final dir = io.Directory(path);
@@ -55,25 +55,25 @@ Future<Result<ReadDir, IoError>> readDir(String path) async {
 
     return Ok(listResult);
   } catch (e) {
-    return Err(IoErrorUnknown(path, e));
+    return Err(PathIoError$Unknown(path, e));
   }
 }
 
-Result<ReadDir, IoError> readDirSync(String path) {
+Result<ReadDir, PathIoError> readDirSync(String path) {
   if (!isDirSync(path)) {
-    return Err(IoErrorNotADirectory(path));
+    return Err(PathIoError$NotADirectory(path));
   }
   try {
     final dir = io.Directory(path);
     return Ok(dir.listSync());
   } catch (e) {
-    return Err(IoErrorUnknown(path, e));
+    return Err(PathIoError$Unknown(path, e));
   }
 }
 
-Future<Result<String, IoError>> readLink(String path) async {
+Future<Result<String, PathIoError>> readLink(String path) async {
   if (!await isSymlink(path)) {
-    return Err(IoErrorNotALink(path));
+    return Err(PathIoError$NotALink(path));
   }
   try {
     final link = io.Link(path);
@@ -81,40 +81,40 @@ Future<Result<String, IoError>> readLink(String path) async {
 
     return Ok(resolvedLinkResult);
   } catch (e) {
-    return Err(IoErrorUnknown(path, e));
+    return Err(PathIoError$Unknown(path, e));
   }
 }
 
-Result<String, IoError> readLinkSync(String path) {
+Result<String, PathIoError> readLinkSync(String path) {
   if (!isSymlinkSync(path)) {
-    return Err(IoErrorNotALink(path));
+    return Err(PathIoError$NotALink(path));
   }
   try {
     final link = io.Link(path);
     return Ok(link.resolveSymbolicLinksSync());
   } catch (e) {
-    return Err(IoErrorUnknown(path, e));
+    return Err(PathIoError$Unknown(path, e));
   }
 }
 
-Result<Metadata, IoError> symlinkMetadataSync(String path) {
+Result<Metadata, PathIoError> symlinkMetadataSync(String path) {
   if (!isSymlinkSync(path)) {
-    return Err(IoErrorNotALink(path));
+    return Err(PathIoError$NotALink(path));
   }
   try {
     return Ok(io.Link(path).statSync());
   } catch (e) {
-    return Err(IoErrorUnknown(path, e));
+    return Err(PathIoError$Unknown(path, e));
   }
 }
 
-Future<Result<Metadata, IoError>> symlinkMetadata(String path) async {
+Future<Result<Metadata, PathIoError>> symlinkMetadata(String path) async {
   if (!await isSymlink(path)) {
-    return Err(IoErrorNotALink(path));
+    return Err(PathIoError$NotALink(path));
   }
   try {
     return Ok(await io.Link(path).stat());
   } catch (e) {
-    return Err(IoErrorUnknown(path, e));
+    return Err(PathIoError$Unknown(path, e));
   }
 }

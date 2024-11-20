@@ -49,28 +49,28 @@ bool isSymlinkSync(String path) => throw UnsupportedError(
     "'isSymlinkSync' is not supported on on this platform.");
 
 @pragma('vm:prefer-inline')
-Future<Result<ReadDir, IoError>> readDir(String path) =>
+Future<Result<ReadDir, PathIoError>> readDir(String path) =>
     throw UnsupportedError("'readDir' is not supported on on this platform.");
 
 @pragma('vm:prefer-inline')
-Result<ReadDir, IoError> readDirSync(String path) => throw UnsupportedError(
+Result<ReadDir, PathIoError> readDirSync(String path) => throw UnsupportedError(
     "'readDirSync' is not supported on on this platform.");
 
 @pragma('vm:prefer-inline')
-Future<Result<String, IoError>> readLink(String path) =>
+Future<Result<String, PathIoError>> readLink(String path) =>
     throw UnimplementedError(
         "'readLink' is not supported on on this platform.");
 
 @pragma('vm:prefer-inline')
-Result<String, IoError> readLinkSync(String path) => throw UnimplementedError(
+Result<String, PathIoError> readLinkSync(String path) => throw UnimplementedError(
     "'readLinkSync' is not supported on on this platform.");
 
 @pragma('vm:prefer-inline')
-Future<Result<Metadata, IoError>> symlinkMetadata(String path) =>
+Future<Result<Metadata, PathIoError>> symlinkMetadata(String path) =>
     throw UnimplementedError(
         "'symlinkMetadata' is not supported on on this platform.");
 
 @pragma('vm:prefer-inline')
-Result<Metadata, IoError> symlinkMetadataSync(String path) =>
+Result<Metadata, PathIoError> symlinkMetadataSync(String path) =>
     throw UnimplementedError(
         "'symlinkMetadataSync' is not supported on on this platform.");
