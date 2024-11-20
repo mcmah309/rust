@@ -9,7 +9,7 @@ part 'future_option.dart';
 part 'option_extensions.dart';
 part 'record_to_option_extensions.dart';
 
-/// Option represents the union of two types - `Some<T>` and `None`. As an extension Option_type of `T?`, `Option<T>`
+/// Option represents the union of two types - `Some<T>` and `None`. As an extension Option$type of `T?`, `Option<T>`
 /// has the same runtime cost of `T?` with the advantage of being able to chain null specific operations.
 // Dev Note: `T` cannot be `T extends Object`. e.g. because then a method on `Vec<T>` would not be able to return an Option<T>
 // unless it is also `Vec<T extends Object>` and if this was true then a `Vec<Option<T>>` where `T extends Object` would not be possible,
@@ -66,7 +66,7 @@ extension type const Option<T>._(T? v) {
   Option.from(T? v) : this._(v);
 }
 
-extension Option_OptionMethodsExtension<T extends Object> on Option<T> {
+extension Option$OptionMethodsExtension<T extends Object> on Option<T> {
   /// Returns None if the option is None, otherwise returns [other].
   @pragma("vm:prefer-inline")
   Option<U> and<U extends Object>(Option<U> other) {
@@ -80,7 +80,7 @@ extension Option_OptionMethodsExtension<T extends Object> on Option<T> {
     return v == null ? None : f(v!);
   }
 
-  // copy: Does not make sense to add here since this is an extension Option_type
+  // copy: Does not make sense to add here since this is an extension Option$type
 
   /// Returns the contained Some value if [Some], otherwise throws a [Panic].
   @pragma("vm:prefer-inline")
@@ -325,7 +325,7 @@ extension type const Some<T>._(T v) implements Option<T> {
   const Some(T v) : this._(v);
 }
 
-extension Option_SomeMethodsExtension<T extends Object> on Some<T> {
+extension Option$SomeMethodsExtension<T extends Object> on Some<T> {
   @pragma("vm:prefer-inline")
   Option<U> and<U extends Object>(Option<U> other) {
     return other;
@@ -472,7 +472,7 @@ extension type const _None._(Null _) implements Option<Infallible> {
   const _None() : this._(null);
 }
 
-extension Option_NoneMethodsExtension on _None {
+extension Option$NoneMethodsExtension on _None {
   @pragma("vm:prefer-inline")
   _None and<U extends Object>(Option<U> other) {
     return None;

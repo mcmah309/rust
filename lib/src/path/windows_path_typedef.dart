@@ -29,7 +29,7 @@ typedef ParentDir = WindowsParentDir;
 /// Platform Independent.
 typedef Normal = WindowsNormal;
 
-extension Path_StringExtension on String {
+extension Path$StringExtension on String {
   Path asPath() => WindowsPath(this);
 
   WindowsPath asWindowsPath() => WindowsPath(this);

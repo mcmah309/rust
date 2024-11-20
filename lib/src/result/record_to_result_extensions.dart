@@ -1,6 +1,6 @@
 import 'package:rust/rust.dart';
 
-extension Result_RecordResult2Extension<A, B, Z extends Object> on (
+extension Result$RecordResult2Extension<A, B, Z extends Object> on (
   Result<A, Z>,
   Result<B, Z>
 ) {
@@ -124,7 +124,7 @@ extension Result_RecordResult2Extension<A, B, Z extends Object> on (
   }
 }
 
-extension Result_RecordResult3Extension<A, B, C, Z extends Object> on (
+extension Result$RecordResult3Extension<A, B, C, Z extends Object> on (
   Result<A, Z>,
   Result<B, Z>,
   Result<C, Z>
@@ -183,7 +183,7 @@ extension Result_RecordResult3Extension<A, B, C, Z extends Object> on (
   }
 }
 
-extension Result_RecordResult4Extension<A, B, C, D, Z extends Object> on (
+extension Result$RecordResult4Extension<A, B, C, D, Z extends Object> on (
   Result<A, Z>,
   Result<B, Z>,
   Result<C, Z>,
@@ -258,7 +258,7 @@ extension Result_RecordResult4Extension<A, B, C, D, Z extends Object> on (
   }
 }
 
-extension Result_RecordResult5Extension<A, B, C, D, E, Z extends Object> on (
+extension Result$RecordResult5Extension<A, B, C, D, E, Z extends Object> on (
   Result<A, Z>,
   Result<B, Z>,
   Result<C, Z>,
@@ -347,7 +347,7 @@ extension Result_RecordResult5Extension<A, B, C, D, E, Z extends Object> on (
   }
 }
 
-extension Result_RecordResult6Extension<A, B, C, D, E, F, Z extends Object> on (
+extension Result$RecordResult6Extension<A, B, C, D, E, F, Z extends Object> on (
   Result<A, Z>,
   Result<B, Z>,
   Result<C, Z>,
@@ -450,7 +450,7 @@ extension Result_RecordResult6Extension<A, B, C, D, E, F, Z extends Object> on (
   }
 }
 
-extension Result_RecordResult7Extension<A, B, C, D, E, F, G, Z extends Object> on (
+extension Result$RecordResult7Extension<A, B, C, D, E, F, G, Z extends Object> on (
   Result<A, Z>,
   Result<B, Z>,
   Result<C, Z>,
@@ -567,7 +567,7 @@ extension Result_RecordResult7Extension<A, B, C, D, E, F, G, Z extends Object> o
   }
 }
 
-extension Result_RecordResult8Extension<A, B, C, D, E, F, G, H, Z extends Object> on (
+extension Result$RecordResult8Extension<A, B, C, D, E, F, G, H, Z extends Object> on (
   Result<A, Z>,
   Result<B, Z>,
   Result<C, Z>,
@@ -698,7 +698,7 @@ extension Result_RecordResult8Extension<A, B, C, D, E, F, G, H, Z extends Object
   }
 }
 
-extension Result_RecordResult9Extension<A, B, C, D, E, F, G, H, I, Z extends Object> on (
+extension Result$RecordResult9Extension<A, B, C, D, E, F, G, H, I, Z extends Object> on (
   Result<A, Z>,
   Result<B, Z>,
   Result<C, Z>,
@@ -843,7 +843,7 @@ extension Result_RecordResult9Extension<A, B, C, D, E, F, G, H, I, Z extends Obj
   }
 }
 
-extension Result_RecordResult10Extension<A, B, C, D, E, F, G, H, I, J, Z extends Object> on (
+extension Result$RecordResult10Extension<A, B, C, D, E, F, G, H, I, J, Z extends Object> on (
   Result<A, Z>,
   Result<B, Z>,
   Result<C, Z>,
@@ -1004,7 +1004,7 @@ extension Result_RecordResult10Extension<A, B, C, D, E, F, G, H, I, J, Z extends
 
 //************************************************************************//
 
-extension Result_RecordFunctionResult2Extension<A, B, Z extends Object> on (
+extension Result$RecordFunctionResult2Extension<A, B, Z extends Object> on (
   Result<A, Z> Function(),
   Result<B, Z> Function()
 ) {
@@ -1068,7 +1068,7 @@ extension Result_RecordFunctionResult2Extension<A, B, Z extends Object> on (
   }
 }
 
-extension Result_RecordFunctionResult3Extension<A, B, C, Z extends Object> on (
+extension Result$RecordFunctionResult3Extension<A, B, C, Z extends Object> on (
   Result<A, Z> Function(),
   Result<B, Z> Function(),
   Result<C, Z> Function()
@@ -1101,7 +1101,7 @@ extension Result_RecordFunctionResult3Extension<A, B, C, Z extends Object> on (
   }
 }
 
-extension Result_RecordFunctionResult4Extension<A, B, C, D, Z extends Object> on (
+extension Result$RecordFunctionResult4Extension<A, B, C, D, Z extends Object> on (
   Result<A, Z> Function(),
   Result<B, Z> Function(),
   Result<C, Z> Function(),
@@ -1142,7 +1142,7 @@ extension Result_RecordFunctionResult4Extension<A, B, C, D, Z extends Object> on
   }
 }
 
-extension Result_RecordFunctionResult5Extension<A, B, C, D, E, Z extends Object> on (
+extension Result$RecordFunctionResult5Extension<A, B, C, D, E, Z extends Object> on (
   Result<A, Z> Function(),
   Result<B, Z> Function(),
   Result<C, Z> Function(),
@@ -1191,7 +1191,7 @@ extension Result_RecordFunctionResult5Extension<A, B, C, D, E, Z extends Object>
   }
 }
 
-extension Result_RecordFunctionResult6Extension<A, B, C, D, E, F, Z extends Object> on (
+extension Result$RecordFunctionResult6Extension<A, B, C, D, E, F, Z extends Object> on (
   Result<A, Z> Function(),
   Result<B, Z> Function(),
   Result<C, Z> Function(),
@@ -1248,7 +1248,7 @@ extension Result_RecordFunctionResult6Extension<A, B, C, D, E, F, Z extends Obje
   }
 }
 
-extension Result_RecordFunctionResult7Extension<A, B, C, D, E, F, G, Z extends Object> on (
+extension Result$RecordFunctionResult7Extension<A, B, C, D, E, F, G, Z extends Object> on (
   Result<A, Z> Function(),
   Result<B, Z> Function(),
   Result<C, Z> Function(),
@@ -1313,7 +1313,7 @@ extension Result_RecordFunctionResult7Extension<A, B, C, D, E, F, G, Z extends O
   }
 }
 
-extension Result_RecordFunctionResult8Extension<A, B, C, D, E, F, G, H, Z extends Object> on (
+extension Result$RecordFunctionResult8Extension<A, B, C, D, E, F, G, H, Z extends Object> on (
   Result<A, Z> Function(),
   Result<B, Z> Function(),
   Result<C, Z> Function(),
@@ -1386,7 +1386,7 @@ extension Result_RecordFunctionResult8Extension<A, B, C, D, E, F, G, H, Z extend
   }
 }
 
-extension Result_RecordFunctionResult9Extension<A, B, C, D, E, F, G, H, I, Z extends Object>
+extension Result$RecordFunctionResult9Extension<A, B, C, D, E, F, G, H, I, Z extends Object>
     on (
   Result<A, Z> Function(),
   Result<B, Z> Function(),
@@ -1468,7 +1468,7 @@ extension Result_RecordFunctionResult9Extension<A, B, C, D, E, F, G, H, I, Z ext
   }
 }
 
-extension Result_RecordFunctionResult10Extension<A, B, C, D, E, F, G, H, I, J,
+extension Result$RecordFunctionResult10Extension<A, B, C, D, E, F, G, H, I, J,
     Z extends Object> on (
   Result<A, Z> Function(),
   Result<B, Z> Function(),

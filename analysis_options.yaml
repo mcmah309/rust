@@ -2,8 +2,6 @@
 include: package:lints/recommended.yaml
 
 analyzer:
-  errors:
-    camel_case_extensions: ignore
   language:
     strict-casts: true # Never implicitly cast from a "dynamic"
     #strict-inference: true # Never choose "dynamic" when type cannot be determined with "final" and "var"

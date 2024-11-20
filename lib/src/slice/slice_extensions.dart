@@ -1,6 +1,6 @@
 part of 'slice.dart';
 
-extension Slice_ListExtension<T> on List<T> {
+extension Slice$ListExtension<T> on List<T> {
   @pragma("vm:prefer-inline")
   Slice<T> asSlice() => Slice.fromList(this);
 
@@ -11,7 +11,7 @@ extension Slice_ListExtension<T> on List<T> {
   }
 }
 
-extension Slice_SliceNumExtension<T extends num> on Slice<T> {
+extension Slice$SliceNumExtension<T extends num> on Slice<T> {
   /// Sorts the slice, but might not preserve the order of equal elements.
   @pragma("vm:prefer-inline")
   void sortUnstable() {
@@ -29,7 +29,7 @@ extension Slice_SliceNumExtension<T extends num> on Slice<T> {
   }
 }
 
-extension Slice_SliceComparableSelfExtension<T extends Comparable<T>> on Slice<T> {
+extension Slice$SliceComparableSelfExtension<T extends Comparable<T>> on Slice<T> {
   /// Sorts the slice, but might not preserve the order of equal elements.
   @pragma("vm:prefer-inline")
   void sortUnstable() {

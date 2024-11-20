@@ -1,6 +1,6 @@
 part of 'option.dart';
 
-extension Option_RecordOption2Extension<A, B> on (Option<A>, Option<B>) {
+extension Option$RecordOption2Extension<A, B> on (Option<A>, Option<B>) {
   Option<(A, B)> toOption() {
     final a = $1.v;
     if (a == null) {
@@ -15,7 +15,7 @@ extension Option_RecordOption2Extension<A, B> on (Option<A>, Option<B>) {
   }
 }
 
-extension Option_RecordOption3Extension<A, B, C> on (
+extension Option$RecordOption3Extension<A, B, C> on (
   Option<A>,
   Option<B>,
   Option<C>,
@@ -38,7 +38,7 @@ extension Option_RecordOption3Extension<A, B, C> on (
   }
 }
 
-extension Option_RecordOption4Extension<A, B, C, D> on (
+extension Option$RecordOption4Extension<A, B, C, D> on (
   Option<A>,
   Option<B>,
   Option<C>,
@@ -66,7 +66,7 @@ extension Option_RecordOption4Extension<A, B, C, D> on (
   }
 }
 
-extension Option_RecordOption5Extension<A, B, C, D, E> on (
+extension Option$RecordOption5Extension<A, B, C, D, E> on (
   Option<A>,
   Option<B>,
   Option<C>,
@@ -99,7 +99,7 @@ extension Option_RecordOption5Extension<A, B, C, D, E> on (
   }
 }
 
-extension Option_RecordOption6Extension<A, B, C, D, E, F> on (
+extension Option$RecordOption6Extension<A, B, C, D, E, F> on (
   Option<A>,
   Option<B>,
   Option<C>,
@@ -137,7 +137,7 @@ extension Option_RecordOption6Extension<A, B, C, D, E, F> on (
   }
 }
 
-extension Option_RecordOption7Extension<A, B, C, D, E, F, G> on (
+extension Option$RecordOption7Extension<A, B, C, D, E, F, G> on (
   Option<A>,
   Option<B>,
   Option<C>,
@@ -180,7 +180,7 @@ extension Option_RecordOption7Extension<A, B, C, D, E, F, G> on (
   }
 }
 
-extension Option_RecordOption8Extension<A, B, C, D, E, F, G, H> on (
+extension Option$RecordOption8Extension<A, B, C, D, E, F, G, H> on (
   Option<A>,
   Option<B>,
   Option<C>,
@@ -228,7 +228,7 @@ extension Option_RecordOption8Extension<A, B, C, D, E, F, G, H> on (
   }
 }
 
-extension Option_RecordOption9Extension<A, B, C, D, E, F, G, H, I> on (
+extension Option$RecordOption9Extension<A, B, C, D, E, F, G, H, I> on (
   Option<A>,
   Option<B>,
   Option<C>,
@@ -281,7 +281,7 @@ extension Option_RecordOption9Extension<A, B, C, D, E, F, G, H, I> on (
   }
 }
 
-extension Option_RecordOption10Extension<A, B, C, D, E, F, G, H, I, J> on (
+extension Option$RecordOption10Extension<A, B, C, D, E, F, G, H, I, J> on (
   Option<A>,
   Option<B>,
   Option<C>,
@@ -341,7 +341,7 @@ extension Option_RecordOption10Extension<A, B, C, D, E, F, G, H, I, J> on (
 
 //************************************************************************//
 
-extension Option_RecordOptionFunction2Extension<A, B> on (
+extension Option$RecordOptionFunction2Extension<A, B> on (
   Option<A> Function(),
   Option<B> Function()
 ) {
@@ -359,7 +359,7 @@ extension Option_RecordOptionFunction2Extension<A, B> on (
   }
 }
 
-extension Option_RecordOptionFunction3Extension<A, B, C> on (
+extension Option$RecordOptionFunction3Extension<A, B, C> on (
   Option<A> Function(),
   Option<B> Function(),
   Option<C> Function()
@@ -382,7 +382,7 @@ extension Option_RecordOptionFunction3Extension<A, B, C> on (
   }
 }
 
-extension Option_RecordOptionFunction4Extension<A, B, C, D> on (
+extension Option$RecordOptionFunction4Extension<A, B, C, D> on (
   Option<A> Function(),
   Option<B> Function(),
   Option<C> Function(),
@@ -410,7 +410,7 @@ extension Option_RecordOptionFunction4Extension<A, B, C, D> on (
   }
 }
 
-extension Option_RecordOptionFunction5Extension<A, B, C, D, E> on (
+extension Option$RecordOptionFunction5Extension<A, B, C, D, E> on (
   Option<A> Function(),
   Option<B> Function(),
   Option<C> Function(),
@@ -443,7 +443,7 @@ extension Option_RecordOptionFunction5Extension<A, B, C, D, E> on (
   }
 }
 
-extension Option_RecordOptionFunction6Extension<A, B, C, D, E, F> on (
+extension Option$RecordOptionFunction6Extension<A, B, C, D, E, F> on (
   Option<A> Function(),
   Option<B> Function(),
   Option<C> Function(),
@@ -481,7 +481,7 @@ extension Option_RecordOptionFunction6Extension<A, B, C, D, E, F> on (
   }
 }
 
-extension Option_RecordOptionFunction7Extension<A, B, C, D, E, F, G> on (
+extension Option$RecordOptionFunction7Extension<A, B, C, D, E, F, G> on (
   Option<A> Function(),
   Option<B> Function(),
   Option<C> Function(),
@@ -524,7 +524,7 @@ extension Option_RecordOptionFunction7Extension<A, B, C, D, E, F, G> on (
   }
 }
 
-extension Option_RecordOptionFunction8Extension<A, B, C, D, E, F, G, H> on (
+extension Option$RecordOptionFunction8Extension<A, B, C, D, E, F, G, H> on (
   Option<A> Function(),
   Option<B> Function(),
   Option<C> Function(),
@@ -572,7 +572,7 @@ extension Option_RecordOptionFunction8Extension<A, B, C, D, E, F, G, H> on (
   }
 }
 
-extension Option_RecordOptionFunction9Extension<A, B, C, D, E, F, G, H, I> on (
+extension Option$RecordOptionFunction9Extension<A, B, C, D, E, F, G, H, I> on (
   Option<A> Function(),
   Option<B> Function(),
   Option<C> Function(),
@@ -625,7 +625,7 @@ extension Option_RecordOptionFunction9Extension<A, B, C, D, E, F, G, H, I> on (
   }
 }
 
-extension Option_RecordOptionFunction10Extension<A, B, C, D, E, F, G, H, I, J> on (
+extension Option$RecordOptionFunction10Extension<A, B, C, D, E, F, G, H, I, J> on (
   Option<A> Function(),
   Option<B> Function(),
   Option<C> Function(),

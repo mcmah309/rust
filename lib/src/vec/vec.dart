@@ -5,7 +5,7 @@ import 'extract_if.dart';
 typedef Vec<T> = List<T>;
 
 /// A contiguous **growable** array type, written as Vec<T>, short for ‘vector’.
-extension Vec_ListExtension<T> on List<T> {
+extension Vec$ListExtension<T> on List<T> {
 // allocator: will not be implemented
 
   /// Adds all of other's elements to this Vec.

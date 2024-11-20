@@ -47,7 +47,7 @@ typedef ParentDir = UnixParentDir;
 typedef Normal = UnixNormal;
 
 
-extension Path_StringExtension on String {
+extension Path$StringExtension on String {
   Path asPath() => UnixPath(this);
 
   WindowsPath asWindowsPath() => WindowsPath(this);

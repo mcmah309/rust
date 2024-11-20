@@ -1,11 +1,11 @@
 import 'package:rust/rust.dart';
 
-extension Vec_IterableExtension<T> on Iterable<T> {
+extension Vec$IterableExtension<T> on Iterable<T> {
   @pragma('vm:prefer-inline')
   Vec<T> toVec() => toList(growable: true);
 }
 
-extension Vec_IteratorExtension<T> on Iterator<T> {
+extension Vec$IteratorExtension<T> on Iterator<T> {
   @pragma('vm:prefer-inline')
   Vec<T> collectVec() {
     final list = <T>[];
@@ -16,14 +16,14 @@ extension Vec_IteratorExtension<T> on Iterator<T> {
   }
 }
 
-extension Vec_ListListExtension<T> on List<List<T>> {
+extension Vec$ListListExtension<T> on List<List<T>> {
   @pragma('vm:prefer-inline')
   Vec<T> flatten() {
     return expand((element) => element).toList();
   }
 }
 
-extension Vec_ArrExtension<T> on Arr<T> {
+extension Vec$ArrExtension<T> on Arr<T> {
   @pragma('vm:prefer-inline')
   Vec<T> asVec() {
     return list;
