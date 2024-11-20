@@ -1,5 +1,3 @@
-// ignore_for_file: pattern_never_matches_value_type, unused_local_variable
-
 import 'dart:io';
 
 import 'package:rust/rust.dart';
@@ -21,6 +19,7 @@ void main() {
         );
       }
     } else {
+      expect(isWeb(), isTrue);
       expect(
         () => Path("test/path/fixtures/file_symlink").readLinkSync(),
         throwsA(isA<UnsupportedError>()),
@@ -42,6 +41,7 @@ void main() {
         );
       }
     } else {
+      expect(isWeb(), isTrue);
       expect(
         () async => await Path("test/path/fixtures/file_symlink").readLink(),
         throwsA(isA<UnsupportedError>()),
@@ -52,13 +52,14 @@ void main() {
   test("metadata", () async {
     if (Path.isIoSupported) {
       if (Platform.isWindows) {
-        final metadata = await Path("test\\path\\fixtures\\file").metadata();
+        final _ = await Path("test\\path\\fixtures\\file").metadata();
       } else {
-        final metadata = await Path("test/path/fixtures/file").metadata();
+        final _ = await Path("test/path/fixtures/file").metadata();
       }
       // Dev Note: uncommenting below will cause a compilation error when the target is web.
       // DateTime accessed = metadata.accessed;
     } else {
+      expect(isWeb(), isTrue);
       expect(
         () async => await Path("test/path/fixtures/file").metadata(),
         throwsA(isA<UnsupportedError>()),
@@ -69,15 +70,28 @@ void main() {
   test("metadataSync", () {
     if (Path.isIoSupported) {
       if (Platform.isWindows) {
-        final metadata = Path("test\\path\\fixtures\\file").metadataSync();
+        final _ = Path("test\\path\\fixtures\\file").metadataSync();
       } else {
-        final metadata = Path("test/path/fixtures/file").metadataSync();
+        final _ = Path("test/path/fixtures/file").metadataSync();
       }
     } else {
+      expect(isWeb(), isTrue);
       expect(
         () => Path("test/path/fixtures/file").metadataSync(),
         throwsA(isA<UnsupportedError>()),
       );
     }
   });
+}
+
+bool isWeb() {
+  if (Platform.isAndroid ||
+      Platform.isFuchsia ||
+      Platform.isIOS ||
+      Platform.isLinux ||
+      Platform.isMacOS ||
+      Platform.isWindows) {
+    return false;
+  }
+  return true;
 }

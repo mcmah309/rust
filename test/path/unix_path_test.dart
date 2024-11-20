@@ -1,5 +1,3 @@
-// ignore_for_file: pattern_never_matches_value_type
-
 import 'package:rust/rust.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
