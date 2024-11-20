@@ -14,7 +14,7 @@ extension UnixStringExtension on String {
 /// {@macro path.Path}
 extension type WindowsPath._(String string) implements Object {
   /// {@macro path.Path.isIoSupported}
-  static bool isIoSupported() => io.isIoSupported();
+  static const bool isIoSupported = io.isIoSupported;
 
   static final RegExp _regularPathComponent = RegExp(r'^[ .\w-]+$');
   static final RegExp _oneOrMoreSlashes = RegExp(r'\\+');

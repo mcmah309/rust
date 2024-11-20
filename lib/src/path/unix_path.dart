@@ -17,7 +17,7 @@ extension type UnixPath._(String string) implements Object {
   /// {@template path.Path.isIoSupported}
   /// Returns whether io operations are supported. If false, is currently running on the web.
   /// {@endtemplate}
-  static bool isIoSupported() => io.isIoSupported();
+  static const bool isIoSupported = io.isIoSupported;
 
   static final RegExp _regularPathComponent = RegExp(r'^[ \\.\w-]+$');
   static final RegExp _oneOrMoreSlashes = RegExp('$_pathSeparator+');

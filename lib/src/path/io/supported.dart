@@ -5,7 +5,7 @@ import 'package:rust/rust.dart';
 import '../io_error.dart';
 
 @pragma('vm:prefer-inline')
-bool isIoSupported() => true;
+const bool isIoSupported = true;
 
 /// An iterator over the entries within a directory.
 typedef ReadDir = List<io.FileSystemEntity>;
