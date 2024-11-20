@@ -4,7 +4,6 @@ import 'package:rust/rust.dart';
 
 import '../io_error.dart';
 
-@pragma('vm:prefer-inline')
 const bool isIoSupported = true;
 
 /// An iterator over the entries within a directory.

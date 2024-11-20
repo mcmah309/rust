@@ -2,8 +2,7 @@ import 'package:rust/rust.dart';
 
 import '../io_error.dart';
 
-@pragma('vm:prefer-inline')
-bool isIoSupported() => false;
+const bool isIoSupported = false;
 
 class ReadDir {}
 
