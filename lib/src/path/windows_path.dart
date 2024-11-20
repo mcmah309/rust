@@ -6,10 +6,6 @@ import 'utils.dart';
 
 const _pathSeparator = "\\";
 
-extension UnixStringExtension on String {
-  WindowsPath asWindowsPath() => WindowsPath(this);
-}
-
 /// A Windows Path.
 /// {@macro path.Path}
 extension type WindowsPath._(String string) implements Object {

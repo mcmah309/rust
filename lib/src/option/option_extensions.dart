@@ -1,6 +1,6 @@
 part of 'option.dart';
 
-extension OptionOptionExtension<T> on Option<Option<T>> {
+extension Option_OptionOptionExtension<T> on Option<Option<T>> {
   /// Converts from Option<Option<T>> to Option<T>.
   @pragma("vm:prefer-inline")
   Option<T> flatten() {
@@ -8,7 +8,7 @@ extension OptionOptionExtension<T> on Option<Option<T>> {
   }
 }
 
-extension OptionNullableExtension<T extends Object> on Option<T?> {
+extension Option_OptionNullableExtension<T extends Object> on Option<T?> {
   /// Converts from Option<T?> to Option<T>.
   @pragma("vm:prefer-inline")
   Option<T> flatten() {
@@ -16,7 +16,7 @@ extension OptionNullableExtension<T extends Object> on Option<T?> {
   }
 }
 
-extension OptionRecord2Extension<T, U> on Option<(T, U)> {
+extension Option_OptionRecord2Extension<T, U> on Option<(T, U)> {
   /// Unzips an option containing a tuple of two options.
   /// If self is Some((a, b)) this method returns (Some(a), Some(b)). Otherwise, (None, None) is returned.
   (Option<T>, Option<U>) unzip() {
@@ -28,7 +28,7 @@ extension OptionRecord2Extension<T, U> on Option<(T, U)> {
   }
 }
 
-extension OptionResultExtension<S extends Object, F extends Object>
+extension Option_OptionResultExtension<S extends Object, F extends Object>
     on Option<Result<S?, F>> {
   /// Transposes an Option of a Result into a Result of an Option.
   Result<Option<S>, F> transpose() {
@@ -44,7 +44,7 @@ extension OptionResultExtension<S extends Object, F extends Object>
   }
 }
 
-extension FutureOptionResultExtension<S extends Object, F extends Object>
+extension Option_FutureOptionResultExtension<S extends Object, F extends Object>
     on FutureOption<Result<S?, F>> {
   /// Transposes an FutureOption of a Result into a Result of an Option.
   @pragma("vm:prefer-inline")
@@ -53,21 +53,21 @@ extension FutureOptionResultExtension<S extends Object, F extends Object>
   }
 }
 
-extension OptionNestedRecord3Extension<A, B, C> on Option<((A, B), C)> {
+extension Option_OptionNestedRecord3Extension<A, B, C> on Option<((A, B), C)> {
   /// Flattens an option into a single tuple.
   Option<(A, B, C)> flatten() {
     return map((e) => (e.$1.$1, e.$1.$2, e.$2));
   }
 }
 
-extension OptionNestedRecord4Extension<A, B, C, D> on Option<(((A, B), C), D)> {
+extension Option_OptionNestedRecord4Extension<A, B, C, D> on Option<(((A, B), C), D)> {
   /// Flattens an option into a single tuple.
   Option<(A, B, C, D)> flatten() {
     return map((e) => (e.$1.$1.$1, e.$1.$1.$2, e.$1.$2, e.$2));
   }
 }
 
-extension OptionNestedRecord5Extension<A, B, C, D, E>
+extension Option_OptionNestedRecord5Extension<A, B, C, D, E>
     on Option<((((A, B), C), D), E)> {
   /// Flattens an option into a single tuple.
   Option<(A, B, C, D, E)> flatten() {

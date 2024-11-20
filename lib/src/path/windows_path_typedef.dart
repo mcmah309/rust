@@ -1,4 +1,5 @@
 import 'windows_path.dart';
+import 'unix_path.dart';
 
 /// {@macro path.Path}
 /// Platform Independent.
@@ -28,6 +29,10 @@ typedef ParentDir = WindowsParentDir;
 /// Platform Independent.
 typedef Normal = WindowsNormal;
 
-extension PathStringExtension on String {
-  Path asPath() => Path(this);
+extension Path_StringExtension on String {
+  Path asPath() => WindowsPath(this);
+
+  WindowsPath asWindowsPath() => WindowsPath(this);
+
+  UnixPath asUnixPath() => UnixPath(this);
 }

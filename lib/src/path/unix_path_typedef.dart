@@ -1,4 +1,5 @@
 import 'unix_path.dart';
+import 'windows_path.dart';
 
 /// {@template path.Path}
 /// [Path] is for handling file paths in a type-safe manner.
@@ -46,6 +47,10 @@ typedef ParentDir = UnixParentDir;
 typedef Normal = UnixNormal;
 
 
-extension PathStringExtension on String {
-  Path asPath() => Path(this);
+extension Path_StringExtension on String {
+  Path asPath() => UnixPath(this);
+
+  WindowsPath asWindowsPath() => WindowsPath(this);
+
+  UnixPath asUnixPath() => UnixPath(this);
 }

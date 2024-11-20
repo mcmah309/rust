@@ -62,7 +62,7 @@ void main() {
     });
   });
 
-  group('DoubleCellExtension Tests', () {
+  group('CellDoubleExtension Tests', () {
     test('Addition operator works correctly', () {
       var cell1 = Cell<double>(10.0);
       var cell2 = Cell<double>(20.0);
@@ -217,7 +217,7 @@ void main() {
     });
   });
 
-  group('IntCellExtension Tests', () {
+  group('CellIntExtension Tests', () {
     test('Addition operator works correctly', () {
       var cell1 = Cell<int>(10);
       var cell2 = Cell<int>(20);

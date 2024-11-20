@@ -2,19 +2,19 @@
 
 part of 'iterator.dart';
 
-extension IterableExtension<T> on Iterable<T> {
+extension Iter_IterableExtension<T> on Iterable<T> {
   /// Returns an [Iter] over the [Iterable].
   @pragma("vm:prefer-inline")
   Iter<T> iter() => Iter<T>(iterator);
 }
 
-extension IteratorExtension<T> on Iterator<T> {
+extension Iter_IteratorExtension<T> on Iterator<T> {
   /// Returns an [Iter] for this [Iterator].
   @pragma("vm:prefer-inline")
   Iter<T> iter() => Iter<T>(this);
 }
 
-extension IteratorOnIteratorIterable<T> on Iter<Iterable<T>> {
+extension Iter_IterIterableExtension<T> on Iter<Iterable<T>> {
   /// Flatten an iterator of iterators into a single iterator.
   @pragma("vm:prefer-inline")
   Iter<T> flatten() {
@@ -30,7 +30,7 @@ extension IteratorOnIteratorIterable<T> on Iter<Iterable<T>> {
   }
 }
 
-extension IteratorComparable<U, T extends Comparable<U>> on Iter<T> {
+extension Iter_IterComparableOtherExtension<U, T extends Comparable<U>> on Iter<T> {
   /// Lexicographically compares the elements of this Iterator with those of another.
   /// Less = -1
   /// Equal = 0
@@ -87,7 +87,7 @@ extension IteratorComparable<U, T extends Comparable<U>> on Iter<T> {
   }
 }
 
-extension IteratorComparableSelf<T extends Comparable<T>> on Iter<T> {
+extension Iter_IterComparableSelfExtension<T extends Comparable<T>> on Iter<T> {
   /// Checks if the elements of this iterator are sorted.
   /// That is, for each element a and its following element b, a <= b must hold. If the iterator yields exactly zero or one element, true is returned.
   bool isSorted() {
@@ -131,7 +131,7 @@ extension IteratorComparableSelf<T extends Comparable<T>> on Iter<T> {
   }
 }
 
-extension IteratorOptionExtension<T extends Object> on Iter<Option<T>> {
+extension Iter_IterOptionExtension<T extends Object> on Iter<Option<T>> {
   /// Creates an iterator which ends after the first None.
   Iter<T> fuse() {
     return Iter(_fuseHelper().iterator);
@@ -147,7 +147,7 @@ extension IteratorOptionExtension<T extends Object> on Iter<Option<T>> {
   }
 }
 
-extension IteratorResultExtension<T, E extends Object> on Iter<Result<T, E>> {
+extension Iter_IterResultExtension<T, E extends Object> on Iter<Result<T, E>> {
   /// Transforms an iterator into a collection, short circuiting if a Err is encountered.
   Result<List<T>, E> tryCollect() {
     final result = <T>[];
@@ -216,7 +216,7 @@ extension IteratorResultExtension<T, E extends Object> on Iter<Result<T, E>> {
   }
 }
 
-extension IteratorResultFuncExtension<T> on Iter<T> {
+extension Iter_IterExtension<T> on Iter<T> {
   /// Applies function to the elements of iterator and returns the first true result or the first error.
   Result<Option<T>, E> tryFind<E extends Object>(
       Result<bool, E> Function(T) f) {
@@ -276,7 +276,7 @@ extension IteratorResultFuncExtension<T> on Iter<T> {
   }
 }
 
-extension IteratorOnIteratorTUExtension<T, U> on Iter<(T, U)> {
+extension Iter_IterRecord2Extension<T, U> on Iter<(T, U)> {
   /// Converts an iterator of pairs into a pair of containers.
   (List<T>, List<U>) unzip() {
     final first = <T>[];
@@ -291,15 +291,15 @@ extension IteratorOnIteratorTUExtension<T, U> on Iter<(T, U)> {
 
 //************************************************************************//
 
-/// Overrides built in extension methods on nullable [Iterable].
-extension NullableIterableExtensionOverrides<T extends Object> on Iter<T?> {
+/// Overrides built in extension Iter_methods on nullable [Iterable].
+extension Iter_IterNullableExtensionOverride<T extends Object> on Iter<T?> {
   /// Returns an Iter over the non-null elements of this iterator.
   Iter<T> nonNulls() =>
       Iter.fromIterable(NullableIterableExtensions(this).nonNulls);
 }
 
-/// Overrides built in extension methods on [Iterable].
-extension IterableExtensionOverrides<T> on Iter<T> {
+/// Overrides built in extension Iter_methods on [Iterable].
+extension Iter_IterExtensionOverride<T> on Iter<T> {
   /// Returns an Iter over the elements of this iterable, paired with their index.
   Iter<(int, T)> get indexed =>
       Iter.fromIterable(IterableExtensions(this).indexed);

@@ -1,6 +1,6 @@
 import 'package:rust/rust.dart';
 
-extension StringExtension on String {
+extension Str_StringExtension on String {
   /// An Iterator of code units of this [String] represented as individual [String]s
   @pragma("vm:prefer-inline")
   Iter<String> chars() {

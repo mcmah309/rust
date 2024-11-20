@@ -6,7 +6,7 @@ typedef FutureOption<T> = Future<Option<T>>;
 /// {@template futureOption}
 /// [FutureOption] represents an asynchronous [Option]. And as such, inherits all of [Option]'s methods.
 /// {@endtemplate}
-extension FutureOptionExtension<T extends Object> on FutureOption<T> {
+extension Option_FutureOptionExtension<T extends Object> on FutureOption<T> {
   @pragma("vm:prefer-inline")
   Future<T?> get v {
     return this as Future<T?>;

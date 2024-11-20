@@ -1,10 +1,10 @@
 import 'package:rust/rust.dart';
 
-extension RecordToResult2<A, B, Z extends Object> on (
+extension Result_RecordResult2Extension<A, B, Z extends Object> on (
   Result<A, Z>,
   Result<B, Z>
 ) {
-  /// {@template RecordToResult.toResult}
+  /// {@template RecordResult.toResult}
   /// Transforms a Record of [Result]s into a single [Result]. The [Ok] value is a Record of all Result's [Ok]
   /// values. The [Err] value is the List of all [Err] values.
   ///
@@ -66,7 +66,7 @@ extension RecordToResult2<A, B, Z extends Object> on (
     }
   }
 
-  /// {@template RecordToResult.toResultEager}
+  /// {@template RecordResult.toResultEager}
   /// Transforms a Record of [Result]s into a single [Result]. The [Ok] value is a Record of all Result's [Ok]
   /// values. The [Err] value is the first [Err] encountered.
   ///
@@ -124,12 +124,12 @@ extension RecordToResult2<A, B, Z extends Object> on (
   }
 }
 
-extension RecordToResult3<A, B, C, Z extends Object> on (
+extension Result_RecordResult3Extension<A, B, C, Z extends Object> on (
   Result<A, Z>,
   Result<B, Z>,
   Result<C, Z>
 ) {
-  /// {@macro RecordToResult.toResult}
+  /// {@macro RecordResult.toResult}
   Result<(A, B, C), List<Z>> toResult() {
     List<Z> z = [];
     A? a;
@@ -158,7 +158,7 @@ extension RecordToResult3<A, B, C, Z extends Object> on (
     }
   }
 
-  /// {@macro RecordToResult.toResultEager}
+  /// {@macro RecordResult.toResultEager}
   Result<(A, B, C), Z> toResultEager() {
     A a;
     if ($1.isOk()) {
@@ -183,13 +183,13 @@ extension RecordToResult3<A, B, C, Z extends Object> on (
   }
 }
 
-extension RecordToResult4<A, B, C, D, Z extends Object> on (
+extension Result_RecordResult4Extension<A, B, C, D, Z extends Object> on (
   Result<A, Z>,
   Result<B, Z>,
   Result<C, Z>,
   Result<D, Z>
 ) {
-  /// {@macro RecordToResult.toResult}
+  /// {@macro RecordResult.toResult}
   Result<(A, B, C, D), List<Z>> toResult() {
     List<Z> z = [];
     A? a;
@@ -224,7 +224,7 @@ extension RecordToResult4<A, B, C, D, Z extends Object> on (
     }
   }
 
-  /// {@macro RecordToResult.toResultEager}
+  /// {@macro RecordResult.toResultEager}
   Result<(A, B, C, D), Z> toResultEager() {
     A a;
     if ($1.isOk()) {
@@ -258,14 +258,14 @@ extension RecordToResult4<A, B, C, D, Z extends Object> on (
   }
 }
 
-extension RecordToResult5<A, B, C, D, E, Z extends Object> on (
+extension Result_RecordResult5Extension<A, B, C, D, E, Z extends Object> on (
   Result<A, Z>,
   Result<B, Z>,
   Result<C, Z>,
   Result<D, Z>,
   Result<E, Z>
 ) {
-  /// {@macro RecordToResult.toResult}
+  /// {@macro RecordResult.toResult}
   Result<(A, B, C, D, E), List<Z>> toResult() {
     List<Z> z = [];
     A? a;
@@ -306,7 +306,7 @@ extension RecordToResult5<A, B, C, D, E, Z extends Object> on (
     }
   }
 
-  /// {@macro RecordToResult.toResultEager}
+  /// {@macro RecordResult.toResultEager}
   Result<(A, B, C, D, E), Z> toResultEager() {
     A a;
     if ($1.isOk()) {
@@ -347,7 +347,7 @@ extension RecordToResult5<A, B, C, D, E, Z extends Object> on (
   }
 }
 
-extension RecordToResult6<A, B, C, D, E, F, Z extends Object> on (
+extension Result_RecordResult6Extension<A, B, C, D, E, F, Z extends Object> on (
   Result<A, Z>,
   Result<B, Z>,
   Result<C, Z>,
@@ -355,7 +355,7 @@ extension RecordToResult6<A, B, C, D, E, F, Z extends Object> on (
   Result<E, Z>,
   Result<F, Z>
 ) {
-  /// {@macro RecordToResult.toResult}
+  /// {@macro RecordResult.toResult}
   Result<(A, B, C, D, E, F), List<Z>> toResult() {
     List<Z> z = [];
     A? a;
@@ -402,7 +402,7 @@ extension RecordToResult6<A, B, C, D, E, F, Z extends Object> on (
     }
   }
 
-  /// {@macro RecordToResult.toResultEager}
+  /// {@macro RecordResult.toResultEager}
   Result<(A, B, C, D, E, F), Z> toResultEager() {
     A a;
     if ($1.isOk()) {
@@ -450,7 +450,7 @@ extension RecordToResult6<A, B, C, D, E, F, Z extends Object> on (
   }
 }
 
-extension RecordToResult7<A, B, C, D, E, F, G, Z extends Object> on (
+extension Result_RecordResult7Extension<A, B, C, D, E, F, G, Z extends Object> on (
   Result<A, Z>,
   Result<B, Z>,
   Result<C, Z>,
@@ -459,7 +459,7 @@ extension RecordToResult7<A, B, C, D, E, F, G, Z extends Object> on (
   Result<F, Z>,
   Result<G, Z>
 ) {
-  /// {@macro RecordToResult.toResult}
+  /// {@macro RecordResult.toResult}
   Result<(A, B, C, D, E, F, G), List<Z>> toResult() {
     List<Z> z = [];
     A? a;
@@ -512,7 +512,7 @@ extension RecordToResult7<A, B, C, D, E, F, G, Z extends Object> on (
     }
   }
 
-  /// {@macro RecordToResult.toResultEager}
+  /// {@macro RecordResult.toResultEager}
   Result<(A, B, C, D, E, F, G), Z> toResultEager() {
     A a;
     if ($1.isOk()) {
@@ -567,7 +567,7 @@ extension RecordToResult7<A, B, C, D, E, F, G, Z extends Object> on (
   }
 }
 
-extension RecordToResult8<A, B, C, D, E, F, G, H, Z extends Object> on (
+extension Result_RecordResult8Extension<A, B, C, D, E, F, G, H, Z extends Object> on (
   Result<A, Z>,
   Result<B, Z>,
   Result<C, Z>,
@@ -577,7 +577,7 @@ extension RecordToResult8<A, B, C, D, E, F, G, H, Z extends Object> on (
   Result<G, Z>,
   Result<H, Z>
 ) {
-  /// {@macro RecordToResult.toResult}
+  /// {@macro RecordResult.toResult}
   Result<(A, B, C, D, E, F, G, H), List<Z>> toResult() {
     List<Z> z = [];
     A? a;
@@ -636,7 +636,7 @@ extension RecordToResult8<A, B, C, D, E, F, G, H, Z extends Object> on (
     }
   }
 
-  /// {@macro RecordToResult.toResultEager}
+  /// {@macro RecordResult.toResultEager}
   Result<(A, B, C, D, E, F, G, H), Z> toResultEager() {
     A a;
     if ($1.isOk()) {
@@ -698,7 +698,7 @@ extension RecordToResult8<A, B, C, D, E, F, G, H, Z extends Object> on (
   }
 }
 
-extension RecordToResult9<A, B, C, D, E, F, G, H, I, Z extends Object> on (
+extension Result_RecordResult9Extension<A, B, C, D, E, F, G, H, I, Z extends Object> on (
   Result<A, Z>,
   Result<B, Z>,
   Result<C, Z>,
@@ -709,7 +709,7 @@ extension RecordToResult9<A, B, C, D, E, F, G, H, I, Z extends Object> on (
   Result<H, Z>,
   Result<I, Z>
 ) {
-  /// {@macro RecordToResult.toResult}
+  /// {@macro RecordResult.toResult}
   Result<(A, B, C, D, E, F, G, H, I), List<Z>> toResult() {
     List<Z> z = [];
     A? a;
@@ -774,7 +774,7 @@ extension RecordToResult9<A, B, C, D, E, F, G, H, I, Z extends Object> on (
     }
   }
 
-  /// {@macro RecordToResult.toResultEager}
+  /// {@macro RecordResult.toResultEager}
   Result<(A, B, C, D, E, F, G, H, I), Z> toResultEager() {
     A a;
     if ($1.isOk()) {
@@ -843,7 +843,7 @@ extension RecordToResult9<A, B, C, D, E, F, G, H, I, Z extends Object> on (
   }
 }
 
-extension RecordToResult10<A, B, C, D, E, F, G, H, I, J, Z extends Object> on (
+extension Result_RecordResult10Extension<A, B, C, D, E, F, G, H, I, J, Z extends Object> on (
   Result<A, Z>,
   Result<B, Z>,
   Result<C, Z>,
@@ -855,7 +855,7 @@ extension RecordToResult10<A, B, C, D, E, F, G, H, I, J, Z extends Object> on (
   Result<I, Z>,
   Result<J, Z>
 ) {
-  /// {@macro RecordToResult.toResult}
+  /// {@macro RecordResult.toResult}
   Result<(A, B, C, D, E, F, G, H, I, J), List<Z>> toResult() {
     List<Z> z = [];
     A? a;
@@ -926,7 +926,7 @@ extension RecordToResult10<A, B, C, D, E, F, G, H, I, J, Z extends Object> on (
     }
   }
 
-  /// {@macro RecordToResult.toResultEager}
+  /// {@macro RecordResult.toResultEager}
   Result<(A, B, C, D, E, F, G, H, I, J), Z> toResultEager() {
     A a;
     if ($1.isOk()) {
@@ -1004,11 +1004,11 @@ extension RecordToResult10<A, B, C, D, E, F, G, H, I, J, Z extends Object> on (
 
 //************************************************************************//
 
-extension RecordFunctionToResult2<A, B, Z extends Object> on (
+extension Result_RecordFunctionResult2Extension<A, B, Z extends Object> on (
   Result<A, Z> Function(),
   Result<B, Z> Function()
 ) {
-  /// {@template RecordFunctionToResult.toResult}
+  /// {@template RecordFunctionResult.toResult}
   /// Transforms a Record of [Result] functions into a single [Result]. The [Ok] value is a Record of all Result's [Ok]
   /// values. The [Err] value is first function that evaluates to an [Err].
   ///
@@ -1068,12 +1068,12 @@ extension RecordFunctionToResult2<A, B, Z extends Object> on (
   }
 }
 
-extension RecordFunctionToResult3<A, B, C, Z extends Object> on (
+extension Result_RecordFunctionResult3Extension<A, B, C, Z extends Object> on (
   Result<A, Z> Function(),
   Result<B, Z> Function(),
   Result<C, Z> Function()
 ) {
-  /// {@macro RecordFunctionToResult.toResult}
+  /// {@macro RecordFunctionResult.toResult}
   Result<(A, B, C), Z> toResult() {
     A a;
     final aResult = $1();
@@ -1101,13 +1101,13 @@ extension RecordFunctionToResult3<A, B, C, Z extends Object> on (
   }
 }
 
-extension RecordFunctionToResult4<A, B, C, D, Z extends Object> on (
+extension Result_RecordFunctionResult4Extension<A, B, C, D, Z extends Object> on (
   Result<A, Z> Function(),
   Result<B, Z> Function(),
   Result<C, Z> Function(),
   Result<D, Z> Function()
 ) {
-  /// {@macro RecordFunctionToResult.toResult}
+  /// {@macro RecordFunctionResult.toResult}
   Result<(A, B, C, D), Z> toResult() {
     A a;
     final aResult = $1();
@@ -1142,14 +1142,14 @@ extension RecordFunctionToResult4<A, B, C, D, Z extends Object> on (
   }
 }
 
-extension RecordFunctionToResult5<A, B, C, D, E, Z extends Object> on (
+extension Result_RecordFunctionResult5Extension<A, B, C, D, E, Z extends Object> on (
   Result<A, Z> Function(),
   Result<B, Z> Function(),
   Result<C, Z> Function(),
   Result<D, Z> Function(),
   Result<E, Z> Function()
 ) {
-  /// {@macro RecordFunctionToResult.toResult}
+  /// {@macro RecordFunctionResult.toResult}
   Result<(A, B, C, D, E), Z> toResult() {
     A a;
     final aResult = $1();
@@ -1191,7 +1191,7 @@ extension RecordFunctionToResult5<A, B, C, D, E, Z extends Object> on (
   }
 }
 
-extension RecordFunctionToResult6<A, B, C, D, E, F, Z extends Object> on (
+extension Result_RecordFunctionResult6Extension<A, B, C, D, E, F, Z extends Object> on (
   Result<A, Z> Function(),
   Result<B, Z> Function(),
   Result<C, Z> Function(),
@@ -1199,7 +1199,7 @@ extension RecordFunctionToResult6<A, B, C, D, E, F, Z extends Object> on (
   Result<E, Z> Function(),
   Result<F, Z> Function()
 ) {
-  /// {@macro RecordFunctionToResult.toResult}
+  /// {@macro RecordFunctionResult.toResult}
   Result<(A, B, C, D, E, F), Z> toResult() {
     A a;
     final aResult = $1();
@@ -1248,7 +1248,7 @@ extension RecordFunctionToResult6<A, B, C, D, E, F, Z extends Object> on (
   }
 }
 
-extension RecordFunctionToResult7<A, B, C, D, E, F, G, Z extends Object> on (
+extension Result_RecordFunctionResult7Extension<A, B, C, D, E, F, G, Z extends Object> on (
   Result<A, Z> Function(),
   Result<B, Z> Function(),
   Result<C, Z> Function(),
@@ -1257,7 +1257,7 @@ extension RecordFunctionToResult7<A, B, C, D, E, F, G, Z extends Object> on (
   Result<F, Z> Function(),
   Result<G, Z> Function()
 ) {
-  /// {@macro RecordFunctionToResult.toResult}
+  /// {@macro RecordFunctionResult.toResult}
   Result<(A, B, C, D, E, F, G), Z> toResult() {
     A a;
     final aResult = $1();
@@ -1313,7 +1313,7 @@ extension RecordFunctionToResult7<A, B, C, D, E, F, G, Z extends Object> on (
   }
 }
 
-extension RecordFunctionToResult8<A, B, C, D, E, F, G, H, Z extends Object> on (
+extension Result_RecordFunctionResult8Extension<A, B, C, D, E, F, G, H, Z extends Object> on (
   Result<A, Z> Function(),
   Result<B, Z> Function(),
   Result<C, Z> Function(),
@@ -1323,7 +1323,7 @@ extension RecordFunctionToResult8<A, B, C, D, E, F, G, H, Z extends Object> on (
   Result<G, Z> Function(),
   Result<H, Z> Function()
 ) {
-  /// {@macro RecordFunctionToResult.toResult}
+  /// {@macro RecordFunctionResult.toResult}
   Result<(A, B, C, D, E, F, G, H), Z> toResult() {
     A a;
     final aResult = $1();
@@ -1386,7 +1386,7 @@ extension RecordFunctionToResult8<A, B, C, D, E, F, G, H, Z extends Object> on (
   }
 }
 
-extension RecordFunctionToResult9<A, B, C, D, E, F, G, H, I, Z extends Object>
+extension Result_RecordFunctionResult9Extension<A, B, C, D, E, F, G, H, I, Z extends Object>
     on (
   Result<A, Z> Function(),
   Result<B, Z> Function(),
@@ -1398,7 +1398,7 @@ extension RecordFunctionToResult9<A, B, C, D, E, F, G, H, I, Z extends Object>
   Result<H, Z> Function(),
   Result<I, Z> Function()
 ) {
-  /// {@macro RecordFunctionToResult.toResult}
+  /// {@macro RecordFunctionResult.toResult}
   Result<(A, B, C, D, E, F, G, H, I), Z> toResult() {
     A a;
     final aResult = $1();
@@ -1468,7 +1468,7 @@ extension RecordFunctionToResult9<A, B, C, D, E, F, G, H, I, Z extends Object>
   }
 }
 
-extension RecordFunctionToResult10<A, B, C, D, E, F, G, H, I, J,
+extension Result_RecordFunctionResult10Extension<A, B, C, D, E, F, G, H, I, J,
     Z extends Object> on (
   Result<A, Z> Function(),
   Result<B, Z> Function(),
@@ -1481,7 +1481,7 @@ extension RecordFunctionToResult10<A, B, C, D, E, F, G, H, I, J,
   Result<I, Z> Function(),
   Result<J, Z> Function()
 ) {
-  /// {@macro RecordFunctionToResult.toResult}
+  /// {@macro RecordFunctionResult.toResult}
   Result<(A, B, C, D, E, F, G, H, I, J), Z> toResult() {
     A a;
     final aResult = $1();
