@@ -11,7 +11,7 @@ void main() {
     if (Path.isIoSupported) {
       if (Platform.isWindows) {
         expect(
-          Path("test\\path\\fixtures\\ile_symlink").readLinkSync().unwrap(),
+          Path("test\\path\\fixtures\\file_symlink").readLinkSync().unwrap(),
           endsWith("test\\path\\fixtures\\file"),
         );
       } else {
@@ -32,7 +32,7 @@ void main() {
     if (Path.isIoSupported) {
       if (Platform.isWindows) {
         expect(
-          (await Path("test\\path\\fixtures\\ile_symlink").readLink()).unwrap(),
+          (await Path("test\\path\\fixtures\\file_symlink").readLink()).unwrap(),
           endsWith("test\\path\\fixtures\\file"),
         );
       } else {
