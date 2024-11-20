@@ -230,13 +230,17 @@ main() {
     var interspersed = list.iter().intersperse(0);
     expect(interspersed, [1, 0, 2, 0, 3, 0, 4, 0, 5]);
 
-    var list2 = [1];
-    var interspersed2 = list2.iter().intersperse(0);
-    expect(interspersed2, [1]);
+    list = [1];
+    interspersed = list.iter().intersperse(0);
+    expect(interspersed, [1]);
 
-    var list3 = <int>[];
-    var interspersed3 = list3.iter().intersperse(0);
-    expect(interspersed3, []);
+    list = [1,2];
+    interspersed = list.iter().intersperse(0);
+    expect(interspersed, [1,0,2]);
+
+    list = <int>[];
+    interspersed = list.iter().intersperse(0);
+    expect(interspersed, []);
   });
 
   test("intersperseWith", () {

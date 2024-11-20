@@ -198,8 +198,7 @@ class Iter<T> extends Iterable<T> implements Iterator<T>, _Iter<T> {
     return Iter.fromIterable(_filterMapHelper(f));
   }
 
-  Iterable<U> _filterMapHelper<U extends Object>(
-      Option<U> Function(T) f) sync* {
+  Iterable<U> _filterMapHelper<U extends Object>(Option<U> Function(T) f) sync* {
     for (final element in this) {
       final result = f(element);
       if (result.isSome()) {
@@ -259,27 +258,12 @@ class Iter<T> extends Iterable<T> implements Iterator<T>, _Iter<T> {
     final iterator = this.iterator;
     if (iterator.moveNext()) {
       var current = iterator.current;
-      if (iterator.moveNext()) {
+      while (iterator.moveNext()) {
         yield current;
+        yield element;
         current = iterator.current;
-        if (iterator.moveNext()) {
-          var next = iterator.current;
-          while (iterator.moveNext()) {
-            yield element;
-            yield current;
-            current = next;
-            next = iterator.current;
-          }
-          yield element;
-          yield current;
-          yield element;
-          yield next;
-        } else {
-          yield element;
-        }
-      } else {
-        yield current;
       }
+      yield current;
     }
   }
 
@@ -595,8 +579,7 @@ class Iter<T> extends Iterable<T> implements Iterator<T>, _Iter<T> {
     return Iter.fromIterable(_scanHelper(initial, f));
   }
 
-  Iterable<U> _scanHelper<U extends Object>(
-      U initial, Option<U> Function(U, T) f) sync* {
+  Iterable<U> _scanHelper<U extends Object>(U initial, Option<U> Function(U, T) f) sync* {
     var current = initial;
     for (final element in this) {
       final result = f(current, element);
@@ -648,8 +631,7 @@ class Iter<T> extends Iterable<T> implements Iterator<T>, _Iter<T> {
   /// Expands each element of this Iter into zero or more elements.
   @override
   @pragma("vm:prefer-inline")
-  Iter<U> expand<U>(Iterable<U> Function(T) f) =>
-      Iter.fromIterable(super.expand(f));
+  Iter<U> expand<U>(Iterable<U> Function(T) f) => Iter.fromIterable(super.expand(f));
 
   // T firstWhere(bool Function(T) f, {T Function()? orElse}) => iterable.firstWhere(f, orElse: orElse);
 
@@ -658,8 +640,7 @@ class Iter<T> extends Iterable<T> implements Iterator<T>, _Iter<T> {
   /// Creates the lazy concatenation of this Iterator and [other]
   @override
   @pragma("vm:prefer-inline")
-  Iter<T> followedBy(Iterable<T> other) =>
-      Iter.fromIterable(super.followedBy(other));
+  Iter<T> followedBy(Iterable<T> other) => Iter.fromIterable(super.followedBy(other));
 
   // void forEach(void Function(T) f) => iterable.forEach(f);
 
@@ -684,8 +665,7 @@ class Iter<T> extends Iterable<T> implements Iterator<T>, _Iter<T> {
   /// Consumes and skips elements while [f] is true and returns the rest.
   @override
   @pragma("vm:prefer-inline")
-  Iter<T> skipWhile(bool Function(T) f) =>
-      Iter.fromIterable(super.skipWhile(f));
+  Iter<T> skipWhile(bool Function(T) f) => Iter.fromIterable(super.skipWhile(f));
 
   /// Takes the first [count] elements from the Iter.
   @override
@@ -695,8 +675,7 @@ class Iter<T> extends Iterable<T> implements Iterator<T>, _Iter<T> {
   /// TTakes the first [count] elements from the Iter while [f] is true.
   @override
   @pragma("vm:prefer-inline")
-  Iter<T> takeWhile(bool Function(T) f) =>
-      Iter.fromIterable(super.takeWhile(f));
+  Iter<T> takeWhile(bool Function(T) f) => Iter.fromIterable(super.takeWhile(f));
 
   // List<T> toList({bool growable = true}) => iterable.toList(growable: growable);
 
