@@ -37,6 +37,11 @@ export 'src/option/option.dart';
 export 'src/panic/panic.dart';
 export 'src/panic/unreachable.dart';
 
+// path
+export 'src/path/unix_path_typedef.dart' if (Platform.isWindows) 'src/path/windows_path_typedef.dart';
+export 'src/path/windows_path.dart';
+export 'src/path/unix_path.dart';
+
 // result
 export 'src/result/guard.dart';
 export 'src/result/record_to_result_extensions.dart';

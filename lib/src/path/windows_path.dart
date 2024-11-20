@@ -7,13 +7,13 @@ import 'utils.dart';
 
 const _pathSeparator = "\\";
 
-extension PathOnString on String {
-  Path asPath() => Path(this);
+extension UnixStringExtension on String {
+  WindowsPath asWindowsPath() => WindowsPath(this);
 }
 
 /// This type supports a number of operations for inspecting a path, including breaking the path into its components,
 /// extracting the file name, determining whether the path is absolute, and so on.
-extension type Path._(String string) implements Object {
+extension type WindowsPath._(String string) implements Object {
   /// Returns whether io operations are supported. If false, is currently running on the web.
   static bool isIoSupported() => platform.isIoSupported();
 
@@ -21,11 +21,11 @@ extension type Path._(String string) implements Object {
   static final RegExp _oneOrMoreSlashes = RegExp(r'\\+');
   static final p.Context _windows = p.Context(style: p.Style.windows);
 
-  Path(this.string);
+  WindowsPath(this.string);
 
-  Iterable<Path> ancestors() sync* {
+  Iterable<WindowsPath> ancestors() sync* {
     yield this;
-    Path? current = parent().v;
+    WindowsPath? current = parent().v;
     while (current != null) {
       yield current;
       current = current.parent().v;
@@ -35,14 +35,14 @@ extension type Path._(String string) implements Object {
 // as_mut_os_str : will not be implemented
 // as_os_str : will not be implemented
 
-  Path canonicalize() => Path(_windows.canonicalize(string));
+  WindowsPath canonicalize() => WindowsPath(_windows.canonicalize(string));
 
-  Iterable<Component> components() sync* {
+  Iterable<WindowsComponent> components() sync* {
     bool removeLast;
     // trailing slash does not matter
     if (string.endsWith(_pathSeparator)) {
       if (string.length == 1) {
-        yield RootDir();
+        yield WindowsRootDir();
         return;
       }
       removeLast = true;
@@ -59,32 +59,32 @@ extension type Path._(String string) implements Object {
     var current = iterator.current;
     switch (current) {
       case "":
-        yield RootDir();
+        yield WindowsRootDir();
         break;
       case ".":
-        yield CurDir();
+        yield WindowsCurDir();
         break;
       case "..":
-        yield ParentDir();
+        yield WindowsParentDir();
         break;
       default:
         if (_regularPathComponent.hasMatch(current)) {
-          yield Normal(current);
+          yield WindowsNormal(current);
         } else {
-          yield Prefix(current);
+          yield WindowsPrefix(current);
         }
     }
     while (iterator.moveNext()) {
       current = iterator.current;
       switch (current) {
         case ".":
-          yield CurDir();
+          yield WindowsCurDir();
           break;
         case "..":
-          yield ParentDir();
+          yield WindowsParentDir();
           break;
         default:
-          yield Normal(current);
+          yield WindowsNormal(current);
       }
     }
   }
@@ -93,7 +93,7 @@ extension type Path._(String string) implements Object {
   String display() => toString();
 
   /// Determines whether other is a suffix of this.
-  bool endsWith(Path other) => string.endsWith(other.string);
+  bool endsWith(WindowsPath other) => string.endsWith(other.string);
 
   /// Determines whether file exists on disk.
   bool existsSync() => platform.existsSync(string);
@@ -185,11 +185,10 @@ extension type Path._(String string) implements Object {
   Future<bool> isSymlink() => platform.isSymlink(string);
 
   /// Produces an iterator over the path’s components viewed as Strings
-  Iter<String> iter() =>
-      Iter.fromIterable(components().map((e) => e.toString()));
+  Iter<String> iter() => Iter.fromIterable(components().map((e) => e.toString()));
 
   /// Creates an Path with path adjoined to this.
-  Path join(Path other) => Path(_windows.join(string, other.string));
+  WindowsPath join(WindowsPath other) => WindowsPath(_windows.join(string, other.string));
 
   /// Queries the file system to get information about a file, directory, etc.
   /// Note: using this method means that the program can no longer compile for the web.
@@ -204,17 +203,17 @@ extension type Path._(String string) implements Object {
   /// Returns the Path without its final component, if there is one.
   /// This means it returns Some("") for relative paths with one component.
   /// Returns None if the path terminates in a root or prefix, or if it’s the empty string.
-  Option<Path> parent() {
+  Option<WindowsPath> parent() {
     final comps = components().toList();
     if (comps.length == 1) {
       switch (comps.first) {
-        case RootDir():
-        case Prefix():
+        case WindowsRootDir():
+        case WindowsPrefix():
           return None;
-        case ParentDir():
-        case CurDir():
-        case Normal():
-          return Some(Path(""));
+        case WindowsParentDir():
+        case WindowsCurDir():
+        case WindowsNormal():
+          return Some(WindowsPath(""));
       }
     }
     if (comps.length > 1) {
@@ -227,43 +226,39 @@ extension type Path._(String string) implements Object {
 
   /// Returns an iterator over the entries within a directory.
   /// Note: using this method results in the program no longer being able to compile to web.
-  Result<platform.ReadDir, IoError> readDirSync() =>
-      platform.readDirSync(string);
+  Result<platform.ReadDir, IoError> readDirSync() => platform.readDirSync(string);
 
   /// Returns an iterator over the entries within a directory.
   /// Note: using this method results in the program no longer being able to compile to web.
-  Future<Result<platform.ReadDir, IoError>> readDir() =>
-      platform.readDir(string);
+  Future<Result<platform.ReadDir, IoError>> readDir() => platform.readDir(string);
 
   /// Reads a symbolic link, returning the file that the link points to.
-  Result<Path, IoError> readLinkSync() =>
-      platform.readLinkSync(string) as Result<Path, IoError>;
+  Result<WindowsPath, IoError> readLinkSync() =>
+      platform.readLinkSync(string) as Result<WindowsPath, IoError>;
 
   /// Reads a symbolic link, returning the file that the link points to.
-  Future<Result<Path, IoError>> readLink() =>
-      platform.readLink(string) as Future<Result<Path, IoError>>;
+  Future<Result<WindowsPath, IoError>> readLink() =>
+      platform.readLink(string) as Future<Result<WindowsPath, IoError>>;
 
   /// Determines whether other is a prefix of this.
-  bool startsWith(Path other) => string.startsWith(other.string);
+  bool startsWith(WindowsPath other) => string.startsWith(other.string);
 
   /// Returns a path that, when joined onto base, yields this. Returns None if [prefix] is not a subpath of base.
-  Option<Path> stripPrefix(Path prefix) {
+  Option<WindowsPath> stripPrefix(WindowsPath prefix) {
     if (!startsWith(prefix)) {
       return None;
     }
     final newPath = string.substring(prefix.string.length);
-    return Some(Path(newPath));
+    return Some(WindowsPath(newPath));
   }
 
   /// Returns the metadata for the symlink.
   /// Note: using this method means that the program can no longer compile for the web.
-  Result<platform.Metadata, IoError> symlinkMetadataSync() =>
-      platform.symlinkMetadataSync(string);
+  Result<platform.Metadata, IoError> symlinkMetadataSync() => platform.symlinkMetadataSync(string);
 
   /// Returns the metadata for the symlink.
   /// Note: using this method means that the program can no longer compile for the web.
-  Future<Result<platform.Metadata, IoError>> symlinkMetadata() =>
-      platform.symlinkMetadata(string);
+  Future<Result<platform.Metadata, IoError>> symlinkMetadata() => platform.symlinkMetadata(string);
 
 // to_path_buf: Will not implement, implementing a PathBuf does not make sense at the present (equality cannot hold for extension types and a potential PathBuf would likely be `StringBuffer` or `List<String>`).
 // to_str: Implemented by type
@@ -271,44 +266,44 @@ extension type Path._(String string) implements Object {
 // try_exists: Will not implement
 
   /// Creates an Path like this but with the given extension.
-  Path withExtension(String extension) {
+  WindowsPath withExtension(String extension) {
     final stem = fileStem().unwrapOr("");
     final parentOption = parent();
     if (parentOption.isNone()) {
       if (stem.isEmpty) {
-        return Path(extension);
+        return WindowsPath(extension);
       } else {
         if (extension.isEmpty) {
-          return Path(stem);
+          return WindowsPath(stem);
         }
-        return Path("$stem.$extension");
+        return WindowsPath("$stem.$extension");
       }
     }
     if (stem.isEmpty) {
-      return parentOption.unwrap().join(Path(extension));
+      return parentOption.unwrap().join(WindowsPath(extension));
     }
     if (extension.isEmpty) {
-      return parentOption.unwrap().join(Path(stem));
+      return parentOption.unwrap().join(WindowsPath(stem));
     }
-    return parentOption.unwrap().join(Path("$stem.$extension"));
+    return parentOption.unwrap().join(WindowsPath("$stem.$extension"));
   }
 
   /// Creates an PathBuf like this but with the given file name.
-  Path withFileName(String fileName) {
+  WindowsPath withFileName(String fileName) {
     final parentOption = parent();
     return switch (parentOption) {
-      None => Path(fileName),
+      None => WindowsPath(fileName),
       // ignore: pattern_never_matches_value_type
-      Some(:final v) => v.join(Path(fileName)),
+      Some(:final v) => v.join(WindowsPath(fileName)),
     };
   }
 }
 
-Path _joinComponents(Iterable<Component> components) {
+WindowsPath _joinComponents(Iterable<WindowsComponent> components) {
   final buffer = StringBuffer();
   final iterator = components.iterator;
   forEachExceptFirstAndLast(iterator, doFirst: (e) {
-    if (e is RootDir) {
+    if (e is WindowsRootDir) {
       buffer.write(_pathSeparator);
     } else {
       buffer.write(e);
@@ -324,22 +319,21 @@ Path _joinComponents(Iterable<Component> components) {
   }, doIfEmpty: () {
     return buffer.write("");
   });
-  return Path(buffer.toString());
+  return WindowsPath(buffer.toString());
 }
 
 //************************************************************************//
 
-sealed class Component {
-  const Component();
+sealed class WindowsComponent {
+  const WindowsComponent();
 }
 
-class Prefix extends Component {
+class WindowsPrefix extends WindowsComponent {
   final String value;
-  const Prefix(this.value);
+  const WindowsPrefix(this.value);
 
   @override
-  bool operator ==(Object other) =>
-      other == value || (other is Prefix && other.value == value);
+  bool operator ==(Object other) => other == value || (other is WindowsPrefix && other.value == value);
 
   @override
   int get hashCode => value.hashCode;
@@ -348,11 +342,11 @@ class Prefix extends Component {
   String toString() => value;
 }
 
-class RootDir extends Component {
-  const RootDir();
+class WindowsRootDir extends WindowsComponent {
+  const WindowsRootDir();
 
   @override
-  bool operator ==(Object other) => other == _pathSeparator || other is RootDir;
+  bool operator ==(Object other) => other == _pathSeparator || other is WindowsRootDir;
 
   @override
   int get hashCode => _pathSeparator.hashCode;
@@ -361,11 +355,11 @@ class RootDir extends Component {
   String toString() => _pathSeparator;
 }
 
-class CurDir extends Component {
-  const CurDir();
+class WindowsCurDir extends WindowsComponent {
+  const WindowsCurDir();
 
   @override
-  bool operator ==(Object other) => other == "." || other is CurDir;
+  bool operator ==(Object other) => other == "." || other is WindowsCurDir;
 
   @override
   int get hashCode => ".".hashCode;
@@ -374,11 +368,11 @@ class CurDir extends Component {
   String toString() => ".";
 }
 
-class ParentDir extends Component {
-  const ParentDir();
+class WindowsParentDir extends WindowsComponent {
+  const WindowsParentDir();
 
   @override
-  bool operator ==(Object other) => other == ".." || other is ParentDir;
+  bool operator ==(Object other) => other == ".." || other is WindowsParentDir;
 
   @override
   int get hashCode => "..".hashCode;
@@ -387,13 +381,13 @@ class ParentDir extends Component {
   String toString() => "..";
 }
 
-class Normal extends Component {
+class WindowsNormal extends WindowsComponent {
   final String value;
-  Normal(this.value);
+  WindowsNormal(this.value);
 
   @override
   bool operator ==(Object other) =>
-      other == value || (other is Normal && other.value == value);
+      other == value || (other is WindowsNormal && other.value == value);
 
   @override
   int get hashCode => value.hashCode;
