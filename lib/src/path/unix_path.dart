@@ -1,7 +1,6 @@
 import 'package:path/path.dart' as p;
 import 'package:rust/rust.dart';
 
-import 'io_error.dart';
 import 'platform/platform.dart' as platform;
 import 'utils.dart';
 
@@ -11,8 +10,8 @@ extension WindowsStringExtension on String {
   UnixPath asUnixPath() => UnixPath(this);
 }
 
-/// This type supports a number of operations for inspecting a path, including breaking the path into its components,
-/// extracting the file name, determining whether the path is absolute, and so on.
+/// A Unix Path.
+/// {@macro path.Path}
 extension type UnixPath._(String string) implements Object {
   /// Returns whether io operations are supported. If false, is currently running on the web.
   static bool isIoSupported() => platform.isIoSupported();
@@ -329,10 +328,12 @@ UnixPath _joinComponents(Iterable<UnixComponent> components) {
 
 //************************************************************************//
 
+/// {@macro path.Component}
 sealed class UnixComponent {
   const UnixComponent();
 }
 
+/// {@macro path.Prefix}
 class UnixPrefix extends UnixComponent {
   final String value;
   const UnixPrefix(this.value);
@@ -348,6 +349,7 @@ class UnixPrefix extends UnixComponent {
   String toString() => value;
 }
 
+/// {@macro path.RootDir}
 class UnixRootDir extends UnixComponent {
   const UnixRootDir();
 
@@ -361,6 +363,7 @@ class UnixRootDir extends UnixComponent {
   String toString() => _pathSeparator;
 }
 
+/// {@macro path.CurDir}
 class UnixCurDir extends UnixComponent {
   const UnixCurDir();
 
@@ -374,6 +377,7 @@ class UnixCurDir extends UnixComponent {
   String toString() => ".";
 }
 
+/// {@macro path.ParentDir}
 class UnixParentDir extends UnixComponent {
   const UnixParentDir();
 
@@ -387,6 +391,7 @@ class UnixParentDir extends UnixComponent {
   String toString() => "..";
 }
 
+/// {@macro path.Normal}
 class UnixNormal extends UnixComponent {
   final String value;
   UnixNormal(this.value);

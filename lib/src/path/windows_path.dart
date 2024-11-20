@@ -1,7 +1,6 @@
 import 'package:path/path.dart' as p;
 import 'package:rust/rust.dart';
 
-import 'io_error.dart';
 import 'platform/platform.dart' as platform;
 import 'utils.dart';
 
@@ -11,8 +10,8 @@ extension UnixStringExtension on String {
   WindowsPath asWindowsPath() => WindowsPath(this);
 }
 
-/// This type supports a number of operations for inspecting a path, including breaking the path into its components,
-/// extracting the file name, determining whether the path is absolute, and so on.
+/// A Windows Path.
+/// {@macro path.Path}
 extension type WindowsPath._(String string) implements Object {
   /// Returns whether io operations are supported. If false, is currently running on the web.
   static bool isIoSupported() => platform.isIoSupported();
@@ -324,10 +323,12 @@ WindowsPath _joinComponents(Iterable<WindowsComponent> components) {
 
 //************************************************************************//
 
+/// {@macro path.Component}
 sealed class WindowsComponent {
   const WindowsComponent();
 }
 
+/// {@macro path.Prefix}
 class WindowsPrefix extends WindowsComponent {
   final String value;
   const WindowsPrefix(this.value);
@@ -342,6 +343,7 @@ class WindowsPrefix extends WindowsComponent {
   String toString() => value;
 }
 
+/// {@macro path.RootDir}
 class WindowsRootDir extends WindowsComponent {
   const WindowsRootDir();
 
@@ -355,6 +357,7 @@ class WindowsRootDir extends WindowsComponent {
   String toString() => _pathSeparator;
 }
 
+/// {@macro path.CurDir}
 class WindowsCurDir extends WindowsComponent {
   const WindowsCurDir();
 
@@ -368,6 +371,7 @@ class WindowsCurDir extends WindowsComponent {
   String toString() => ".";
 }
 
+/// {@macro path.ParentDir}
 class WindowsParentDir extends WindowsComponent {
   const WindowsParentDir();
 
@@ -381,6 +385,7 @@ class WindowsParentDir extends WindowsComponent {
   String toString() => "..";
 }
 
+/// {@macro path.Normal}
 class WindowsNormal extends WindowsComponent {
   final String value;
   WindowsNormal(this.value);
