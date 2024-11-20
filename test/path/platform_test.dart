@@ -7,10 +7,17 @@ import 'package:test/scaffolding.dart';
 void main() {
   test("readLinkSync", () {
     if (Path.isIoSupported()) {
-      expect(
-        Path("test/path/fixtures/file_symlink").readLinkSync().unwrap(),
-        endsWith("test/path/fixtures/file"),
-      );
+      if (Path.isWindows()) {
+        expect(
+          Path("test/path/fixtures/file_symlink").readLinkSync().unwrap(),
+          endsWith("test/path/fixtures/file"),
+        );
+      } else {
+        expect(
+          Path("test/path/fixtures/file_symlink").readLinkSync().unwrap(),
+          endsWith("test/path/fixtures/file"),
+        );
+      }
     } else {
       expect(
         () => Path("test/path/fixtures/file_symlink").readLinkSync(),

@@ -1,7 +1,7 @@
 import 'package:path/path.dart' as p;
 import 'package:rust/rust.dart';
 
-import 'platform/platform.dart' as platform;
+import 'io/io.dart' as io;
 import 'utils.dart';
 
 const _pathSeparator = "/";
@@ -17,7 +17,7 @@ extension type UnixPath._(String string) implements Object {
   /// {@template path.Path.isIoSupported}
   /// Returns whether io operations are supported. If false, is currently running on the web.
   /// {@endtemplate}
-  static bool isIoSupported() => platform.isIoSupported();
+  static bool isIoSupported() => io.isIoSupported();
 
   static final RegExp _regularPathComponent = RegExp(r'^[ \\.\w-]+$');
   static final RegExp _oneOrMoreSlashes = RegExp('$_pathSeparator+');
@@ -108,12 +108,12 @@ extension type UnixPath._(String string) implements Object {
   /// {@template path.Path.existsSync}
   /// Determines whether file exists on disk.
   /// {@endtemplate}
-  bool existsSync() => platform.existsSync(string);
+  bool existsSync() => io.existsSync(string);
 
   /// {@template path.Path.exists}
   /// Determines whether file exists on disk.
   /// {@endtemplate}
-  Future<bool> exists() => platform.exists(string);
+  Future<bool> exists() => io.exists(string);
 
   /// {@template path.Path.extension}
   /// Extracts the extension (without the leading dot) of self.file_name, if possible.
@@ -192,22 +192,22 @@ extension type UnixPath._(String string) implements Object {
   /// {@template path.Path.isDirSync}
   /// Returns true if the path exists on disk and is pointing at a directory. Does not follow links.
   /// {@endtemplate}
-  bool isDirSync() => platform.isDirSync(string);
+  bool isDirSync() => io.isDirSync(string);
 
   /// {@template path.Path.isDir}
   /// Returns true if the path exists on disk and is pointing at a directory. Does not follow links.
   /// {@endtemplate}
-  Future<bool> isDir() => platform.isDir(string);
+  Future<bool> isDir() => io.isDir(string);
 
   /// {@template path.Path.isFileSync}
   /// Returns true if the path exists on disk and is pointing at a regular file. Does not follow links.
   /// {@endtemplate}
-  bool isFileSync() => platform.isFileSync(string);
+  bool isFileSync() => io.isFileSync(string);
 
   /// {@template path.Path.isFile}
   /// Returns true if the path exists on disk and is pointing at a regular file. Does not follow links.
   /// {@endtemplate}
-  Future<bool> isFile() => platform.isFile(string);
+  Future<bool> isFile() => io.isFile(string);
 
   /// {@template path.Path.isRelative}
   /// Returns true if the Path is relative, i.e., not absolute.
@@ -217,12 +217,12 @@ extension type UnixPath._(String string) implements Object {
   /// {@template path.Path.isRoot}
   /// Returns true if the path exists on disk and is pointing at a symlink. Does not follow links.
   /// {@endtemplate}
-  bool isSymlinkSync() => platform.isSymlinkSync(string);
+  bool isSymlinkSync() => io.isSymlinkSync(string);
 
   /// {@template path.Path.isSymlink}
   /// Returns true if the path exists on disk and is pointing at a symlink. Does not follow links.
   /// {@endtemplate}
-  Future<bool> isSymlink() => platform.isSymlink(string);
+  Future<bool> isSymlink() => io.isSymlink(string);
 
   /// {@template path.Path.iter}
   /// Produces an iterator over the path’s components viewed as Strings
@@ -239,13 +239,13 @@ extension type UnixPath._(String string) implements Object {
   /// Queries the file system to get information about a file, directory, etc.
   /// Note: using this method means that the program can no longer compile for the web.
   /// {@endtemplate}
-  platform.Metadata metadataSync() => platform.metadataSync(string);
+  io.Metadata metadataSync() => io.metadataSync(string);
 
   /// {@template path.Path.metadata}
   /// Queries the file system to get information about a file, directory, etc.
   /// Note: using this method means that the program can no longer compile for the web.
   /// {@endtemplate}
-  Future<platform.Metadata> metadata() => platform.metadata(string);
+  Future<io.Metadata> metadata() => io.metadata(string);
 
 // new : will not be implemented
 
@@ -279,27 +279,27 @@ extension type UnixPath._(String string) implements Object {
   /// Returns an iterator over the entries within a directory.
   /// Note: using this method results in the program no longer being able to compile to web.
   /// {@endtemplate}
-  Result<platform.ReadDir, IoError> readDirSync() =>
-      platform.readDirSync(string);
+  Result<io.ReadDir, IoError> readDirSync() =>
+      io.readDirSync(string);
 
   /// {@template path.Path.readDir}
   /// Returns an iterator over the entries within a directory.
   /// Note: using this method results in the program no longer being able to compile to web.
   /// {@endtemplate}
-  Future<Result<platform.ReadDir, IoError>> readDir() =>
-      platform.readDir(string);
+  Future<Result<io.ReadDir, IoError>> readDir() =>
+      io.readDir(string);
 
   /// {@template path.Path.readLinkSync}
   /// Reads a symbolic link, returning the file that the link points to.
   /// {@endtemplate}
   Result<UnixPath, IoError> readLinkSync() =>
-      platform.readLinkSync(string) as Result<UnixPath, IoError>;
+      io.readLinkSync(string) as Result<UnixPath, IoError>;
 
   /// {@template path.Path.readLink}
   /// Reads a symbolic link, returning the file that the link points to.
   /// {@endtemplate}
   Future<Result<UnixPath, IoError>> readLink() =>
-      platform.readLink(string) as Future<Result<UnixPath, IoError>>;
+      io.readLink(string) as Future<Result<UnixPath, IoError>>;
 
   /// {@template path.Path.relativeTo}
   /// Determines whether other is a prefix of this.
@@ -321,15 +321,15 @@ extension type UnixPath._(String string) implements Object {
   /// Returns the metadata for the symlink.
   /// Note: using this method means that the program can no longer compile for the web.
   /// {@endtemplate}
-  Result<platform.Metadata, IoError> symlinkMetadataSync() =>
-      platform.symlinkMetadataSync(string);
+  Result<io.Metadata, IoError> symlinkMetadataSync() =>
+      io.symlinkMetadataSync(string);
 
   /// {@template path.Path.symlinkMetadata}
   /// Returns the metadata for the symlink.
   /// Note: using this method means that the program can no longer compile for the web.
   /// {@endtemplate}
-  Future<Result<platform.Metadata, IoError>> symlinkMetadata() =>
-      platform.symlinkMetadata(string);
+  Future<Result<io.Metadata, IoError>> symlinkMetadata() =>
+      io.symlinkMetadata(string);
 
 // to_path_buf: Will not implement, implementing a PathBuf does not make sense at the present (equality cannot hold for extension types and a potential PathBuf would likely be `StringBuffer` or `List<String>`).
 // to_str: Implemented by type

@@ -1,7 +1,7 @@
 import 'package:path/path.dart' as p;
 import 'package:rust/rust.dart';
 
-import 'platform/platform.dart' as platform;
+import 'io/io.dart' as io;
 import 'utils.dart';
 
 const _pathSeparator = "\\";
@@ -14,7 +14,7 @@ extension UnixStringExtension on String {
 /// {@macro path.Path}
 extension type WindowsPath._(String string) implements Object {
   /// {@macro path.Path.isIoSupported}
-  static bool isIoSupported() => platform.isIoSupported();
+  static bool isIoSupported() => io.isIoSupported();
 
   static final RegExp _regularPathComponent = RegExp(r'^[ .\w-]+$');
   static final RegExp _oneOrMoreSlashes = RegExp(r'\\+');
@@ -92,10 +92,10 @@ extension type WindowsPath._(String string) implements Object {
   bool endsWith(WindowsPath other) => string.endsWith(other.string);
 
   /// {@macro path.Path.existsSync}
-  bool existsSync() => platform.existsSync(string);
+  bool existsSync() => io.existsSync(string);
 
   /// {@macro path.Path.exists}
-  Future<bool> exists() => platform.exists(string);
+  Future<bool> exists() => io.exists(string);
 
   /// {@macro path.Path.extension}
   String extension() {
@@ -147,25 +147,25 @@ extension type WindowsPath._(String string) implements Object {
   bool isAbsolute() => _windows.isAbsolute(string);
 
   /// {@macro path.Path.isDirSync}
-  bool isDirSync() => platform.isDirSync(string);
+  bool isDirSync() => io.isDirSync(string);
 
   /// {@macro path.Path.isDir}
-  Future<bool> isDir() => platform.isDir(string);
+  Future<bool> isDir() => io.isDir(string);
 
   /// {@macro path.Path.isFileSync}
-  bool isFileSync() => platform.isFileSync(string);
+  bool isFileSync() => io.isFileSync(string);
 
   /// {@macro path.Path.isFile}
-  Future<bool> isFile() => platform.isFile(string);
+  Future<bool> isFile() => io.isFile(string);
 
   /// {@macro path.Path.isRelative}
   bool isRelative() => _windows.isRelative(string);
 
   /// {@macro path.Path.isSymlinkSync}
-  bool isSymlinkSync() => platform.isSymlinkSync(string);
+  bool isSymlinkSync() => io.isSymlinkSync(string);
 
   /// {@macro path.Path.isSymlink}
-  Future<bool> isSymlink() => platform.isSymlink(string);
+  Future<bool> isSymlink() => io.isSymlink(string);
 
   /// {@macro path.Path.iter}
   Iter<String> iter() => Iter.fromIterable(components().map((e) => e.toString()));
@@ -174,10 +174,10 @@ extension type WindowsPath._(String string) implements Object {
   WindowsPath join(WindowsPath other) => WindowsPath(_windows.join(string, other.string));
 
   /// {@macro path.Path.metadataSync}
-  platform.Metadata metadataSync() => platform.metadataSync(string);
+  io.Metadata metadataSync() => io.metadataSync(string);
 
   /// {@macro path.Path.metadata}
-  Future<platform.Metadata> metadata() => platform.metadata(string);
+  Future<io.Metadata> metadata() => io.metadata(string);
 
   /// {@macro path.Path.normalize}
   Option<WindowsPath> parent() {
@@ -202,18 +202,18 @@ extension type WindowsPath._(String string) implements Object {
   }
 
   /// {@macro path.Path.readDirSync}
-  Result<platform.ReadDir, IoError> readDirSync() => platform.readDirSync(string);
+  Result<io.ReadDir, IoError> readDirSync() => io.readDirSync(string);
 
   /// {@macro path.Path.readDir}
-  Future<Result<platform.ReadDir, IoError>> readDir() => platform.readDir(string);
+  Future<Result<io.ReadDir, IoError>> readDir() => io.readDir(string);
 
   /// {@macro path.Path.readLinkSync}
   Result<WindowsPath, IoError> readLinkSync() =>
-      platform.readLinkSync(string) as Result<WindowsPath, IoError>;
+      io.readLinkSync(string) as Result<WindowsPath, IoError>;
 
   /// {@macro path.Path.readLink}
   Future<Result<WindowsPath, IoError>> readLink() =>
-      platform.readLink(string) as Future<Result<WindowsPath, IoError>>;
+      io.readLink(string) as Future<Result<WindowsPath, IoError>>;
 
   /// {@macro path.Path.startsWith}
   bool startsWith(WindowsPath other) => string.startsWith(other.string);
@@ -228,10 +228,10 @@ extension type WindowsPath._(String string) implements Object {
   }
 
   /// {@macro path.Path.symlinkMetadataSync}
-  Result<platform.Metadata, IoError> symlinkMetadataSync() => platform.symlinkMetadataSync(string);
+  Result<io.Metadata, IoError> symlinkMetadataSync() => io.symlinkMetadataSync(string);
 
   /// {@macro path.Path.symlinkMetadata}
-  Future<Result<platform.Metadata, IoError>> symlinkMetadata() => platform.symlinkMetadata(string);
+  Future<Result<io.Metadata, IoError>> symlinkMetadata() => io.symlinkMetadata(string);
 
   /// {@macro path.Path.withExtension}
   WindowsPath withExtension(String extension) {
