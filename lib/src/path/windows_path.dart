@@ -13,7 +13,7 @@ extension UnixStringExtension on String {
 /// A Windows Path.
 /// {@macro path.Path}
 extension type WindowsPath._(String string) implements Object {
-  /// Returns whether io operations are supported. If false, is currently running on the web.
+  /// {@macro path.Path.isIoSupported}
   static bool isIoSupported() => platform.isIoSupported();
 
   static final RegExp _regularPathComponent = RegExp(r'^[ .\w-]+$');
@@ -22,6 +22,7 @@ extension type WindowsPath._(String string) implements Object {
 
   WindowsPath(this.string);
 
+  /// {@macro path.Path.ancestors}
   Iterable<WindowsPath> ancestors() sync* {
     yield this;
     WindowsPath? current = parent().v;
@@ -31,11 +32,10 @@ extension type WindowsPath._(String string) implements Object {
     }
   }
 
-// as_mut_os_str : will not be implemented
-// as_os_str : will not be implemented
-
+  /// {@macro path.Path.canonicalize}
   WindowsPath canonicalize() => WindowsPath(_windows.canonicalize(string));
 
+  /// {@macro path.Path.components}
   Iterable<WindowsComponent> components() sync* {
     bool removeLast;
     // trailing slash does not matter
@@ -88,19 +88,16 @@ extension type WindowsPath._(String string) implements Object {
     }
   }
 
-  /// String representation of the path
-  String display() => toString();
-
-  /// Determines whether other is a suffix of this.
+  /// {@macro path.Path.endsWith}
   bool endsWith(WindowsPath other) => string.endsWith(other.string);
 
-  /// Determines whether file exists on disk.
+  /// {@macro path.Path.existsSync}
   bool existsSync() => platform.existsSync(string);
 
-  /// Determines whether file exists on disk.
+  /// {@macro path.Path.exists}
   Future<bool> exists() => platform.exists(string);
 
-  /// Extracts the extension (without the leading dot) of self.file_name, if possible.
+  /// {@macro path.Path.extension}
   String extension() {
     String extensionWithDot = _windows.extension(string);
     if (extensionWithDot.isNotEmpty) {
@@ -110,16 +107,10 @@ extension type WindowsPath._(String string) implements Object {
     return extensionWithDot;
   }
 
-  /// Returns the final component of the Path, if there is one.
+  /// {@macro path.Path.fileName}
   String fileName() => _windows.basename(string);
 
-  /// Extracts the portion of the file name before the first "." -
-  ///
-  /// None, if there is no file name;
-  /// The entire file name if there is no embedded .;
-  /// The portion of the file name before the first non-beginning .;
-  /// The entire file name if the file name begins with . and has no other .s within;
-  /// The portion of the file name before the second . if the file name begins with .
+  /// {@macro path.Path.filePrefix}
   Option<String> filePrefix() {
     final value = _windows.basename(string);
     if (value.isEmpty) {
@@ -140,12 +131,7 @@ extension type WindowsPath._(String string) implements Object {
     return Some(value.split(".").first);
   }
 
-  /// Extracts the portion of the file name before the last "." -
-  ///
-  /// None, if there is no file name;
-  /// The entire file name if there is no embedded .;
-  /// The entire file name if the file name begins with . and has no other .s within;
-  /// Otherwise, the portion of the file name before the final .
+  /// {@macro path.Path.fileStem}
   Option<String> fileStem() {
     final fileStem = _windows.basenameWithoutExtension(string);
     if (fileStem.isEmpty) {
@@ -154,54 +140,46 @@ extension type WindowsPath._(String string) implements Object {
     return Some(fileStem);
   }
 
-  /// Returns true if the Path has a root.
+  /// {@macro path.Path.hasRoot}
   bool hasRoot() => _windows.rootPrefix(string) == _pathSeparator;
 
-  // into_path_buf : will not be implemented
-
-  /// Returns true if the Path is absolute, i.e., if it is independent of the current directory.
+  /// {@macro path.Path.isAbsolute}
   bool isAbsolute() => _windows.isAbsolute(string);
 
-  /// Returns true if the path exists on disk and is pointing at a directory. Does not follow links.
+  /// {@macro path.Path.isDirSync}
   bool isDirSync() => platform.isDirSync(string);
 
-  /// Returns true if the path exists on disk and is pointing at a directory. Does not follow links.
+  /// {@macro path.Path.isDir}
   Future<bool> isDir() => platform.isDir(string);
 
-  /// Returns true if the path exists on disk and is pointing at a regular file. Does not follow links.
+  /// {@macro path.Path.isFileSync}
   bool isFileSync() => platform.isFileSync(string);
 
-  /// Returns true if the path exists on disk and is pointing at a regular file. Does not follow links.
+  /// {@macro path.Path.isFile}
   Future<bool> isFile() => platform.isFile(string);
 
-  /// Returns true if the Path is relative, i.e., not absolute.
+  /// {@macro path.Path.isRelative}
   bool isRelative() => _windows.isRelative(string);
 
-  /// Returns true if the path exists on disk and is pointing at a symlink. Does not follow links.
+  /// {@macro path.Path.isSymlinkSync}
   bool isSymlinkSync() => platform.isSymlinkSync(string);
 
-  /// Returns true if the path exists on disk and is pointing at a symlink. Does not follow links.
+  /// {@macro path.Path.isSymlink}
   Future<bool> isSymlink() => platform.isSymlink(string);
 
-  /// Produces an iterator over the path’s components viewed as Strings
+  /// {@macro path.Path.iter}
   Iter<String> iter() => Iter.fromIterable(components().map((e) => e.toString()));
 
-  /// Creates an Path with path adjoined to this.
+  /// {@macro path.Path.join}
   WindowsPath join(WindowsPath other) => WindowsPath(_windows.join(string, other.string));
 
-  /// Queries the file system to get information about a file, directory, etc.
-  /// Note: using this method means that the program can no longer compile for the web.
+  /// {@macro path.Path.metadataSync}
   platform.Metadata metadataSync() => platform.metadataSync(string);
 
-  /// Queries the file system to get information about a file, directory, etc.
-  /// Note: using this method means that the program can no longer compile for the web.
+  /// {@macro path.Path.metadata}
   Future<platform.Metadata> metadata() => platform.metadata(string);
 
-// new : will not be implemented
-
-  /// Returns the Path without its final component, if there is one.
-  /// This means it returns Some("") for relative paths with one component.
-  /// Returns None if the path terminates in a root or prefix, or if it’s the empty string.
+  /// {@macro path.Path.normalize}
   Option<WindowsPath> parent() {
     final comps = components().toList();
     if (comps.length == 1) {
@@ -223,26 +201,24 @@ extension type WindowsPath._(String string) implements Object {
     return Some(_joinComponents(comps));
   }
 
-  /// Returns an iterator over the entries within a directory.
-  /// Note: using this method results in the program no longer being able to compile to web.
+  /// {@macro path.Path.readDirSync}
   Result<platform.ReadDir, IoError> readDirSync() => platform.readDirSync(string);
 
-  /// Returns an iterator over the entries within a directory.
-  /// Note: using this method results in the program no longer being able to compile to web.
+  /// {@macro path.Path.readDir}
   Future<Result<platform.ReadDir, IoError>> readDir() => platform.readDir(string);
 
-  /// Reads a symbolic link, returning the file that the link points to.
+  /// {@macro path.Path.readLinkSync}
   Result<WindowsPath, IoError> readLinkSync() =>
       platform.readLinkSync(string) as Result<WindowsPath, IoError>;
 
-  /// Reads a symbolic link, returning the file that the link points to.
+  /// {@macro path.Path.readLink}
   Future<Result<WindowsPath, IoError>> readLink() =>
       platform.readLink(string) as Future<Result<WindowsPath, IoError>>;
 
-  /// Determines whether other is a prefix of this.
+  /// {@macro path.Path.startsWith}
   bool startsWith(WindowsPath other) => string.startsWith(other.string);
 
-  /// Returns a path that, when joined onto base, yields this. Returns None if [prefix] is not a subpath of base.
+  /// {@macro path.Path.stripPrefix}
   Option<WindowsPath> stripPrefix(WindowsPath prefix) {
     if (!startsWith(prefix)) {
       return None;
@@ -251,20 +227,13 @@ extension type WindowsPath._(String string) implements Object {
     return Some(WindowsPath(newPath));
   }
 
-  /// Returns the metadata for the symlink.
-  /// Note: using this method means that the program can no longer compile for the web.
+  /// {@macro path.Path.symlinkMetadataSync}
   Result<platform.Metadata, IoError> symlinkMetadataSync() => platform.symlinkMetadataSync(string);
 
-  /// Returns the metadata for the symlink.
-  /// Note: using this method means that the program can no longer compile for the web.
+  /// {@macro path.Path.symlinkMetadata}
   Future<Result<platform.Metadata, IoError>> symlinkMetadata() => platform.symlinkMetadata(string);
 
-// to_path_buf: Will not implement, implementing a PathBuf does not make sense at the present (equality cannot hold for extension types and a potential PathBuf would likely be `StringBuffer` or `List<String>`).
-// to_str: Implemented by type
-// to_string_lossy: Will not be implemented
-// try_exists: Will not implement
-
-  /// Creates an Path like this but with the given extension.
+  /// {@macro path.Path.withExtension}
   WindowsPath withExtension(String extension) {
     final stem = fileStem().unwrapOr("");
     final parentOption = parent();
@@ -287,7 +256,7 @@ extension type WindowsPath._(String string) implements Object {
     return parentOption.unwrap().join(WindowsPath("$stem.$extension"));
   }
 
-  /// Creates an PathBuf like this but with the given file name.
+  /// {@macro path.Path.withFileName}
   WindowsPath withFileName(String fileName) {
     final parentOption = parent();
     return switch (parentOption) {
@@ -334,7 +303,8 @@ class WindowsPrefix extends WindowsComponent {
   const WindowsPrefix(this.value);
 
   @override
-  bool operator ==(Object other) => other == value || (other is WindowsPrefix && other.value == value);
+  bool operator ==(Object other) =>
+      other == value || (other is WindowsPrefix && other.value == value);
 
   @override
   int get hashCode => value.hashCode;
