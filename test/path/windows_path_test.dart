@@ -3,6 +3,44 @@ import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
 void main() {
+  test("components", () {
+    var components = WindowsPath("C:\\foo\\bar\\..\\.\\bar").components().iterator;
+    components.moveNext();
+    expect(components.current, Prefix("C:"));
+    components.moveNext();
+    expect(components.current, RootDir(true));
+    components.moveNext();
+    expect(components.current, Normal("foo"));
+    components.moveNext();
+    expect(components.current, Normal("bar"));
+    components.moveNext();
+    expect(components.current, const ParentDir());
+    components.moveNext();
+    expect(components.current, const CurDir());
+    components.moveNext();
+    expect(components.current, Normal("bar"));
+    expect(components.moveNext(), false);
+
+    components = WindowsPath("C:\\").components().iterator;
+    components.moveNext();
+    expect(components.current, Prefix("C:"));
+    components.moveNext();
+    expect(components.current, RootDir(true));
+    expect(components.moveNext(), false);
+
+    components = WindowsPath("C:").components().iterator;
+    components.moveNext();
+    expect(components.current, Prefix("C:"));
+    expect(components.moveNext(), false);
+
+    components = WindowsPath("foo\\bar").components().iterator;
+    components.moveNext();
+    expect(components.current, Normal("foo"));
+    components.moveNext();
+    expect(components.current, Normal("bar"));
+    expect(components.moveNext(), false);
+  });
+
   test("filePrefix", () {
     expect(WindowsPath("foo.rs").filePrefix().unwrap(), "foo");
     expect(WindowsPath("foo\\").filePrefix().unwrap(), "foo");
@@ -15,7 +53,8 @@ void main() {
     expect(WindowsPath("").filePrefix().isNone(), true);
 
     expect(
-        WindowsPath("\\Downloads\\The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
+        WindowsPath(
+                "\\Downloads\\The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
             .filePrefix()
             .unwrap(),
         "The Annual Report on the Health of the Parish of St");
@@ -32,7 +71,8 @@ void main() {
     expect(WindowsPath("").fileStem().isNone(), true);
 
     expect(
-        WindowsPath("\\Downloads\\The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
+        WindowsPath(
+                "\\Downloads\\The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
             .fileStem()
             .unwrap(),
         "The Annual Report on the Health of the Parish of St");
@@ -41,20 +81,20 @@ void main() {
   test("parent", () {
     expect(WindowsPath("temp\\foo.rs").parent().unwrap(), WindowsPath("temp"));
     expect(WindowsPath("foo\\").parent().unwrap(), WindowsPath(""));
-    expect(WindowsPath("C:\\foo\\").parent().unwrap(), WindowsPath("C:"));
+    expect(WindowsPath("C:\\foo\\").parent().unwrap(), WindowsPath("C:\\"));
     expect(WindowsPath(".foo").parent().unwrap(), WindowsPath(""));
     expect(WindowsPath(".foo.rs").parent().unwrap(), WindowsPath(""));
     expect(WindowsPath("foo").parent().unwrap(), WindowsPath(""));
     expect(WindowsPath("foo.tar.gz").parent().unwrap(), WindowsPath(""));
     expect(WindowsPath("temp\\foo.tar.gz").parent().unwrap(), WindowsPath("temp"));
-    expect(WindowsPath("temp1\\temp2\\foo.tar.gz").parent().unwrap(),
-        WindowsPath("temp1\\temp2"));
-    expect(WindowsPath("temp1\\temp2\\\\foo.tar.gz").parent().unwrap(),
-        WindowsPath("temp1\\temp2"));
+    expect(WindowsPath("temp1\\temp2\\foo.tar.gz").parent().unwrap(), WindowsPath("temp1\\temp2"));
+    expect(
+        WindowsPath("temp1\\temp2\\\\foo.tar.gz").parent().unwrap(), WindowsPath("temp1\\temp2"));
     expect(WindowsPath("").parent().isNone(), true);
 
     expect(
-        WindowsPath("\\Downloads\\The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
+        WindowsPath(
+                "\\Downloads\\The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
             .parent()
             .unwrap(),
         WindowsPath("\\Downloads"));
@@ -67,7 +107,7 @@ void main() {
     ancestors.moveNext();
     expect(ancestors.current, WindowsPath("C:\\foo"));
     ancestors.moveNext();
-    expect(ancestors.current, WindowsPath("C:"));
+    expect(ancestors.current, WindowsPath("C:\\"));
     expect(ancestors.moveNext(), false);
 
     // Relative WindowsPaths should work similarly but without drive letters
@@ -121,27 +161,26 @@ void main() {
     expect(WindowsPath("C:\\tmp\\foo.tar.gz").withExtension("tar.gz"),
         WindowsPath("C:\\tmp\\foo.tar.tar.gz"));
     expect(WindowsPath("tmp\\foo").withExtension("tar.gz"), WindowsPath("tmp\\foo.tar.gz"));
-    expect(WindowsPath("tmp\\.foo.tar").withExtension("tar.gz"),
-        WindowsPath("tmp\\.foo.tar.gz"));
+    expect(WindowsPath("tmp\\.foo.tar").withExtension("tar.gz"), WindowsPath("tmp\\.foo.tar.gz"));
 
     expect(
-        WindowsPath("\\Downloads\\The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
-            .withExtension(""),
         WindowsPath(
-            "\\Downloads\\The Annual Report on the Health of the Parish of St"));
+                "\\Downloads\\The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
+            .withExtension(""),
+        WindowsPath("\\Downloads\\The Annual Report on the Health of the Parish of St"));
   });
 
   test("withFileName", () {
     expect(WindowsPath("foo").withFileName("bar"), WindowsPath("bar"));
     expect(WindowsPath("foo.rs").withFileName("bar"), WindowsPath("bar"));
     expect(WindowsPath("foo.tar.gz").withFileName("bar"), WindowsPath("bar"));
-    expect(
-        WindowsPath("C:\\tmp\\foo.tar.gz").withFileName("bar"), WindowsPath("C:\\tmp\\bar"));
+    expect(WindowsPath("C:\\tmp\\foo.tar.gz").withFileName("bar"), WindowsPath("C:\\tmp\\bar"));
     expect(WindowsPath("tmp\\foo").withFileName("bar"), WindowsPath("tmp\\bar"));
     expect(WindowsPath("C:\\var").withFileName("bar"), WindowsPath("C:\\bar"));
 
     expect(
-        WindowsPath("\\Downloads\\The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
+        WindowsPath(
+                "\\Downloads\\The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
             .withFileName("dave"),
         WindowsPath("\\Downloads\\dave"));
   });
@@ -158,7 +197,8 @@ void main() {
     expect(WindowsPath("\\..d").extension(), "d");
 
     expect(
-        WindowsPath("\\Downloads\\The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
+        WindowsPath(
+                "\\Downloads\\The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
             .extension(),
         " Mary Abbotts, Kensington, during the year 1874");
   });

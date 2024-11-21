@@ -1,5 +1,3 @@
-import 'package:rust/src/path/is_windows/web.dart';
-
 import 'platform_path.dart';
 import 'unix_path.dart';
 import 'windows_path.dart';

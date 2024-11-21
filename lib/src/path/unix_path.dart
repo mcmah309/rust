@@ -14,7 +14,6 @@ extension type UnixPath._(String string) implements Object {
   /// {@endtemplate}
   static const bool isIoSupported = io.isIoSupported;
 
-  static final RegExp _regularPathComponent = RegExp(r'^[ \\.\w-]+$');
   static final RegExp _oneOrMoreSlashes = RegExp('$separator+');
   static final p.Context _posix = p.Context(style: p.Style.posix);
 
@@ -48,7 +47,7 @@ extension type UnixPath._(String string) implements Object {
     // trailing slash does not matter
     if (string.endsWith(separator)) {
       if (string.length == 1) {
-        yield RootDir(false);
+        yield const RootDir(false);
         return;
       }
       removeLast = true;
@@ -65,20 +64,16 @@ extension type UnixPath._(String string) implements Object {
     var current = iterator.current;
     switch (current) {
       case "":
-        yield RootDir(false);
+        yield const RootDir(false);
         break;
       case ".":
-        yield CurDir();
+        yield const CurDir();
         break;
       case "..":
-        yield ParentDir();
+        yield const ParentDir();
         break;
       default:
-        if (_regularPathComponent.hasMatch(current)) {
-          yield Normal(current);
-        } else {
-          yield Prefix(current);
-        }
+        yield Normal(current);
     }
     while (iterator.moveNext()) {
       current = iterator.current;
@@ -254,8 +249,9 @@ extension type UnixPath._(String string) implements Object {
     if (comps.length == 1) {
       switch (comps.first) {
         case RootDir():
-        case Prefix():
           return None;
+        case Prefix():
+          unreachable("Prefixes are not possible for Unix");
         case ParentDir():
         case CurDir():
         case Normal():

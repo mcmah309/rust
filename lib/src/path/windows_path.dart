@@ -4,7 +4,6 @@ import 'package:rust/rust.dart';
 import 'io/io.dart' as io;
 import 'utils.dart';
 
-
 /// A Windows Path.
 /// {@macro path.Path}
 extension type WindowsPath._(String string) implements Object {
@@ -55,29 +54,32 @@ extension type WindowsPath._(String string) implements Object {
     var current = iterator.current;
     switch (current) {
       case "":
-        yield RootDir(true);
+        yield const RootDir(true);
         break;
       case ".":
-        yield CurDir();
+        yield const CurDir();
         break;
       case "..":
-        yield ParentDir();
+        yield const ParentDir();
         break;
       default:
         if (_regularPathComponent.hasMatch(current)) {
           yield Normal(current);
         } else {
           yield Prefix(current);
+          if (string.replaceFirst(current, "").startsWith(separator)) {
+            yield const RootDir(true);
+          }
         }
     }
     while (iterator.moveNext()) {
       current = iterator.current;
       switch (current) {
         case ".":
-          yield CurDir();
+          yield const CurDir();
           break;
         case "..":
-          yield ParentDir();
+          yield const ParentDir();
           break;
         default:
           yield Normal(current);
@@ -195,6 +197,12 @@ extension type WindowsPath._(String string) implements Object {
     } else {
       return None;
     }
+    if (comps.length == 1) {
+      final prefix = comps[0];
+      if (prefix case Prefix(value: final prefix)) {
+        return None;
+      }
+    }
     return Some(_joinComponents(comps));
   }
 
@@ -268,15 +276,29 @@ WindowsPath _joinComponents(Iterable<Component> components) {
   final buffer = StringBuffer();
   final iterator = components.iterator;
   forEachExceptFirstAndLast(iterator, doFirst: (e) {
-    if (e is RootDir) {
-      buffer.write(WindowsPath.separator);
-    } else {
-      buffer.write(e);
-      buffer.write(WindowsPath.separator);
+    switch (e) {
+      case Prefix():
+        buffer.write(e);
+      case RootDir():
+        buffer.write(WindowsPath.separator);
+      case CurDir():
+      case ParentDir():
+      case Normal():
+        buffer.write(e);
+        buffer.write(WindowsPath.separator);
     }
   }, doRest: (e) {
-    buffer.write(e);
-    buffer.write(WindowsPath.separator);
+    switch (e) {
+      case Prefix():
+        unreachable();
+      case RootDir():
+        buffer.write(WindowsPath.separator);
+      case CurDir():
+      case ParentDir():
+      case Normal():
+        buffer.write(e);
+        buffer.write(WindowsPath.separator);
+    }
   }, doLast: (e) {
     buffer.write(e);
   }, doIfOnlyOne: (e) {

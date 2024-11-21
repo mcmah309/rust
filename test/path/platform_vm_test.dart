@@ -3,7 +3,6 @@
 import 'dart:io';
 
 import 'package:rust/rust.dart';
-import 'package:rust/src/path/io/unsupported.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
