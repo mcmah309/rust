@@ -199,7 +199,7 @@ extension type WindowsPath._(String string) implements Object {
     }
     if (comps.length == 1) {
       final prefix = comps[0];
-      if (prefix case Prefix(value: final prefix)) {
+      if (prefix case Prefix()) {
         return None;
       }
     }
