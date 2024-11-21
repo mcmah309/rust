@@ -24,7 +24,6 @@ extension Path$StringExtension on String {
 /// A component of a path. A [Component] roughly corresponds to a substring between path separators (/ or \).
 /// e.g. `..`, `dir_name`, `file_name.txt`
 /// {@endtemplate}
-/// Platform Independent.
 sealed class Component {
   const Component();
 }
@@ -32,7 +31,6 @@ sealed class Component {
 /// {@template path.Prefix}
 /// A Windows path prefix, e.g., C: or \\server\share. Does not occur on Unix.
 /// {@endtemplate}
-/// Platform Independent.
 class Prefix extends Component {
   final String value;
   const Prefix(this.value);
@@ -51,7 +49,6 @@ class Prefix extends Component {
 /// The root directory component, appears after any prefix and before anything else.
 /// It represents a separator that designates that a path starts from root.
 /// {@endtemplate}
-/// Platform Independent.
 class RootDir extends Component {
   final bool isWindows;
 
@@ -70,7 +67,6 @@ class RootDir extends Component {
 /// {@template path.CurDir}
 /// The current directory of a path. i.e. `.`
 /// {@endtemplate}
-/// Platform Independent.
 class CurDir extends Component {
   const CurDir();
 
@@ -87,7 +83,6 @@ class CurDir extends Component {
 /// {@template path.ParentDir}
 /// The parent directory of a path. i.e. `..`
 /// {@endtemplate}
-/// Platform Independent.
 class ParentDir extends Component {
   const ParentDir();
 
@@ -104,7 +99,6 @@ class ParentDir extends Component {
 /// {@template path.Normal}
 /// A normal component, e.g., `a` and `b` in `a/b`
 /// {@endtemplate}
-/// Platform Independent.
 class Normal extends Component {
   final String value;
   Normal(this.value);

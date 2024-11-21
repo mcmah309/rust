@@ -1,12 +1,11 @@
 part of 'path.dart';
 
-// This is a stub. The correct Path implementation will be imported on compilation.
+/// A platform dependent [Path] type. Thus, will use windows paths on windows and unix paths on all other platforms.
 /// {@template path.Path}
 /// [Path] is for handling file paths in a type-safe manner.
 /// This type supports a number of operations for inspecting a path, including breaking the path into its components,
 /// extracting the file name, determining whether the path is absolute, and so on.
 /// {@endtemplate}
-/// Platform Independent.
 extension type Path._(String _string) implements Object {
   static String get separator => isWindows ? WindowsPath.separator : UnixPath.separator;
 
