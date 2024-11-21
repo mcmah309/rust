@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:rust/rust.dart';
 
 part 'future_result.dart';
+part 'guard.dart';
+part 'record_to_result_extensions.dart';
+part 'result_extensions.dart';
 
 /// {@template result}
 /// [Result] is used for propagating errors and represents the sum type of [Ok] and [Err].

@@ -41,10 +41,7 @@ export 'src/panic/unreachable.dart';
 export 'src/path/path.dart';
 
 // result
-export 'src/result/guard.dart';
-export 'src/result/record_to_result_extensions.dart';
 export 'src/result/result.dart';
-export 'src/result/result_extensions.dart';
 
 // slice
 export 'src/slice/slice.dart';

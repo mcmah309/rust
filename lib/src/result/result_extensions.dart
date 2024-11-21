@@ -1,6 +1,4 @@
-import 'dart:async';
-
-import 'package:rust/rust.dart';
+part of 'result.dart';
 
 extension Result$ResultResultExtension<S, F extends Object> on Result<Result<S, F>, F> {
   /// Converts a [Result] of a [Result] into a single [Result]
