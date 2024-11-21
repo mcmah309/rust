@@ -3,6 +3,35 @@ import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
 void main() {
+  test("components", () {
+    var components = UnixPath("/foo/bar/.././bar").components().iterator;
+    components.moveNext();
+    expect(components.current, RootDir(false));
+    components.moveNext();
+    expect(components.current, Normal("foo"));
+    components.moveNext();
+    expect(components.current, Normal("bar"));
+    components.moveNext();
+    expect(components.current, const ParentDir());
+    components.moveNext();
+    expect(components.current, const CurDir());
+    components.moveNext();
+    expect(components.current, Normal("bar"));
+    expect(components.moveNext(), false);
+
+    components = UnixPath("/").components().iterator;
+    components.moveNext();
+    expect(components.current, RootDir(false));
+    expect(components.moveNext(), false);
+
+    components = UnixPath("foo/bar").components().iterator;
+    components.moveNext();
+    expect(components.current, Normal("foo"));
+    components.moveNext();
+    expect(components.current, Normal("bar"));
+    expect(components.moveNext(), false);
+  });
+
   test("filePrefix", () {
     expect(UnixPath("foo.rs").filePrefix().unwrap(), "foo");
     expect(UnixPath("foo/").filePrefix().unwrap(), "foo");
@@ -15,7 +44,8 @@ void main() {
     expect(UnixPath("").filePrefix().isNone(), true);
 
     expect(
-        UnixPath("/Downloads/The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
+        UnixPath(
+                "/Downloads/The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
             .filePrefix()
             .unwrap(),
         "The Annual Report on the Health of the Parish of St");
@@ -32,7 +62,8 @@ void main() {
     expect(UnixPath("").fileStem().isNone(), true);
 
     expect(
-        UnixPath("/Downloads/The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
+        UnixPath(
+                "/Downloads/The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
             .fileStem()
             .unwrap(),
         "The Annual Report on the Health of the Parish of St");
@@ -47,14 +78,13 @@ void main() {
     expect(UnixPath("foo").parent().unwrap(), UnixPath(""));
     expect(UnixPath("foo.tar.gz").parent().unwrap(), UnixPath(""));
     expect(UnixPath("temp/foo.tar.gz").parent().unwrap(), UnixPath("temp"));
-    expect(
-        UnixPath("temp1/temp2/foo.tar.gz").parent().unwrap(), UnixPath("temp1/temp2"));
-    expect(
-        UnixPath("temp1/temp2//foo.tar.gz").parent().unwrap(), UnixPath("temp1/temp2"));
+    expect(UnixPath("temp1/temp2/foo.tar.gz").parent().unwrap(), UnixPath("temp1/temp2"));
+    expect(UnixPath("temp1/temp2//foo.tar.gz").parent().unwrap(), UnixPath("temp1/temp2"));
     expect(UnixPath("").parent().isNone(), true);
 
     expect(
-        UnixPath("/Downloads/The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
+        UnixPath(
+                "/Downloads/The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
             .parent()
             .unwrap(),
         UnixPath("/Downloads"));
@@ -117,14 +147,13 @@ void main() {
     expect(UnixPath("foo.tar.gz").withExtension("rs"), UnixPath("foo.tar.rs"));
     expect(UnixPath("foo.tar.gz").withExtension(""), UnixPath("foo.tar"));
     expect(UnixPath("foo.tar.gz").withExtension("tar.gz"), UnixPath("foo.tar.tar.gz"));
-    expect(UnixPath("/tmp/foo.tar.gz").withExtension("tar.gz"),
-        UnixPath("/tmp/foo.tar.tar.gz"));
+    expect(UnixPath("/tmp/foo.tar.gz").withExtension("tar.gz"), UnixPath("/tmp/foo.tar.tar.gz"));
     expect(UnixPath("tmp/foo").withExtension("tar.gz"), UnixPath("tmp/foo.tar.gz"));
-    expect(
-        UnixPath("tmp/.foo.tar").withExtension("tar.gz"), UnixPath("tmp/.foo.tar.gz"));
+    expect(UnixPath("tmp/.foo.tar").withExtension("tar.gz"), UnixPath("tmp/.foo.tar.gz"));
 
     expect(
-        UnixPath("/Downloads/The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
+        UnixPath(
+                "/Downloads/The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
             .withExtension(""),
         UnixPath("/Downloads/The Annual Report on the Health of the Parish of St"));
   });
@@ -138,7 +167,8 @@ void main() {
     expect(UnixPath("/var").withFileName("bar"), UnixPath("/bar"));
 
     expect(
-        UnixPath("/Downloads/The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
+        UnixPath(
+                "/Downloads/The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
             .withFileName("dave"),
         UnixPath("/Downloads/dave"));
   });
@@ -155,7 +185,8 @@ void main() {
     expect(UnixPath("/..d").extension(), "d");
 
     expect(
-        UnixPath("/Downloads/The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
+        UnixPath(
+                "/Downloads/The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
             .extension(),
         " Mary Abbotts, Kensington, during the year 1874");
   });
