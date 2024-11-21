@@ -4,11 +4,12 @@ import 'package:rust/rust.dart';
 import 'io/io.dart' as io;
 import 'utils.dart';
 
-const _pathSeparator = "\\";
 
 /// A Windows Path.
 /// {@macro path.Path}
 extension type WindowsPath._(String string) implements Object {
+  static const String separator = "\\";
+
   /// {@macro path.Path.isIoSupported}
   static const bool isIoSupported = io.isIoSupported;
 
@@ -16,7 +17,7 @@ extension type WindowsPath._(String string) implements Object {
   static final RegExp _oneOrMoreSlashes = RegExp(r'\\+');
   static final p.Context _windows = p.Context(style: p.Style.windows);
 
-  WindowsPath(this.string);
+  const WindowsPath(this.string);
 
   /// {@macro path.Path.ancestors}
   Iterable<WindowsPath> ancestors() sync* {
@@ -32,12 +33,12 @@ extension type WindowsPath._(String string) implements Object {
   WindowsPath canonicalize() => WindowsPath(_windows.canonicalize(string));
 
   /// {@macro path.Path.components}
-  Iterable<WindowsComponent> components() sync* {
+  Iterable<Component> components() sync* {
     bool removeLast;
     // trailing slash does not matter
-    if (string.endsWith(_pathSeparator)) {
+    if (string.endsWith(separator)) {
       if (string.length == 1) {
-        yield WindowsRootDir();
+        yield RootDir(true);
         return;
       }
       removeLast = true;
@@ -54,32 +55,32 @@ extension type WindowsPath._(String string) implements Object {
     var current = iterator.current;
     switch (current) {
       case "":
-        yield WindowsRootDir();
+        yield RootDir(true);
         break;
       case ".":
-        yield WindowsCurDir();
+        yield CurDir();
         break;
       case "..":
-        yield WindowsParentDir();
+        yield ParentDir();
         break;
       default:
         if (_regularPathComponent.hasMatch(current)) {
-          yield WindowsNormal(current);
+          yield Normal(current);
         } else {
-          yield WindowsPrefix(current);
+          yield Prefix(current);
         }
     }
     while (iterator.moveNext()) {
       current = iterator.current;
       switch (current) {
         case ".":
-          yield WindowsCurDir();
+          yield CurDir();
           break;
         case "..":
-          yield WindowsParentDir();
+          yield ParentDir();
           break;
         default:
-          yield WindowsNormal(current);
+          yield Normal(current);
       }
     }
   }
@@ -137,7 +138,7 @@ extension type WindowsPath._(String string) implements Object {
   }
 
   /// {@macro path.Path.hasRoot}
-  bool hasRoot() => _windows.rootPrefix(string) == _pathSeparator;
+  bool hasRoot() => _windows.rootPrefix(string) == separator;
 
   /// {@macro path.Path.isAbsolute}
   bool isAbsolute() => _windows.isAbsolute(string);
@@ -180,12 +181,12 @@ extension type WindowsPath._(String string) implements Object {
     final comps = components().toList();
     if (comps.length == 1) {
       switch (comps.first) {
-        case WindowsRootDir():
-        case WindowsPrefix():
+        case RootDir():
+        case Prefix():
           return None;
-        case WindowsParentDir():
-        case WindowsCurDir():
-        case WindowsNormal():
+        case ParentDir():
+        case CurDir():
+        case Normal():
           return Some(WindowsPath(""));
       }
     }
@@ -263,19 +264,19 @@ extension type WindowsPath._(String string) implements Object {
   }
 }
 
-WindowsPath _joinComponents(Iterable<WindowsComponent> components) {
+WindowsPath _joinComponents(Iterable<Component> components) {
   final buffer = StringBuffer();
   final iterator = components.iterator;
   forEachExceptFirstAndLast(iterator, doFirst: (e) {
-    if (e is WindowsRootDir) {
-      buffer.write(_pathSeparator);
+    if (e is RootDir) {
+      buffer.write(WindowsPath.separator);
     } else {
       buffer.write(e);
-      buffer.write(_pathSeparator);
+      buffer.write(WindowsPath.separator);
     }
   }, doRest: (e) {
     buffer.write(e);
-    buffer.write(_pathSeparator);
+    buffer.write(WindowsPath.separator);
   }, doLast: (e) {
     buffer.write(e);
   }, doIfOnlyOne: (e) {
@@ -284,85 +285,4 @@ WindowsPath _joinComponents(Iterable<WindowsComponent> components) {
     return buffer.write("");
   });
   return WindowsPath(buffer.toString());
-}
-
-//************************************************************************//
-
-/// {@macro path.Component}
-sealed class WindowsComponent {
-  const WindowsComponent();
-}
-
-/// {@macro path.Prefix}
-class WindowsPrefix extends WindowsComponent {
-  final String value;
-  const WindowsPrefix(this.value);
-
-  @override
-  bool operator ==(Object other) =>
-      other == value || (other is WindowsPrefix && other.value == value);
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// {@macro path.RootDir}
-class WindowsRootDir extends WindowsComponent {
-  const WindowsRootDir();
-
-  @override
-  bool operator ==(Object other) => other == _pathSeparator || other is WindowsRootDir;
-
-  @override
-  int get hashCode => _pathSeparator.hashCode;
-
-  @override
-  String toString() => _pathSeparator;
-}
-
-/// {@macro path.CurDir}
-class WindowsCurDir extends WindowsComponent {
-  const WindowsCurDir();
-
-  @override
-  bool operator ==(Object other) => other == "." || other is WindowsCurDir;
-
-  @override
-  int get hashCode => ".".hashCode;
-
-  @override
-  String toString() => ".";
-}
-
-/// {@macro path.ParentDir}
-class WindowsParentDir extends WindowsComponent {
-  const WindowsParentDir();
-
-  @override
-  bool operator ==(Object other) => other == ".." || other is WindowsParentDir;
-
-  @override
-  int get hashCode => "..".hashCode;
-
-  @override
-  String toString() => "..";
-}
-
-/// {@macro path.Normal}
-class WindowsNormal extends WindowsComponent {
-  final String value;
-  WindowsNormal(this.value);
-
-  @override
-  bool operator ==(Object other) =>
-      other == value || (other is WindowsNormal && other.value == value);
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
