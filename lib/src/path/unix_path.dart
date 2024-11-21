@@ -1,12 +1,8 @@
-import 'package:path/path.dart' as p;
-import 'package:rust/rust.dart';
-
-import 'io/io.dart' as io;
-import 'utils.dart';
+part of 'path.dart';
 
 /// A Unix Path.
 /// {@macro path.Path}
-extension type UnixPath._(String string) implements Object {
+extension type UnixPath._(String _string) implements Object {
   static const String separator = "/";
 
   /// {@template path.Path.isIoSupported}
@@ -17,7 +13,10 @@ extension type UnixPath._(String string) implements Object {
   static final RegExp _oneOrMoreSlashes = RegExp('$separator+');
   static final p.Context _posix = p.Context(style: p.Style.posix);
 
-  UnixPath(this.string);
+  UnixPath(this._string);
+
+  @pragma("vm:prefer-inline")
+  String asString() => _string;
 
   /// {@template path.Path.ancestors}
   /// Produces an iterator over Path and its ancestors. e.g. `/a/b/c` will produce `/a/b/c`, `/a/b`, `/a`, and `/`.
@@ -37,7 +36,7 @@ extension type UnixPath._(String string) implements Object {
   /// {@template path.Path.canonicalize}
   /// Returns the canonical, absolute form of the path with all intermediate components normalized.
   /// {@endtemplate}
-  UnixPath canonicalize() => UnixPath(_posix.canonicalize(string));
+  UnixPath canonicalize() => UnixPath(_posix.canonicalize(_string));
 
   /// {@template path.Path.components}
   /// Produces an iterator over the Components of the path.
@@ -45,8 +44,8 @@ extension type UnixPath._(String string) implements Object {
   Iterable<Component> components() sync* {
     bool removeLast;
     // trailing slash does not matter
-    if (string.endsWith(separator)) {
-      if (string.length == 1) {
+    if (_string.endsWith(separator)) {
+      if (_string.length == 1) {
         yield const RootDir(false);
         return;
       }
@@ -54,7 +53,7 @@ extension type UnixPath._(String string) implements Object {
     } else {
       removeLast = false;
     }
-    final splits = string.split(_oneOrMoreSlashes);
+    final splits = _string.split(_oneOrMoreSlashes);
     if (removeLast) {
       splits.removeLast();
     }
@@ -93,23 +92,23 @@ extension type UnixPath._(String string) implements Object {
   /// {@template path.Path.endsWith}
   /// Determines whether other is a suffix of this.
   /// {@endtemplate}
-  bool endsWith(UnixPath other) => string.endsWith(other.string);
+  bool endsWith(UnixPath other) => _string.endsWith(other._string);
 
   /// {@template path.Path.existsSync}
   /// Determines whether file exists on disk.
   /// {@endtemplate}
-  bool existsSync() => io.existsSync(string);
+  bool existsSync() => io.existsSync(_string);
 
   /// {@template path.Path.exists}
   /// Determines whether file exists on disk.
   /// {@endtemplate}
-  Future<bool> exists() => io.exists(string);
+  Future<bool> exists() => io.exists(_string);
 
   /// {@template path.Path.extension}
   /// Extracts the extension (without the leading dot) of self.file_name, if possible.
   /// {@endtemplate}
   String extension() {
-    String extensionWithDot = _posix.extension(string);
+    String extensionWithDot = _posix.extension(_string);
     if (extensionWithDot.isNotEmpty) {
       assert(extensionWithDot.startsWith("."));
       return extensionWithDot.replaceFirst(".", "");
@@ -120,7 +119,7 @@ extension type UnixPath._(String string) implements Object {
   /// {@template path.Path.fileName}
   /// Returns the final component of the Path, if there is one.
   /// {@endtemplate}
-  String fileName() => _posix.basename(string);
+  String fileName() => _posix.basename(_string);
 
   /// {@template path.Path.filePrefix}
   /// Extracts the portion of the file name before the first "." -
@@ -132,7 +131,7 @@ extension type UnixPath._(String string) implements Object {
   /// The portion of the file name before the second . if the file name begins with .
   /// {@endtemplate}
   Option<String> filePrefix() {
-    final value = _posix.basename(string);
+    final value = _posix.basename(_string);
     if (value.isEmpty) {
       return None;
     }
@@ -160,7 +159,7 @@ extension type UnixPath._(String string) implements Object {
   /// Otherwise, the portion of the file name before the final .
   /// {@endtemplate}
   Option<String> fileStem() {
-    final fileStem = _posix.basenameWithoutExtension(string);
+    final fileStem = _posix.basenameWithoutExtension(_string);
     if (fileStem.isEmpty) {
       return None;
     }
@@ -170,49 +169,49 @@ extension type UnixPath._(String string) implements Object {
   /// {@template path.Path.hasRoot}
   /// Returns true if the Path has a root.
   /// {@endtemplate}
-  bool hasRoot() => _posix.rootPrefix(string) == separator;
+  bool hasRoot() => _posix.rootPrefix(_string) == separator;
 
   // into_path_buf : will not be implemented
 
   /// {@template path.Path.isAbsolute}
   /// Returns true if the Path is absolute, i.e., if it is independent of the current directory.
   /// {@endtemplate}
-  bool isAbsolute() => _posix.isAbsolute(string);
+  bool isAbsolute() => _posix.isAbsolute(_string);
 
   /// {@template path.Path.isDirSync}
   /// Returns true if the path exists on disk and is pointing at a directory. Does not follow links.
   /// {@endtemplate}
-  bool isDirSync() => io.isDirSync(string);
+  bool isDirSync() => io.isDirSync(_string);
 
   /// {@template path.Path.isDir}
   /// Returns true if the path exists on disk and is pointing at a directory. Does not follow links.
   /// {@endtemplate}
-  Future<bool> isDir() => io.isDir(string);
+  Future<bool> isDir() => io.isDir(_string);
 
   /// {@template path.Path.isFileSync}
   /// Returns true if the path exists on disk and is pointing at a regular file. Does not follow links.
   /// {@endtemplate}
-  bool isFileSync() => io.isFileSync(string);
+  bool isFileSync() => io.isFileSync(_string);
 
   /// {@template path.Path.isFile}
   /// Returns true if the path exists on disk and is pointing at a regular file. Does not follow links.
   /// {@endtemplate}
-  Future<bool> isFile() => io.isFile(string);
+  Future<bool> isFile() => io.isFile(_string);
 
   /// {@template path.Path.isRelative}
   /// Returns true if the Path is relative, i.e., not absolute.
   /// {@endtemplate}
-  bool isRelative() => _posix.isRelative(string);
+  bool isRelative() => _posix.isRelative(_string);
 
   /// {@template path.Path.isRoot}
   /// Returns true if the path exists on disk and is pointing at a symlink. Does not follow links.
   /// {@endtemplate}
-  bool isSymlinkSync() => io.isSymlinkSync(string);
+  bool isSymlinkSync() => io.isSymlinkSync(_string);
 
   /// {@template path.Path.isSymlink}
   /// Returns true if the path exists on disk and is pointing at a symlink. Does not follow links.
   /// {@endtemplate}
-  Future<bool> isSymlink() => io.isSymlink(string);
+  Future<bool> isSymlink() => io.isSymlink(_string);
 
   /// {@template path.Path.iter}
   /// Produces an iterator over the path’s components viewed as Strings
@@ -223,19 +222,19 @@ extension type UnixPath._(String string) implements Object {
   /// {@template path.Path.join}
   /// Creates an Path with path adjoined to this.
   /// {@endtemplate}
-  UnixPath join(UnixPath other) => UnixPath(_posix.join(string, other.string));
+  UnixPath join(UnixPath other) => UnixPath(_posix.join(_string, other._string));
 
   /// {@template path.Path.metadataSync}
   /// Queries the file system to get information about a file, directory, etc.
   /// Note: using this method means that the program can no longer compile for the web.
   /// {@endtemplate}
-  io.Metadata metadataSync() => io.metadataSync(string);
+  io.Metadata metadataSync() => io.metadataSync(_string);
 
   /// {@template path.Path.metadata}
   /// Queries the file system to get information about a file, directory, etc.
   /// Note: using this method means that the program can no longer compile for the web.
   /// {@endtemplate}
-  Future<io.Metadata> metadata() => io.metadata(string);
+  Future<io.Metadata> metadata() => io.metadata(_string);
 
 // new : will not be implemented
 
@@ -263,7 +262,7 @@ extension type UnixPath._(String string) implements Object {
     } else {
       return None;
     }
-    return Some(_joinComponents(comps));
+    return Some(_joinUnixComponents(comps));
   }
 
   /// {@template path.Path.readDirSync}
@@ -271,31 +270,31 @@ extension type UnixPath._(String string) implements Object {
   /// Note: using this method results in the program no longer being able to compile to web.
   /// {@endtemplate}
   Result<io.ReadDir, PathIoError> readDirSync() =>
-      io.readDirSync(string);
+      io.readDirSync(_string);
 
   /// {@template path.Path.readDir}
   /// Returns an iterator over the entries within a directory.
   /// Note: using this method results in the program no longer being able to compile to web.
   /// {@endtemplate}
   Future<Result<io.ReadDir, PathIoError>> readDir() =>
-      io.readDir(string);
+      io.readDir(_string);
 
   /// {@template path.Path.readLinkSync}
   /// Reads a symbolic link, returning the file that the link points to.
   /// {@endtemplate}
   Result<UnixPath, PathIoError> readLinkSync() =>
-      io.readLinkSync(string) as Result<UnixPath, PathIoError>;
+      io.readLinkSync(_string) as Result<UnixPath, PathIoError>;
 
   /// {@template path.Path.readLink}
   /// Reads a symbolic link, returning the file that the link points to.
   /// {@endtemplate}
   Future<Result<UnixPath, PathIoError>> readLink() =>
-      io.readLink(string) as Future<Result<UnixPath, PathIoError>>;
+      io.readLink(_string) as Future<Result<UnixPath, PathIoError>>;
 
   /// {@template path.Path.relativeTo}
   /// Determines whether other is a prefix of this.
   /// {@endtemplate}
-  bool startsWith(UnixPath other) => string.startsWith(other.string);
+  bool startsWith(UnixPath other) => _string.startsWith(other._string);
 
   /// {@template path.Path.stripPrefix}
   /// Returns a path that, when joined onto base, yields this. Returns None if [prefix] is not a subpath of base.
@@ -304,7 +303,7 @@ extension type UnixPath._(String string) implements Object {
     if (!startsWith(prefix)) {
       return None;
     }
-    final newPath = string.substring(prefix.string.length);
+    final newPath = _string.substring(prefix._string.length);
     return Some(UnixPath(newPath));
   }
 
@@ -313,14 +312,14 @@ extension type UnixPath._(String string) implements Object {
   /// Note: using this method means that the program can no longer compile for the web.
   /// {@endtemplate}
   Result<io.Metadata, PathIoError> symlinkMetadataSync() =>
-      io.symlinkMetadataSync(string);
+      io.symlinkMetadataSync(_string);
 
   /// {@template path.Path.symlinkMetadata}
   /// Returns the metadata for the symlink.
   /// Note: using this method means that the program can no longer compile for the web.
   /// {@endtemplate}
   Future<Result<io.Metadata, PathIoError>> symlinkMetadata() =>
-      io.symlinkMetadata(string);
+      io.symlinkMetadata(_string);
 
 // to_path_buf: Will not implement, implementing a PathBuf does not make sense at the present (equality cannot hold for extension types and a potential PathBuf would likely be `StringBuffer` or `List<String>`).
 // to_str: Implemented by type
@@ -365,7 +364,7 @@ extension type UnixPath._(String string) implements Object {
   }
 }
 
-UnixPath _joinComponents(Iterable<Component> components) {
+UnixPath _joinUnixComponents(Iterable<Component> components) {
   final buffer = StringBuffer();
   final iterator = components.iterator;
   forEachExceptFirstAndLast(iterator, doFirst: (e) {

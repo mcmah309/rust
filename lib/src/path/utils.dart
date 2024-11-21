@@ -1,3 +1,6 @@
+import 'package:meta/meta.dart';
+
+@internal
 @pragma('vm:prefer-inline')
 void forEachExceptFirstAndLast<E>(Iterator<E> iterator,
     {required Function(E)? doFirst,

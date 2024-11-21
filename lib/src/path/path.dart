@@ -1,11 +1,16 @@
-import 'platform_path.dart';
-import 'unix_path.dart';
-import 'windows_path.dart';
+import 'package:rust/rust.dart';
+import 'package:path/path.dart' as p;
+import 'is_windows/is_windows.dart';
 
-export 'platform_path.dart';
-export 'windows_path.dart';
-export 'unix_path.dart';
+import 'io/io.dart' as io;
+import 'utils.dart';
+
 export 'io_error.dart';
+
+part 'platform_path.dart';
+part 'unix_path.dart';
+part 'windows_path.dart';
+
 
 extension Path$StringExtension on String {
   Path asPath() => Path(this);

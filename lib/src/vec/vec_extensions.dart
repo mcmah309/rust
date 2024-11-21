@@ -26,6 +26,6 @@ extension Vec$ListListExtension<T> on List<List<T>> {
 extension Vec$ArrExtension<T> on Arr<T> {
   @pragma('vm:prefer-inline')
   Vec<T> asVec() {
-    return list;
+    return asList();
   }
 }

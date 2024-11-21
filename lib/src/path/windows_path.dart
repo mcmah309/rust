@@ -1,12 +1,8 @@
-import 'package:path/path.dart' as p;
-import 'package:rust/rust.dart';
-
-import 'io/io.dart' as io;
-import 'utils.dart';
+part of 'path.dart';
 
 /// A Windows Path.
 /// {@macro path.Path}
-extension type WindowsPath._(String string) implements Object {
+extension type WindowsPath._(String _string) implements Object {
   static const String separator = "\\";
 
   /// {@macro path.Path.isIoSupported}
@@ -16,7 +12,10 @@ extension type WindowsPath._(String string) implements Object {
   static final RegExp _oneOrMoreSlashes = RegExp(r'\\+');
   static final p.Context _windows = p.Context(style: p.Style.windows);
 
-  const WindowsPath(this.string);
+  const WindowsPath(this._string);
+
+  @pragma("vm:prefer-inline")
+  String asString() => _string;
 
   /// {@macro path.Path.ancestors}
   Iterable<WindowsPath> ancestors() sync* {
@@ -29,14 +28,14 @@ extension type WindowsPath._(String string) implements Object {
   }
 
   /// {@macro path.Path.canonicalize}
-  WindowsPath canonicalize() => WindowsPath(_windows.canonicalize(string));
+  WindowsPath canonicalize() => WindowsPath(_windows.canonicalize(_string));
 
   /// {@macro path.Path.components}
   Iterable<Component> components() sync* {
     bool removeLast;
     // trailing slash does not matter
-    if (string.endsWith(separator)) {
-      if (string.length == 1) {
+    if (_string.endsWith(separator)) {
+      if (_string.length == 1) {
         yield RootDir(true);
         return;
       }
@@ -44,7 +43,7 @@ extension type WindowsPath._(String string) implements Object {
     } else {
       removeLast = false;
     }
-    final splits = string.split(_oneOrMoreSlashes);
+    final splits = _string.split(_oneOrMoreSlashes);
     if (removeLast) {
       splits.removeLast();
     }
@@ -67,7 +66,7 @@ extension type WindowsPath._(String string) implements Object {
           yield Normal(current);
         } else {
           yield Prefix(current);
-          if (string.replaceFirst(current, "").startsWith(separator)) {
+          if (_string.replaceFirst(current, "").startsWith(separator)) {
             yield const RootDir(true);
           }
         }
@@ -88,17 +87,17 @@ extension type WindowsPath._(String string) implements Object {
   }
 
   /// {@macro path.Path.endsWith}
-  bool endsWith(WindowsPath other) => string.endsWith(other.string);
+  bool endsWith(WindowsPath other) => _string.endsWith(other._string);
 
   /// {@macro path.Path.existsSync}
-  bool existsSync() => io.existsSync(string);
+  bool existsSync() => io.existsSync(_string);
 
   /// {@macro path.Path.exists}
-  Future<bool> exists() => io.exists(string);
+  Future<bool> exists() => io.exists(_string);
 
   /// {@macro path.Path.extension}
   String extension() {
-    String extensionWithDot = _windows.extension(string);
+    String extensionWithDot = _windows.extension(_string);
     if (extensionWithDot.isNotEmpty) {
       assert(extensionWithDot.startsWith("."));
       return extensionWithDot.replaceFirst(".", "");
@@ -107,11 +106,11 @@ extension type WindowsPath._(String string) implements Object {
   }
 
   /// {@macro path.Path.fileName}
-  String fileName() => _windows.basename(string);
+  String fileName() => _windows.basename(_string);
 
   /// {@macro path.Path.filePrefix}
   Option<String> filePrefix() {
-    final value = _windows.basename(string);
+    final value = _windows.basename(_string);
     if (value.isEmpty) {
       return None;
     }
@@ -132,7 +131,7 @@ extension type WindowsPath._(String string) implements Object {
 
   /// {@macro path.Path.fileStem}
   Option<String> fileStem() {
-    final fileStem = _windows.basenameWithoutExtension(string);
+    final fileStem = _windows.basenameWithoutExtension(_string);
     if (fileStem.isEmpty) {
       return None;
     }
@@ -140,43 +139,43 @@ extension type WindowsPath._(String string) implements Object {
   }
 
   /// {@macro path.Path.hasRoot}
-  bool hasRoot() => _windows.rootPrefix(string) == separator;
+  bool hasRoot() => _windows.rootPrefix(_string) == separator;
 
   /// {@macro path.Path.isAbsolute}
-  bool isAbsolute() => _windows.isAbsolute(string);
+  bool isAbsolute() => _windows.isAbsolute(_string);
 
   /// {@macro path.Path.isDirSync}
-  bool isDirSync() => io.isDirSync(string);
+  bool isDirSync() => io.isDirSync(_string);
 
   /// {@macro path.Path.isDir}
-  Future<bool> isDir() => io.isDir(string);
+  Future<bool> isDir() => io.isDir(_string);
 
   /// {@macro path.Path.isFileSync}
-  bool isFileSync() => io.isFileSync(string);
+  bool isFileSync() => io.isFileSync(_string);
 
   /// {@macro path.Path.isFile}
-  Future<bool> isFile() => io.isFile(string);
+  Future<bool> isFile() => io.isFile(_string);
 
   /// {@macro path.Path.isRelative}
-  bool isRelative() => _windows.isRelative(string);
+  bool isRelative() => _windows.isRelative(_string);
 
   /// {@macro path.Path.isSymlinkSync}
-  bool isSymlinkSync() => io.isSymlinkSync(string);
+  bool isSymlinkSync() => io.isSymlinkSync(_string);
 
   /// {@macro path.Path.isSymlink}
-  Future<bool> isSymlink() => io.isSymlink(string);
+  Future<bool> isSymlink() => io.isSymlink(_string);
 
   /// {@macro path.Path.iter}
   Iter<String> iter() => Iter.fromIterable(components().map((e) => e.toString()));
 
   /// {@macro path.Path.join}
-  WindowsPath join(WindowsPath other) => WindowsPath(_windows.join(string, other.string));
+  WindowsPath join(WindowsPath other) => WindowsPath(_windows.join(_string, other._string));
 
   /// {@macro path.Path.metadataSync}
-  io.Metadata metadataSync() => io.metadataSync(string);
+  io.Metadata metadataSync() => io.metadataSync(_string);
 
   /// {@macro path.Path.metadata}
-  Future<io.Metadata> metadata() => io.metadata(string);
+  Future<io.Metadata> metadata() => io.metadata(_string);
 
   /// {@macro path.Path.normalize}
   Option<WindowsPath> parent() {
@@ -203,40 +202,40 @@ extension type WindowsPath._(String string) implements Object {
         return None;
       }
     }
-    return Some(_joinComponents(comps));
+    return Some(_joinWindowsComponents(comps));
   }
 
   /// {@macro path.Path.readDirSync}
-  Result<io.ReadDir, PathIoError> readDirSync() => io.readDirSync(string);
+  Result<io.ReadDir, PathIoError> readDirSync() => io.readDirSync(_string);
 
   /// {@macro path.Path.readDir}
-  Future<Result<io.ReadDir, PathIoError>> readDir() => io.readDir(string);
+  Future<Result<io.ReadDir, PathIoError>> readDir() => io.readDir(_string);
 
   /// {@macro path.Path.readLinkSync}
   Result<WindowsPath, PathIoError> readLinkSync() =>
-      io.readLinkSync(string) as Result<WindowsPath, PathIoError>;
+      io.readLinkSync(_string) as Result<WindowsPath, PathIoError>;
 
   /// {@macro path.Path.readLink}
   Future<Result<WindowsPath, PathIoError>> readLink() =>
-      io.readLink(string) as Future<Result<WindowsPath, PathIoError>>;
+      io.readLink(_string) as Future<Result<WindowsPath, PathIoError>>;
 
   /// {@macro path.Path.startsWith}
-  bool startsWith(WindowsPath other) => string.startsWith(other.string);
+  bool startsWith(WindowsPath other) => _string.startsWith(other._string);
 
   /// {@macro path.Path.stripPrefix}
   Option<WindowsPath> stripPrefix(WindowsPath prefix) {
     if (!startsWith(prefix)) {
       return None;
     }
-    final newPath = string.substring(prefix.string.length);
+    final newPath = _string.substring(prefix._string.length);
     return Some(WindowsPath(newPath));
   }
 
   /// {@macro path.Path.symlinkMetadataSync}
-  Result<io.Metadata, PathIoError> symlinkMetadataSync() => io.symlinkMetadataSync(string);
+  Result<io.Metadata, PathIoError> symlinkMetadataSync() => io.symlinkMetadataSync(_string);
 
   /// {@macro path.Path.symlinkMetadata}
-  Future<Result<io.Metadata, PathIoError>> symlinkMetadata() => io.symlinkMetadata(string);
+  Future<Result<io.Metadata, PathIoError>> symlinkMetadata() => io.symlinkMetadata(_string);
 
   /// {@macro path.Path.withExtension}
   WindowsPath withExtension(String extension) {
@@ -272,7 +271,7 @@ extension type WindowsPath._(String string) implements Object {
   }
 }
 
-WindowsPath _joinComponents(Iterable<Component> components) {
+WindowsPath _joinWindowsComponents(Iterable<Component> components) {
   final buffer = StringBuffer();
   final iterator = components.iterator;
   forEachExceptFirstAndLast(iterator, doFirst: (e) {
