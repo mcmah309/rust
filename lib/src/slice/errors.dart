@@ -15,11 +15,11 @@ sealed class GetManyError implements Exception {
   int get hashCode => runtimeType.hashCode;
 }
 
-final class GetManyErrorRequestedIndexOutOfBounds extends GetManyError {
-  const GetManyErrorRequestedIndexOutOfBounds();
+final class GetManyError$IndexOutOfBounds extends GetManyError {
+  const GetManyError$IndexOutOfBounds();
 
   @override
   String toString() {
-    return "GetManyError: The requiested index out of bounds";
+    return "GetManyError\$IndexOutOfBounds: The requested index out of bounds";
   }
 }

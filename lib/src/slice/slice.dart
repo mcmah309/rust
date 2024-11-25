@@ -357,7 +357,7 @@ final class Slice<T> implements List<T> {
     final length = len();
     for (final (int i, int index) in indices.iter().enumerate()) {
       if (index < 0 || index >= length) {
-        return const Err(GetManyErrorRequestedIndexOutOfBounds());
+        return const Err(GetManyError$IndexOutOfBounds());
       }
       array[i] = getUnchecked(index);
     }

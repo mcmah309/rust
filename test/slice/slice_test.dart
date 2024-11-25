@@ -344,11 +344,11 @@ main() {
     expect(slice.getMany(Arr.constant(const [1, 3])).unwrap(), [2, 4]);
     expect(slice.getMany(Arr.constant(const [])).unwrap(), []);
     expect(slice.getMany(Arr.constant(const [0, 1, 2, 3, 4, 5])).unwrapErr(),
-        GetManyErrorRequestedIndexOutOfBounds());
+        GetManyError$IndexOutOfBounds());
     expect(slice.getMany(Arr.constant(const [0, 1, 6])).unwrapErr(),
-        GetManyErrorRequestedIndexOutOfBounds());
+        GetManyError$IndexOutOfBounds());
     expect([].asSlice().getMany(Arr.constant(const [0])).unwrapErr(),
-        GetManyErrorRequestedIndexOutOfBounds());
+        GetManyError$IndexOutOfBounds());
     expect([].asSlice().getMany(Arr.constant(const [])).unwrap(), []);
     expect([1].asSlice().getMany(Arr.constant(const [])).unwrap(), []);
   });

@@ -27,24 +27,24 @@ abstract class Receiver<T> {
 
   /// Attempts to wait for a value on this receiver, returning [Err] of:
   ///
-  /// [RecvDisconnectedError] if the [Sender] called [close] and the buffer is empty.
+  /// [RecvError$Disconnected] if the [Sender] called [close] and the buffer is empty.
   ///
-  /// [RecvOtherError] if the item in the buffer is an error, indicated by the sender calling [addError].
+  /// [RecvError$Other] if the item in the buffer is an error, indicated by the sender calling [addError].
   Future<Result<T, RecvError>> recv();
 
   /// Attempts to wait for a value on this receiver with a time limit, returning [Err] of:
   ///
-  /// [RecvDisconnectedError] if the [Sender] called [close] and the buffer is empty.
+  /// [RecvError$Disconnected] if the [Sender] called [close] and the buffer is empty.
   ///
-  /// [RecvOtherError] if the item in the buffer is an error, indicated by the sender calling [addError].
+  /// [RecvError$Other] if the item in the buffer is an error, indicated by the sender calling [addError].
   ///
-  /// [TimeoutError] if the time limit is reached before the [Sender] sent any more data.
-  Future<Result<T, RecvTimeoutError>> recvTimeout(Duration timeLimit);
+  /// [RecvError$Timeout] if the time limit is reached before the [Sender] sent any more data.
+  Future<Result<T, RecvError>> recvTimeout(Duration timeLimit);
 
   /// Returns an [Iter] that drains the current buffer.
   Iter<T> iter();
 
-  /// Returns a [Stream] of values ending once [RecvDisconnectedError] is yielded.
+  /// Returns a [Stream] of values ending once [RecvError$Disconnected] is yielded.
   Stream<T> stream();
 }
 
@@ -131,20 +131,19 @@ class ReceiverImpl<T> implements Receiver<T> {
     try {
       return await _next();
     } catch (error) {
-      return Err(RecvOtherError(error));
+      return Err(RecvError$Other(error));
     }
   }
 
   @override
-  Future<Result<T, RecvTimeoutError>> recvTimeout(Duration timeLimit) async {
+  Future<Result<T, RecvError>> recvTimeout(Duration timeLimit) async {
     try {
       return await _next()
-          .timeout(timeLimit)
-          .mapErr((error) => error as RecvTimeoutError);
+          .timeout(timeLimit);
     } on TimeoutException catch (timeoutException) {
-      return Err(TimeoutError(timeoutException));
+      return Err(RecvError$Timeout(timeoutException));
     } catch (error) {
-      return Err(RecvOtherError(error));
+      return Err(RecvError$Other(error));
     }
   }
 
@@ -173,7 +172,7 @@ class ReceiverImpl<T> implements Receiver<T> {
           yield ok;
         case Err(:final err):
           switch (err) {
-            case RecvDisconnectedError():
+            case RecvError$Disconnected():
               return;
             default:
           }
@@ -185,10 +184,10 @@ class ReceiverImpl<T> implements Receiver<T> {
     while (true) {
       await _waker.future;
       if (_buffer.isNotEmpty) {
-        return _buffer.removeAt(0).mapErr((error) => RecvOtherError(error));
+        return _buffer.removeAt(0).mapErr((error) => RecvError$Other(error));
       }
       if (_isClosed) {
-        return const Err(RecvDisconnectedError());
+        return const Err(RecvError$Disconnected());
       }
       _waker = Completer();
     }
@@ -217,25 +216,20 @@ sealed class RecvError {
   const RecvError();
 }
 
-/// An error returned from the [recvTimeout] function on a [LocalClosableReceiver].
-sealed class RecvTimeoutError {
-  const RecvTimeoutError();
-}
-
 /// An error returned from the [recvTimeout] function on a [LocalClosableReceiver] when the time limit is reached before the [Sender] sends any data.
-class TimeoutError implements RecvTimeoutError {
+class RecvError$Timeout implements RecvError {
   final TimeoutException timeoutException;
 
-  const TimeoutError(this.timeoutException);
+  const RecvError$Timeout(this.timeoutException);
 
   @override
   String toString() {
-    return 'TimeoutError: $timeoutException';
+    return 'RecvError\$Timeout: $timeoutException';
   }
 
   @override
   bool operator ==(Object other) {
-    return other is TimeoutError;
+    return other is RecvError$Timeout;
   }
 
   @override
@@ -245,17 +239,17 @@ class TimeoutError implements RecvTimeoutError {
 }
 
 /// An error returned from the [recv] function on a [LocalClosableReceiver] when the [Sender] called [close].
-class RecvDisconnectedError implements RecvTimeoutError, RecvError {
-  const RecvDisconnectedError();
+class RecvError$Disconnected implements RecvError {
+  const RecvError$Disconnected();
 
   @override
   String toString() {
-    return 'DisconnectedError';
+    return 'RecvError\$Disconnected';
   }
 
   @override
   bool operator ==(Object other) {
-    return other is RecvDisconnectedError;
+    return other is RecvError$Disconnected;
   }
 
   @override
@@ -265,19 +259,19 @@ class RecvDisconnectedError implements RecvTimeoutError, RecvError {
 }
 
 /// An error returned from the [recv] function on a [LocalClosableReceiver] when the [Sender] called [sendError].
-class RecvOtherError implements RecvTimeoutError, RecvError {
+class RecvError$Other implements RecvError {
   final Object error;
 
-  const RecvOtherError(this.error);
+  const RecvError$Other(this.error);
 
   @override
   String toString() {
-    return 'OtherError: $error';
+    return 'RecvError\$Other: $error';
   }
 
   @override
   bool operator ==(Object other) {
-    return other is RecvOtherError;
+    return other is RecvError$Other;
   }
 
   @override

@@ -76,7 +76,7 @@ void main() async {
           fromIsolateCodec: const StringCodec());
 
       tx1.send("hello");
-      expect((await rx1.recv()).unwrapErr(), RecvDisconnectedError());
+      expect((await rx1.recv()).unwrapErr(), RecvError$Disconnected());
     });
 
     test("Complex data types", () async {
@@ -122,7 +122,7 @@ void main() async {
           await Future.delayed(Duration(milliseconds: 100));
           tx2.send((await rx2.recv()).unwrap() * 10);
           final receive = await rx2.recv();
-          assert(receive.unwrapErr() == const RecvDisconnectedError());
+          assert(receive.unwrapErr() == const RecvError$Disconnected());
           //print("isolate received the implicit close");
         },
             toIsolateCodec: const IntCodec(),
@@ -144,7 +144,7 @@ void main() async {
       expect((await receiver.recv()).unwrap(), 10);
       expect(receiver.isBufferEmpty, true);
       expect(receiver.isClosed, true);
-      expect((await receiver.recv()).unwrapErr(), RecvDisconnectedError());
+      expect((await receiver.recv()).unwrapErr(), RecvError$Disconnected());
     });
   });
 }
