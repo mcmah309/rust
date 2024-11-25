@@ -102,7 +102,7 @@ void main() {
         } else {
           final err = result.unwrapErr();
           foundError = true;
-          expect(err, isA<OtherError>());
+          expect(err, isA<RecvOtherError>());
           expect(i, 2);
         }
       }
@@ -148,7 +148,7 @@ void main() {
       expect(results, [1, 2, 3, 4]);
       expect(tx.send(5).unwrapErr(), SendError());
       final value = await rx.recv();
-      expect(value.unwrapErr(), DisconnectedError());
+      expect(value.unwrapErr(), RecvDisconnectedError());
     });
   });
 }

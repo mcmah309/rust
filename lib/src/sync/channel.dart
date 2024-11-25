@@ -27,16 +27,16 @@ abstract class Receiver<T> {
 
   /// Attempts to wait for a value on this receiver, returning [Err] of:
   ///
-  /// [DisconnectedError] if the [Sender] called [close] and the buffer is empty.
+  /// [RecvDisconnectedError] if the [Sender] called [close] and the buffer is empty.
   ///
-  /// [OtherError] if the item in the buffer is an error, indicated by the sender calling [addError].
+  /// [RecvOtherError] if the item in the buffer is an error, indicated by the sender calling [addError].
   Future<Result<T, RecvError>> recv();
 
   /// Attempts to wait for a value on this receiver with a time limit, returning [Err] of:
   ///
-  /// [DisconnectedError] if the [Sender] called [close] and the buffer is empty.
+  /// [RecvDisconnectedError] if the [Sender] called [close] and the buffer is empty.
   ///
-  /// [OtherError] if the item in the buffer is an error, indicated by the sender calling [addError].
+  /// [RecvOtherError] if the item in the buffer is an error, indicated by the sender calling [addError].
   ///
   /// [TimeoutError] if the time limit is reached before the [Sender] sent any more data.
   Future<Result<T, RecvTimeoutError>> recvTimeout(Duration timeLimit);
@@ -44,7 +44,7 @@ abstract class Receiver<T> {
   /// Returns an [Iter] that drains the current buffer.
   Iter<T> iter();
 
-  /// Returns a [Stream] of values ending once [DisconnectedError] is yielded.
+  /// Returns a [Stream] of values ending once [RecvDisconnectedError] is yielded.
   Stream<T> stream();
 }
 
@@ -131,7 +131,7 @@ class ReceiverImpl<T> implements Receiver<T> {
     try {
       return await _next();
     } catch (error) {
-      return Err(OtherError(error));
+      return Err(RecvOtherError(error));
     }
   }
 
@@ -144,7 +144,7 @@ class ReceiverImpl<T> implements Receiver<T> {
     } on TimeoutException catch (timeoutException) {
       return Err(TimeoutError(timeoutException));
     } catch (error) {
-      return Err(OtherError(error));
+      return Err(RecvOtherError(error));
     }
   }
 
@@ -173,7 +173,7 @@ class ReceiverImpl<T> implements Receiver<T> {
           yield ok;
         case Err(:final err):
           switch (err) {
-            case DisconnectedError():
+            case RecvDisconnectedError():
               return;
             default:
           }
@@ -185,10 +185,10 @@ class ReceiverImpl<T> implements Receiver<T> {
     while (true) {
       await _waker.future;
       if (_buffer.isNotEmpty) {
-        return _buffer.removeAt(0).mapErr((error) => OtherError(error));
+        return _buffer.removeAt(0).mapErr((error) => RecvOtherError(error));
       }
       if (_isClosed) {
-        return const Err(DisconnectedError());
+        return const Err(RecvDisconnectedError());
       }
       _waker = Completer();
     }
@@ -245,8 +245,8 @@ class TimeoutError implements RecvTimeoutError {
 }
 
 /// An error returned from the [recv] function on a [LocalClosableReceiver] when the [Sender] called [close].
-class DisconnectedError implements RecvTimeoutError, RecvError {
-  const DisconnectedError();
+class RecvDisconnectedError implements RecvTimeoutError, RecvError {
+  const RecvDisconnectedError();
 
   @override
   String toString() {
@@ -255,7 +255,7 @@ class DisconnectedError implements RecvTimeoutError, RecvError {
 
   @override
   bool operator ==(Object other) {
-    return other is DisconnectedError;
+    return other is RecvDisconnectedError;
   }
 
   @override
@@ -265,10 +265,10 @@ class DisconnectedError implements RecvTimeoutError, RecvError {
 }
 
 /// An error returned from the [recv] function on a [LocalClosableReceiver] when the [Sender] called [sendError].
-class OtherError implements RecvTimeoutError, RecvError {
+class RecvOtherError implements RecvTimeoutError, RecvError {
   final Object error;
 
-  const OtherError(this.error);
+  const RecvOtherError(this.error);
 
   @override
   String toString() {
@@ -277,7 +277,7 @@ class OtherError implements RecvTimeoutError, RecvError {
 
   @override
   bool operator ==(Object other) {
-    return other is OtherError;
+    return other is RecvOtherError;
   }
 
   @override
