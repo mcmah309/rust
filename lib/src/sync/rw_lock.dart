@@ -176,9 +176,6 @@ class RwLock {
   ///
   /// A critical section should always contain asynchronous code, since purely
   /// synchronous code does not need to be protected inside a critical section.
-  /// Therefore, the critical section is a function that returns a _Future_.
-  /// If the critical section does not need to return a value, it should be
-  /// defined as returning `Future<void>`.
   ///
   /// Returns a _Future_ whose value is the value of the _Future_ returned by
   /// the critical section.
@@ -204,9 +201,6 @@ class RwLock {
   ///
   /// A critical section should always contain asynchronous code, since purely
   /// synchronous code does not need to be protected inside a critical section.
-  /// Therefore, the critical section is a function that returns a _Future_.
-  /// If the critical section does not need to return a value, it should be
-  /// defined as returning `Future<void>`.
   ///
   /// Returns a _Future_ whose value is the value of the _Future_ returned by
   /// the critical section.
