@@ -66,12 +66,12 @@ class IsolateReceiver<T> extends ReceiverImpl<T> {
 /// If the [Sender] calls `close` while the [Receiver]'s buffer
 /// is not empty, the [Receiver] will still yield the remaining items in the buffer until empty.
 /// Types that can be sent over a [SendPort], as defined here https://api.flutter.dev/flutter/dart-isolate/SendPort/send.html ,
-/// are allow to be sent between isolates. Otherwise a [toIsolateCodec] and/or a [fromIsolateCodec] can be passed
+/// are allow to be sent between isolates. Otherwise a [toSpawnedCodec] and/or a [fromSpawnedCodec] can be passed
 /// to encode and decode the messages.
 Future<(IsolateSender<T> tx, IsolateReceiver<U> rx)> isolateChannel<T, U>(
     FutureOr<void> Function(IsolateSender<U> tx, IsolateReceiver<T> rx) func,
-    {SendCodec<T>? toIsolateCodec,
-    SendCodec<U>? fromIsolateCodec}) async {
+    {SendCodec<T>? toSpawnedCodec,
+    SendCodec<U>? fromSpawnedCodec}) async {
   final receiveFromIsolate = RawReceivePort();
   SendPort? sendToIsolate;
   receiveFromIsolate.handler = (sendPort) {
@@ -81,8 +81,8 @@ Future<(IsolateSender<T> tx, IsolateReceiver<U> rx)> isolateChannel<T, U>(
     final receiveFromMain = ReceivePort();
     sendToMain.send(receiveFromMain.sendPort);
 
-    final isolateReceiver = IsolateReceiver._(toIsolateCodec, receiveFromMain);
-    final isolateSender = IsolateSender._(fromIsolateCodec, sendToMain);
+    final isolateReceiver = IsolateReceiver._(toSpawnedCodec, receiveFromMain);
+    final isolateSender = IsolateSender._(fromSpawnedCodec, sendToMain);
 
     try {
       await func(isolateSender, isolateReceiver);
@@ -106,8 +106,8 @@ Future<(IsolateSender<T> tx, IsolateReceiver<U> rx)> isolateChannel<T, U>(
   }
 
   final receiver = IsolateReceiver._(
-      fromIsolateCodec, ReceivePort.fromRawReceivePort(receiveFromIsolate));
-  final sender = IsolateSender._(toIsolateCodec, sendToIsolate!);
+      fromSpawnedCodec, ReceivePort.fromRawReceivePort(receiveFromIsolate));
+  final sender = IsolateSender._(toSpawnedCodec, sendToIsolate!);
 
   return (sender, receiver);
 }

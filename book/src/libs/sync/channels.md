@@ -129,7 +129,7 @@ the spawned isolate is passed a `Sender` and `Receiver` to communicate with the 
 Each item `T` sent by the `Sender` will only be seen once by the `Receiver`. Even if the `Sender` calls `close` while the `Receiver`'s buffer
 is not empty, the `Receiver` will still yield the remaining items in the buffer until empty.
 Types that can be sent over a `SendPort`, as defined [here](https://api.flutter.dev/flutter/dart-isolate/SendPort/send.html),
-are allow to be sent between isolates. Otherwise a `toIsolateCodec` and/or a `fromIsolateCodec` can be passed
+are allow to be sent between isolates. Otherwise a `toSpawnedCodec` and/or a `fromSpawnedCodec` can be passed
 to encode and decode the messages.
 > Note: Dart does not support isolates on web. Therefore, if your compilation target is web, you cannot use `isolateChannel`.
 
@@ -148,14 +148,14 @@ void main() async {
   expect((await rx.recv()).unwrap(), "hi");
 }
 ```
-#### Different Codecs for Communication
+#### Explicitly Defined Codecs for Communication
 
 ```dart
 void main() async {
   final (tx, rx) = await isolateChannel<String, int>((tx, rx) async {
     assert((await rx.recv()).unwrap() == "hello");
     tx.send(1);
-  }, toIsolateCodec: const StringCodec(), fromIsolateCodec: const IntCodec());
+  }, toSpawnedCodec: const StringCodec(), fromSpawnedCodec: const IntCodec());
 
   tx.send("hello");
   expect((await rx.recv()).unwrap(), 1);

@@ -59,7 +59,7 @@ export 'src/sync/isolate_channel.dart'
 export 'src/sync/send_codec.dart'
     if (dart.library.html) ''
     if (dart.library.js) '';
-export 'src/sync/channel.dart' hide ReceiverImpl;
+export 'src/sync/local_channel.dart' hide ReceiverImpl;
 export 'src/sync/mutex.dart';
 
 // vec
