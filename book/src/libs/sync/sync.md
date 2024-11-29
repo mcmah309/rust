@@ -1,3 +1,6 @@
 # Sync
 ***
-sync contains useful synchronization utilities like [channel](./channel.md),  [Mutex](./mutex.md), and [RwLock](./rwlock.md).
+sync contains useful synchronization utilities.
+
+Dart being single threaded, means it is less common to need a synchronization constructs like `Mutex`, but they are
+still useful as shown in the docs.
