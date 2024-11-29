@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:isolate';
 import 'dart:typed_data';
 
-import 'channel.dart';
+import 'local_channel.dart';
 import 'send_codec.dart';
 
 Finalizer<SendPort> _sendFinalizer = Finalizer((sPort) {

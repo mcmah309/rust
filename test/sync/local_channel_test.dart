@@ -2,11 +2,11 @@ import 'package:rust/rust.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group("channel", () {
+  group("localChannel", () {
     test("Single sender single receiver", () async {
       List<int> results1 = [];
       List<int> results2 = [];
-      final (tx, rx) = channel<int>();
+      final (tx, rx) = localChannel<int>();
       tx.send(1);
       tx.send(2);
       tx.send(3);
@@ -36,7 +36,7 @@ void main() {
     test("Single sender multiple receiver", () async {
       List<int> results1 = [];
       List<int> results2 = [];
-      final (tx, rx) = channel<int>();
+      final (tx, rx) = localChannel<int>();
       tx.send(1);
       tx.send(2);
       tx.send(3);
@@ -73,7 +73,7 @@ void main() {
 
     test("Receiver with timeout", () async {
       List<int> results = [];
-      final (tx, rx) = channel<int>();
+      final (tx, rx) = localChannel<int>();
       tx.send(1);
       await Future.delayed(Duration(milliseconds: 50));
       final result = await rx.recvTimeout(Duration(milliseconds: 100));
@@ -88,7 +88,7 @@ void main() {
 
     test("Receiver with error handling", () async {
       List<int> results = [];
-      final (tx, rx) = channel<int>();
+      final (tx, rx) = localChannel<int>();
       tx.send(1);
       tx.send(2);
       tx.sendError(Exception("Test error"));
@@ -111,7 +111,7 @@ void main() {
     });
 
     test("Receiver iter method", () async {
-      final (tx, rx) = channel<int>();
+      final (tx, rx) = localChannel<int>();
       tx.send(1);
       tx.send(2);
       tx.send(3);
@@ -130,7 +130,7 @@ void main() {
     });
 
     test("Receiver stream method", () async {
-      final (tx, rx) = channel<int>();
+      final (tx, rx) = localChannel<int>();
       tx.send(1);
       tx.send(2);
       tx.send(3);

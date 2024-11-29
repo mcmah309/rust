@@ -6,7 +6,7 @@ import 'package:rust/rust.dart';
 /// Creates a new channel, returning the [Sender] and [LocalClosableReceiver]. Each item [T] sent by the [Sender]
 /// will only be seen once by the [LocalClosableReceiver]. Even if the [Sender] calls [close] while the [LocalClosableReceiver]s buffer
 /// is not empty, the [LocalClosableReceiver] will still yield the remaining items in the buffer until empty.
-(LocalSender<T>, LocalReceiver<T>) channel<T>() {
+(LocalSender<T>, LocalReceiver<T>) localChannel<T>() {
   // broadcast so no buffer
   StreamController<T> controller = StreamController<T>.broadcast();
   final sender = LocalSender._(controller.sink);
@@ -15,12 +15,12 @@ import 'package:rust/rust.dart';
   return (sender, receiver);
 }
 
-/// The sending-half of [channel].
+/// The sending-half of [localChannel].
 abstract class Sender<T> {
   void send(T data);
 }
 
-/// The receiving-half of [channel]. [Receiver]s do not close if the [Sender] sends an error.
+/// The receiving-half of [localChannel]. [Receiver]s do not close if the [Sender] sends an error.
 abstract class Receiver<T> {
   bool get isClosed;
   bool get isBufferEmpty;
