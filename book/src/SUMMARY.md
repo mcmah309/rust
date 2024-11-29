@@ -10,7 +10,7 @@
 
 - [array](./libs/array/array.md)
 - [cell](./libs/cell/cell.md)
-- [convert](./libs/convert/convert.md)
+<!-- - [convert](./libs/convert/convert.md) -->
 - [iter](./libs/iter/iter.md)
 - [ops](./libs/ops/ops.md)
 - [option](./libs/option/option.md)
@@ -19,6 +19,7 @@
 - [result](./libs/result/result.md)
     - [Tips and Best Practices](./libs/result/tips_and_best_practices.md)
 - [slice](./libs/slice/slice.md)
+<!-- - [str](./libs/str/str.md) -->
 - [sync](./libs/sync/sync.md)
     - [Channels](./libs/sync/channels.md)
     - [RwLock](./libs/sync/rwlock.md)
