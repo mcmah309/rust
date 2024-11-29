@@ -73,7 +73,7 @@ for(final entry in array){
 var (slice1, slice2) = array.splitSlice(3);
 ```
 
-#### Iter
+### Iter
 rust implements the entirety of Rust's stable and unstable [Iterator](https://doc.rust-lang.org/beta/core/iter/trait.Iterator.html) methods.
 There are a lot of methods here that many Dart developers may not be familiar with. Definitely worth a look - [docs](https://pub.dev/documentation/rust/latest/iter/iter-library.html)
 
@@ -91,7 +91,7 @@ expect(filtered, [4, 8]);
 `Iter` functions the same as a Rust `Iterator`. For Dart developers, you can think of it as the union of Dart's `Iterator` and `Iterable`. 
 check [here](../libs/iter/iter.md) for more info.
 
-#### Slice
+### Slice
 
 A `Slice` is a contiguous sequence of elements in a `List` or `Arr`. Slices are a view into a list without allocating and copying to a new list,
 thus slices are more efficient than creating a new `List` with `.sublist()` e.g. `list.sublist(x,y)`.
