@@ -26,14 +26,14 @@ class Account<Id> {
 }
 
 void main() {
-  group('IdMutex Tests', () {
+  group('MutexManager Tests', () {
     test('Locks with unique Ids', () async {
       final account = Account<String>();
       account.reset();
 
       await Future.wait([
-        account.deposit('id1', 42, 50),
-        account.deposit('id2', 26, 25),
+        account.deposit('id1', 42, 1000),
+        account.deposit('id2', 26, 50),
       ]);
 
       expect(account.balance, equals(42),
@@ -45,8 +45,8 @@ void main() {
       account.reset();
 
       await Future.wait([
-        account.deposit('id1', 42, 50),
-        account.deposit('id1', 26, 25),
+        account.deposit('id1', 42, 1000),
+        account.deposit('id1', 26, 50),
       ]);
 
       expect(account.balance, equals(68),
