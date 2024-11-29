@@ -15,8 +15,6 @@ class Account<Id> {
 
   /// Critical section for updating balance, protected by IdMutex.
   Future<void> deposit(Id id, int amount, int delay) async {
-    await Future<void>.delayed(Duration(milliseconds: delay));
-
     await mutexManager.withLock(id, () async {
       final temp = _balance;
       await Future<void>.delayed(Duration(milliseconds: delay));
@@ -29,7 +27,6 @@ void main() {
   group('MutexManager Tests', () {
     test('Locks with unique Ids', () async {
       final account = Account<String>();
-      account.reset();
 
       await Future.wait([
         account.deposit('id1', 42, 1000),
@@ -42,7 +39,6 @@ void main() {
 
     test('Locks with same Ids', () async {
       final account = Account<String>();
-      account.reset();
 
       await Future.wait([
         account.deposit('id1', 42, 1000),
