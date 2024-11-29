@@ -30,5 +30,5 @@
 
 # Miscellaneous
 
-- [Packages Built on Rust Core](./misc/packages_built_on_rust.md)
+- [Packages Built on Rust](./misc/packages_built_on_rust.md)
 - [Tips](./misc/tips.md)

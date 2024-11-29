@@ -21,9 +21,7 @@ comparing Rust, Dart, and Dart with rust:
 | `channel<T>`      | - | `channel<T>` | Communication between produces and consumers
 | `Mutex<T>`      | - | `Mutex` | Exclusion primitive useful for protecting critical sections
 | `RwLock<T>`      | - | `RwLock` |  Exclusion primitive allowing multiple read operations and exclusive write operations
-| `Path`            | - | `Path`*  | Type for file system path manipulation and interaction
+| `Path`            | - | `Path`  | Type for file system path manipulation and interaction
 | `Vec<T>`          | `List<T>`       | `Vec<T>`                    | Dynamic/Growable array                              |
-
-> *: Implemented through additional packages found [here](../misc/packages_built_on_rust.md)
 
 To learn more about the Rust programming language, checkout the [Rust Book](https://doc.rust-lang.org/book/ch00-00-introduction.html)!

@@ -17,9 +17,7 @@ rust will introduce you to a few new types you may find useful as a Dart develop
 | `channel<T>`      | - | `channel<T>` | Communication between produces and consumers
 | `Mutex<T>`      | - | `Mutex` | Exclusion primitive useful for protecting critical sections
 | `RwLock<T>`      | - | `RwLock` |  Exclusion primitive allowing multiple read operations and exclusive write operations
-| `Path`            | - | `Path`*  | Type for file system path manipulation and interaction
+| `Path`            | - | `Path`  | Type for file system path manipulation and interaction
 | `Vec<T>`          | `List<T>`       | `Vec<T>`                    | Dynamic/Growable array                              |
-
-> *: Implemented through additional packages found [here](../misc/packages_built_on_rust.md)
 
 To learn more about the Dart programming language, checkout [dart.dev](https://dart.dev/language)!

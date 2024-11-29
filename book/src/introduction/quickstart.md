@@ -21,22 +21,10 @@ dependencies:
   rust: <version>
 ```
 
-### Imports
-
-rust follows the same library structure and naming as [Rust's core library](https://doc.rust-lang.org/core/).
-
-To that extent, each library can be imported individually
-```dart
-import 'package:rust/result.dart';
-```
-or all libraries
-```dart
-import 'package:rust/rust.dart';
-```
 ## General Notes
 ***
 All of rust's classes and methods are well documented in the [docs](https://pub.dev/documentation/rust/latest/), but
-being an implementation of Rust's core library, you can also refer to [Rust core](https://doc.rust-lang.org/beta/core/index.html) if anything is unclear.
+being an implementation of Rust, you can also refer to [Rust docs](https://doc.rust-lang.org/beta/std/index.html) if anything is unclear.
 The functionally is the same.
 
 ## The Basics
