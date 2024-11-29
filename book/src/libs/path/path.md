@@ -1,16 +1,17 @@
 # Path
 
-This library introduces robust Path types. Providing a way to work with file paths in a structured
+This library introduces path types for working with file paths in a structured
 and type-safe manner, supporting Unix (POSIX) and Windows file systems. All Path types are extension
 types of string, so they are zero runtime cost.
 
 ## Types
 
-[Path](#path) - A platform dependent path type - uses Unix paths unless on windows.
+[Path](https://pub.dev/documentation/rust/latest/rust/Path-extension-type.html) - A platform 
+dependent path type - uses `WindowPath` on windows and `UnixPath` on all other platforms.
 
-[UnixPath](#unixpath) - A Unix path type.
+[UnixPath](https://pub.dev/documentation/rust/latest/rust/UnixPath-extension-type.html) - A Unix path type.
 
-[WindowPath](#unixpath) - A Windows path type.
+[WindowsPath](https://pub.dev/documentation/rust/latest/rust/WindowsPath-extension-type.html) - A Windows path type.
 
 
 ### Basic Operations
