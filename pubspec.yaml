@@ -1,6 +1,6 @@
 name: rust
 description: A pure Dart implementation of Rust patterns. Types include Result, Option, Cell, Slice, Array, Iterator, Channels, Mutex, etc.
-version: 2.0.0-dev.8
+version: 2.0.0-dev.9
 repository: https://github.com/mcmah309/rust
 
 environment:
