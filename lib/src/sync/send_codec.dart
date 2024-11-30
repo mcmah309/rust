@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-/// The codec use to encode and decode data send over over a channel between isolates.
+/// A codec used to encode and decode data sent over a channel between isolates.
 abstract class SendCodec<T> {
   const SendCodec();
 
