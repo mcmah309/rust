@@ -1,7 +1,7 @@
 import 'dart:async';
 
 part 'rw_lock.dart';
-part 'mutex_manager.dart';
+part 'keyed_mutex.dart';
 
 /// Mutual exclusion.
 ///

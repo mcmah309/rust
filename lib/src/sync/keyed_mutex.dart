@@ -1,18 +1,18 @@
 part of 'mutex.dart';
 
-/// Managed mutual exclusion based on id.
+/// Managed mutual exclusion based on keys.
 ///
 /// The [withLock] method is a convenience method for acquiring a lock before
 /// running critical code, and then releasing the lock afterwards, where the critical
-/// section of the code is associate with an [Id]. e.g. Checking for file existence
-/// and deleting asynchronously, where the id is the file path. Using the [withLock]
+/// section of the code is associate with an [K]. e.g. Checking for file existence
+/// and deleting asynchronously, where the key is the file path. Using the [withLock]
 /// convenience method will ensure the lock is always released after use.
 ///
 /// Usage:
 ///
-///     m = MutexManager();
+///     m = KeyedMutex();
 ///
-///     await m.withLock(id, () async {
+///     await m.withLock(key, () async {
 ///       // critical section
 ///     });
 ///
@@ -21,20 +21,20 @@ part of 'mutex.dart';
 /// have been used. Failure to release the lock will prevent other code for
 /// ever acquiring the lock.
 ///
-///     m = MutexManager();
+///     m = KeyedMutex();
 ///
-///     await m.lock(id);
+///     await m.lock(key);
 ///     try {
 ///       // critical section
 ///     }
 ///     finally {
-///       m.release(id);
+///       m.release(key);
 ///     }
-class MutexManager<Id> {
-  final Map<Id, RwLock> _rwMutexes = {};
+class KeyedMutex<K> {
+  final Map<K, RwLock> _rwMutexes = {};
 
   /// Indicates if a lock has been acquired and not released.
-  bool isLocked(Id id) => _rwMutexes[id]?.isLocked ?? false;
+  bool isLocked(K key) => _rwMutexes[key]?.isLocked ?? false;
 
   /// Acquire a lock
   ///
@@ -44,11 +44,11 @@ class MutexManager<Id> {
   /// is responsible for making sure the lock is released after it is no longer
   /// needed. Failure to release the lock means no other code can acquire the
   /// lock.
-  Future lock(Id id) {
-    var lock = _rwMutexes[id];
+  Future lock(K key) {
+    var lock = _rwMutexes[key];
     if (lock == null) {
       lock = RwLock();
-      _rwMutexes[id] = lock;
+      _rwMutexes[key] = lock;
     }
     return lock.write();
   }
@@ -56,13 +56,13 @@ class MutexManager<Id> {
   /// Release a lock.
   ///
   /// Release a lock that has been acquired.
-  void release(Id id) {
-    final lock = _rwMutexes[id];
+  void release(K key) {
+    final lock = _rwMutexes[key];
     if (lock == null) {
-      throw StateError('`release` called for lock with `$id`, when no lock to release.');
+      throw StateError('`release` called for lock with key `$key`, when no lock to release.');
     }
     if (lock._waiting.isEmpty) {
-      _rwMutexes.remove(id);
+      _rwMutexes.remove(key);
     } else {
       lock.release();
     }
@@ -72,7 +72,7 @@ class MutexManager<Id> {
   ///
   /// This method guarantees a lock is always acquired before invoking the
   /// [criticalSection] function. It also guarantees the lock is always
-  /// released. The lock acquired is unique for each different [id].
+  /// released. The lock acquired is unique for each different [key].
   ///
   /// A critical section should always contain asynchronous code, since purely
   /// synchronous code does not need to be protected inside a critical section.
@@ -84,12 +84,12 @@ class MutexManager<Id> {
   /// or an exception is thrown while waiting for the _Future_ returned by
   /// the critical section to complete. The lock is released, when those
   /// exceptions occur.
-  Future<T> withLock<T>(Id id, Future<T> Function() criticalSection) async {
-    await lock(id);
+  Future<T> withLock<T>(K key, Future<T> Function() criticalSection) async {
+    await lock(key);
     try {
       return await criticalSection();
     } finally {
-      release(id);
+      release(key);
     }
   }
 }

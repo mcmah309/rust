@@ -24,7 +24,7 @@
     - [Channels](./libs/sync/channels.md)
     - [RwLock](./libs/sync/rwlock.md)
     - [Mutex](./libs/sync/mutex.md)
-    - [MutexManager](./libs/sync/mutex_manager.md)
+    - [KeyedMutex](./libs/sync/keyed_mutex.md)
 - [vec](./libs/vec/vec.md)
 
 # Miscellaneous

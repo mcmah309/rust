@@ -7,7 +7,7 @@ class Account<Id> {
   int get balance => _balance;
   int _balance = 0;
 
-  final MutexManager<Id> mutexManager = MutexManager<Id>();
+  final KeyedMutex<Id> keyedMutex = KeyedMutex<Id>();
 
   void reset([int startingBalance = 0]) {
     _balance = startingBalance;
@@ -15,7 +15,7 @@ class Account<Id> {
 
   /// Critical section for updating balance, protected by IdMutex.
   Future<void> deposit(Id id, int amount, int delay) async {
-    await mutexManager.withLock(id, () async {
+    await keyedMutex.withLock(id, () async {
       final temp = _balance;
       await Future<void>.delayed(Duration(milliseconds: delay));
       _balance = temp + amount;
@@ -24,7 +24,7 @@ class Account<Id> {
 }
 
 void main() {
-  group('MutexManager Tests', () {
+  group('KeyedMutex Tests', () {
     test('Locks with unique Ids', () async {
       final account = Account<String>();
 
@@ -51,44 +51,44 @@ void main() {
 
     group('withLock functionality', () {
       test('lock obtained and released on success', () async {
-        final idMutex = MutexManager<String>();
+        final keyMutex = KeyedMutex<String>();
 
-        await idMutex.withLock('id1', () async {
-          expect(idMutex.isLocked('id1'), isTrue);
+        await keyMutex.withLock('id1', () async {
+          expect(keyMutex.isLocked('id1'), isTrue);
         });
 
-        expect(idMutex.isLocked('id1'), isFalse);
+        expect(keyMutex.isLocked('id1'), isFalse);
       });
 
       test('value returned from critical section', () async {
-        final idMutex = MutexManager<String>();
+        final keyMutex = KeyedMutex<String>();
 
-        final value = await idMutex.withLock('id1', () async => 42);
+        final value = await keyMutex.withLock('id1', () async => 42);
         expect(value, equals(42));
 
-        final nullValue = await idMutex.withLock<String?>('id1', () async => null);
+        final nullValue = await keyMutex.withLock<String?>('id1', () async => null);
         expect(nullValue, isNull);
 
-        expect(idMutex.isLocked('id1'), isFalse);
+        expect(keyMutex.isLocked('id1'), isFalse);
       });
 
       test('synchronous exception handling', () async {
-        final idMutex = MutexManager<String>();
+        final keyMutex = KeyedMutex<String>();
 
         Future<int> criticalSection() {
           throw const FormatException('synchronous exception');
         }
 
         try {
-          await idMutex.withLock('id1', criticalSection);
+          await keyMutex.withLock('id1', criticalSection);
         } on FormatException catch (e) {
           expect(e.message, equals('synchronous exception'));
-          expect(idMutex.isLocked('id1'), isFalse);
+          expect(keyMutex.isLocked('id1'), isFalse);
         }
       });
 
       test('asynchronous exception handling', () async {
-        final idMutex = MutexManager<String>();
+        final keyMutex = KeyedMutex<String>();
 
         Future<int> criticalSection() async {
           await Future.delayed(const Duration(milliseconds: 100));
@@ -96,10 +96,10 @@ void main() {
         }
 
         try {
-          await idMutex.withLock('id1', criticalSection);
+          await keyMutex.withLock('id1', criticalSection);
         } on FormatException catch (e) {
           expect(e.message, equals('asynchronous exception'));
-          expect(idMutex.isLocked('id1'), isFalse);
+          expect(keyMutex.isLocked('id1'), isFalse);
         }
       });
     });
