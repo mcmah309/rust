@@ -7,9 +7,9 @@
 
 [rust](https://github.com/mcmah309/rust) (formally known as [rust_core](https://pub.dev/packages/rust_core)) is a pure Dart implementation of patterns found in the [Rust programming language](https://www.rust-lang.org/), bringing the power of Rust to Dart!
 
-Types include [Result](https://mcmah309.github.io/rust/libs/result/result.html), [Option](https://mcmah309.github.io/rust/libs/option/option.html), [Cell](https://mcmah309.github.io/rust/libs/cell/cell.html), [Slice](https://mcmah309.github.io/rust/libs/slice/slice.html), [Array](https://mcmah309.github.io/rust/libs/array/array.html), [Iterator](https://mcmah309.github.io/rust/libs/iter/iter.html), [Channels](https://mcmah309.github.io/rust/libs/sync/channels.html), [Mutex](https://mcmah309.github.io/rust/libs/sync/mutex.html), and more.
+Types include [Result](https://mcmah309.github.io/rust/libs/result/result.html), [Option](https://mcmah309.github.io/rust/libs/option/option.html), [Cell](https://mcmah309.github.io/rust/libs/cell/cell.html), [Slice](https://mcmah309.github.io/rust/libs/slice/slice.html), [Array](https://mcmah309.github.io/rust/libs/array/array.html), [Iterator](https://mcmah309.github.io/rust/libs/iter/iter.html), [Channels](https://mcmah309.github.io/rust/libs/sync/channels.html), [Mutex](https://mcmah309.github.io/rust/libs/sync/mutex.html), [Path](https://mcmah309.github.io/rust/libs/path/path.html) and more.
 
-See the [Book 📖](https://mcmah309.github.io/rust)
+See the [Book 📖](https://mcmah309.github.io/rust) for more!
 
 ## Example
 > Goal: Get the index of every "!" in a string not followed by a "?"

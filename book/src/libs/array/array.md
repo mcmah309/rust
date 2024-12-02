@@ -21,7 +21,7 @@ var array = Arr(null, 10); // Creates an array of 10 null values
 #### From a Constant List
 
 ```dart
-var array = Arr.constant(const [1, 2, 3, 4, 5]); // Creates an array from a constant list
+const array = Arr.constant(const [1, 2, 3, 4, 5]); // Creates an array from a constant list
 ```
 
 #### Using a Generator Function
@@ -51,7 +51,7 @@ You can use a for-in loop to iterate over the elements:
 
 ```dart
 for (final entry in array) {
-  print(entry); // Do something with each entry
+  print(entry);
 }
 ```
 
@@ -60,7 +60,7 @@ for (final entry in array) {
 You can convert `Arr` back to a regular list (this will be erased at compile time so there is no cost):
 
 ```dart
-var list = array.list;
+var list = array.asList();
 ```
 
 ### Splitting Arrays
@@ -68,5 +68,5 @@ var list = array.list;
 You can split an array into two slices:
 
 ```dart
-var (slice1, slice2) = array.splitSlice(3); // Splits the array at index 3
+var (slice1, slice2) = array.splitSlice(3);
 ```
