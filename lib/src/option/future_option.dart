@@ -13,6 +13,11 @@ extension Option$FutureOptionExtension<T extends Object> on FutureOption<T> {
   }
 
   @pragma("vm:prefer-inline")
+  Future<T?> get value {
+    return this as Future<T?>;
+  }
+
+  @pragma("vm:prefer-inline")
   Future<Option<U>> and<U extends Object>(Option<U> other) {
     return then((option) => option.and(other));
   }
