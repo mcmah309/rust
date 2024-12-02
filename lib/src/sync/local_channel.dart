@@ -156,7 +156,7 @@ class ReceiverImpl<T> implements Receiver<T> {
     while (_buffer.isNotEmpty) {
       final item = _buffer.removeAt(0);
       switch (item) {
-        case Ok(:final ok):
+        case Ok(o:final ok):
           yield ok;
         case Err():
       }
@@ -168,9 +168,9 @@ class ReceiverImpl<T> implements Receiver<T> {
     while (true) {
       final rec = await recv();
       switch (rec) {
-        case Ok(:final ok):
+        case Ok(o:final ok):
           yield ok;
-        case Err(:final err):
+        case Err(e:final err):
           switch (err) {
             case RecvError$Disconnected():
               return;

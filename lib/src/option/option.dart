@@ -15,6 +15,10 @@ part 'record_to_option_extensions.dart';
 // unless it is also `Vec<T extends Object>` and if this was true then a `Vec<Option<T>>` where `T extends Object` would not be possible,
 // because the erasure of `Option<T>` would still be `T?`. Therefore, here T cannot be `T extends Object`
 extension type const Option<T>._(T? v) {
+
+  @pragma("vm:prefer-inline")
+  T? get value => v;
+
   /// Creates a context for early return, similar to "Do notation". Works like the Rust "?" operator, which is a
   /// "Early Return Operator". Here "$" is used as the "Early Return Key". when "$" is used on a type [_None],
   /// immediately the context that "$" belongs to is returned with None(). e.g.
@@ -323,6 +327,9 @@ extension Option$OptionMethodsExtension<T extends Object> on Option<T> {
 // Dev Note: This cannot be `T extends Object`, besides the reasons [Option] cannot be as well, Something like Some(Some(...)) would not work.
 extension type const Some<T>._(T v) implements Option<T> {
   const Some(T v) : this._(v);
+
+  @pragma("vm:prefer-inline")
+  T get value => v;
 }
 
 extension Option$SomeMethodsExtension<T extends Object> on Some<T> {
@@ -470,6 +477,9 @@ const None = _None();
 /// Represents a value that is absent. The erasure of this is [null].
 extension type const _None._(Null _) implements Option<Infallible> {
   const _None() : this._(null);
+
+  @pragma("vm:prefer-inline")
+  Null get value => v;
 }
 
 extension Option$NoneMethodsExtension on _None {

@@ -266,7 +266,7 @@ void main() {
     expect(y, 2);
 
     y = switch (x) {
-      Some(v: final _) => 3,
+      Some(value: final _) => 3,
       None => 4,
     };
     expect(y, 3);
@@ -301,8 +301,8 @@ void main() {
     Option<int> w = Some(1);
     int p;
     switch (w) {
-      case Some(:final v):
-        p = v;
+      case Some(:final value):
+        p = value;
       default:
         fail("Should not reach here");
     }
