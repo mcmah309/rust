@@ -61,10 +61,10 @@ LazyCell<int> lazyCell = LazyCell(() {
   callCount++;
   return 20;
 });
-LazyCell<int> firstCall = lazyCell();
+int firstCall = lazyCell();
 expect(callCount, equals(1));
 expect(firstCall, equals(20));
-LazyCell<int> secondCall = lazyCell();
+int secondCall = lazyCell();
 expect(callCount, equals(1));
 expect(secondCall, equals(20));
 ```
@@ -79,10 +79,10 @@ LazyCellAsync<int> lazyCell = LazyCellAsync(() async {
   callCount++;
   return 20;
 });
-LazyCellAsync<int> firstCall = await lazyCell.force();
+int firstCall = await lazyCell.force();
 expect(callCount, equals(1));
 expect(firstCall, equals(20));
-LazyCellAsync<int> secondCall = lazyCell(); // Could also call `await lazyCell.force()` again.
+int secondCall = lazyCell(); // Could also call `await lazyCell.force()` again.
 expect(callCount, equals(1));
 expect(secondCall, equals(20));
 ```
