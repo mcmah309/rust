@@ -9,7 +9,7 @@ can easily switch between the two with no runtime cost.
 ```dart
 Option<int> option = None;
 
-int? nullable = option.v;
+int? nullable = option.v; // or `.value`
 option = Option.from(nullable);
 
 nullable = option as int?; // or
@@ -81,8 +81,8 @@ final preferences;
 switch (fetchUserProfile()
     .map((e) => "${e.name} - profile")
     .andThen((e) => Some(e).zip(fetchUserPreferences()))) {
-  case Some(:final v):
-    (profile, preferences) = v;
+  case Some(:final value):
+    (profile, preferences) = value;
   default:
     return;
 }
@@ -140,5 +140,5 @@ if(x == null){
 
 #### Conclusion
 If you can't decide between the two, it is recommended to use the `Option` type as the return type, since it allows 
-early return, chaining operations, and easy conversion to a nullable type with `.v`. But the choice is up to the developer.
+early return, chaining operations, and easy conversion to a nullable type with `.v`/`.value`. But the choice is up to the developer.
 You can easily use this package and never use `Option`.
