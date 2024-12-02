@@ -29,7 +29,8 @@ extension Slice$SliceNumExtension<T extends num> on Slice<T> {
   }
 }
 
-extension Slice$SliceComparableSelfExtension<T extends Comparable<T>> on Slice<T> {
+extension Slice$SliceComparableSelfExtension<T extends Comparable<T>>
+    on Slice<T> {
   /// Sorts the slice, but might not preserve the order of equal elements.
   @pragma("vm:prefer-inline")
   void sortUnstable() {

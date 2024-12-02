@@ -1,7 +1,5 @@
 import 'package:rust/rust.dart';
 
-import '../io_error.dart';
-
 const bool isIoSupported = false;
 
 class ReadDir {}
@@ -62,8 +60,9 @@ Future<Result<String, PathIoError>> readLink(String path) =>
         "'readLink' is not supported on on this platform.");
 
 @pragma('vm:prefer-inline')
-Result<String, PathIoError> readLinkSync(String path) => throw UnimplementedError(
-    "'readLinkSync' is not supported on on this platform.");
+Result<String, PathIoError> readLinkSync(String path) =>
+    throw UnimplementedError(
+        "'readLinkSync' is not supported on on this platform.");
 
 @pragma('vm:prefer-inline')
 Future<Result<Metadata, PathIoError>> symlinkMetadata(String path) =>

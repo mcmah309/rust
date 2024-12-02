@@ -4,7 +4,8 @@ import 'package:test/scaffolding.dart';
 
 void main() {
   test("components", () {
-    var components = WindowsPath("C:\\foo\\bar\\..\\.\\bar").components().iterator;
+    var components =
+        WindowsPath("C:\\foo\\bar\\..\\.\\bar").components().iterator;
     components.moveNext();
     expect(components.current, Prefix("C:"));
     components.moveNext();
@@ -86,10 +87,12 @@ void main() {
     expect(WindowsPath(".foo.rs").parent().unwrap(), WindowsPath(""));
     expect(WindowsPath("foo").parent().unwrap(), WindowsPath(""));
     expect(WindowsPath("foo.tar.gz").parent().unwrap(), WindowsPath(""));
-    expect(WindowsPath("temp\\foo.tar.gz").parent().unwrap(), WindowsPath("temp"));
-    expect(WindowsPath("temp1\\temp2\\foo.tar.gz").parent().unwrap(), WindowsPath("temp1\\temp2"));
     expect(
-        WindowsPath("temp1\\temp2\\\\foo.tar.gz").parent().unwrap(), WindowsPath("temp1\\temp2"));
+        WindowsPath("temp\\foo.tar.gz").parent().unwrap(), WindowsPath("temp"));
+    expect(WindowsPath("temp1\\temp2\\foo.tar.gz").parent().unwrap(),
+        WindowsPath("temp1\\temp2"));
+    expect(WindowsPath("temp1\\temp2\\\\foo.tar.gz").parent().unwrap(),
+        WindowsPath("temp1\\temp2"));
     expect(WindowsPath("").parent().isNone(), true);
 
     expect(
@@ -155,27 +158,34 @@ void main() {
   test("withExtension", () {
     expect(WindowsPath("foo").withExtension("rs"), WindowsPath("foo.rs"));
     expect(WindowsPath("foo.rs").withExtension("rs"), WindowsPath("foo.rs"));
-    expect(WindowsPath("foo.tar.gz").withExtension("rs"), WindowsPath("foo.tar.rs"));
+    expect(WindowsPath("foo.tar.gz").withExtension("rs"),
+        WindowsPath("foo.tar.rs"));
     expect(WindowsPath("foo.tar.gz").withExtension(""), WindowsPath("foo.tar"));
-    expect(WindowsPath("foo.tar.gz").withExtension("tar.gz"), WindowsPath("foo.tar.tar.gz"));
+    expect(WindowsPath("foo.tar.gz").withExtension("tar.gz"),
+        WindowsPath("foo.tar.tar.gz"));
     expect(WindowsPath("C:\\tmp\\foo.tar.gz").withExtension("tar.gz"),
         WindowsPath("C:\\tmp\\foo.tar.tar.gz"));
-    expect(WindowsPath("tmp\\foo").withExtension("tar.gz"), WindowsPath("tmp\\foo.tar.gz"));
-    expect(WindowsPath("tmp\\.foo.tar").withExtension("tar.gz"), WindowsPath("tmp\\.foo.tar.gz"));
+    expect(WindowsPath("tmp\\foo").withExtension("tar.gz"),
+        WindowsPath("tmp\\foo.tar.gz"));
+    expect(WindowsPath("tmp\\.foo.tar").withExtension("tar.gz"),
+        WindowsPath("tmp\\.foo.tar.gz"));
 
     expect(
         WindowsPath(
                 "\\Downloads\\The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
             .withExtension(""),
-        WindowsPath("\\Downloads\\The Annual Report on the Health of the Parish of St"));
+        WindowsPath(
+            "\\Downloads\\The Annual Report on the Health of the Parish of St"));
   });
 
   test("withFileName", () {
     expect(WindowsPath("foo").withFileName("bar"), WindowsPath("bar"));
     expect(WindowsPath("foo.rs").withFileName("bar"), WindowsPath("bar"));
     expect(WindowsPath("foo.tar.gz").withFileName("bar"), WindowsPath("bar"));
-    expect(WindowsPath("C:\\tmp\\foo.tar.gz").withFileName("bar"), WindowsPath("C:\\tmp\\bar"));
-    expect(WindowsPath("tmp\\foo").withFileName("bar"), WindowsPath("tmp\\bar"));
+    expect(WindowsPath("C:\\tmp\\foo.tar.gz").withFileName("bar"),
+        WindowsPath("C:\\tmp\\bar"));
+    expect(
+        WindowsPath("tmp\\foo").withFileName("bar"), WindowsPath("tmp\\bar"));
     expect(WindowsPath("C:\\var").withFileName("bar"), WindowsPath("C:\\bar"));
 
     expect(

@@ -222,7 +222,8 @@ extension type UnixPath._(String _string) implements Object {
   /// {@template path.Path.join}
   /// Creates an Path with path adjoined to this.
   /// {@endtemplate}
-  UnixPath join(UnixPath other) => UnixPath(_posix.join(_string, other._string));
+  UnixPath join(UnixPath other) =>
+      UnixPath(_posix.join(_string, other._string));
 
   /// {@template path.Path.metadataSync}
   /// Queries the file system to get information about a file, directory, etc.
@@ -269,15 +270,13 @@ extension type UnixPath._(String _string) implements Object {
   /// Returns an iterator over the entries within a directory.
   /// Note: using this method results in the program no longer being able to compile to web.
   /// {@endtemplate}
-  Result<io.ReadDir, PathIoError> readDirSync() =>
-      io.readDirSync(_string);
+  Result<io.ReadDir, PathIoError> readDirSync() => io.readDirSync(_string);
 
   /// {@template path.Path.readDir}
   /// Returns an iterator over the entries within a directory.
   /// Note: using this method results in the program no longer being able to compile to web.
   /// {@endtemplate}
-  Future<Result<io.ReadDir, PathIoError>> readDir() =>
-      io.readDir(_string);
+  Future<Result<io.ReadDir, PathIoError>> readDir() => io.readDir(_string);
 
   /// {@template path.Path.readLinkSync}
   /// Reads a symbolic link, returning the file that the link points to.

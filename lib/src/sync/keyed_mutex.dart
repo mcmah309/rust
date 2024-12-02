@@ -59,7 +59,8 @@ class KeyedMutex<K> {
   void release(K key) {
     final lock = _rwMutexes[key];
     if (lock == null) {
-      throw StateError('`release` called for lock with key `$key`, when no lock to release.');
+      throw StateError(
+          '`release` called for lock with key `$key`, when no lock to release.');
     }
     if (lock._waiting.isEmpty) {
       _rwMutexes.remove(key);

@@ -15,7 +15,6 @@ part 'record_to_option_extensions.dart';
 // unless it is also `Vec<T extends Object>` and if this was true then a `Vec<Option<T>>` where `T extends Object` would not be possible,
 // because the erasure of `Option<T>` would still be `T?`. Therefore, here T cannot be `T extends Object`
 extension type const Option<T>._(T? v) {
-
   @pragma("vm:prefer-inline")
   T? get value => v;
 

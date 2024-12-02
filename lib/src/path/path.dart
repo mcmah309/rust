@@ -11,7 +11,6 @@ part 'platform_path.dart';
 part 'unix_path.dart';
 part 'windows_path.dart';
 
-
 extension Path$StringExtension on String {
   Path asPath() => Path(this);
 
@@ -36,7 +35,8 @@ class Prefix extends Component {
   const Prefix(this.value);
 
   @override
-  bool operator ==(Object other) => other == value || (other is Prefix && other.value == value);
+  bool operator ==(Object other) =>
+      other == value || (other is Prefix && other.value == value);
 
   @override
   int get hashCode => value.hashCode;
@@ -55,7 +55,8 @@ class RootDir extends Component {
   const RootDir(this.isWindows);
 
   @override
-  bool operator ==(Object other) => other is RootDir && isWindows == other.isWindows;
+  bool operator ==(Object other) =>
+      other is RootDir && isWindows == other.isWindows;
 
   @override
   int get hashCode => isWindows.hashCode;

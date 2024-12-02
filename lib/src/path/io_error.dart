@@ -7,7 +7,8 @@ sealed class PathIoError implements Exception {
   factory PathIoError.notAFile(String path) = PathIoError$NotAFile;
   factory PathIoError.notALink(String path) = PathIoError$NotALink;
   factory PathIoError.notAValidPath(String path) = PathIoError$NotAValidPath;
-  factory PathIoError.unknown(String path, [Object? error]) = PathIoError$Unknown;
+  factory PathIoError.unknown(String path, [Object? error]) =
+      PathIoError$Unknown;
 
   @override
   String toString() {
@@ -16,7 +17,9 @@ sealed class PathIoError implements Exception {
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == runtimeType && other is PathIoError && other.path == path;
+    return other.runtimeType == runtimeType &&
+        other is PathIoError &&
+        other.path == path;
   }
 
   @override

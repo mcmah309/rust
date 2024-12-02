@@ -1,3 +1,1 @@
-
-
 const bool isWindows = false;

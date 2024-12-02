@@ -34,7 +34,8 @@ void main() {
       ]);
 
       expect(account.balance, equals(42),
-          reason: "Unique Ids do not lock each-other, thus 42 will be set last.");
+          reason:
+              "Unique Ids do not lock each-other, thus 42 will be set last.");
     });
 
     test('Locks with same Ids', () async {
@@ -46,7 +47,8 @@ void main() {
       ]);
 
       expect(account.balance, equals(68),
-          reason: "Same Ids lock each-other, thus the second will see the firsts set value.");
+          reason:
+              "Same Ids lock each-other, thus the second will see the firsts set value.");
     });
 
     group('withLock functionality', () {
@@ -66,7 +68,8 @@ void main() {
         final value = await keyMutex.withLock('id1', () async => 42);
         expect(value, equals(42));
 
-        final nullValue = await keyMutex.withLock<String?>('id1', () async => null);
+        final nullValue =
+            await keyMutex.withLock<String?>('id1', () async => null);
         expect(nullValue, isNull);
 
         expect(keyMutex.isLocked('id1'), isFalse);

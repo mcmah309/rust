@@ -78,8 +78,10 @@ void main() {
     expect(UnixPath("foo").parent().unwrap(), UnixPath(""));
     expect(UnixPath("foo.tar.gz").parent().unwrap(), UnixPath(""));
     expect(UnixPath("temp/foo.tar.gz").parent().unwrap(), UnixPath("temp"));
-    expect(UnixPath("temp1/temp2/foo.tar.gz").parent().unwrap(), UnixPath("temp1/temp2"));
-    expect(UnixPath("temp1/temp2//foo.tar.gz").parent().unwrap(), UnixPath("temp1/temp2"));
+    expect(UnixPath("temp1/temp2/foo.tar.gz").parent().unwrap(),
+        UnixPath("temp1/temp2"));
+    expect(UnixPath("temp1/temp2//foo.tar.gz").parent().unwrap(),
+        UnixPath("temp1/temp2"));
     expect(UnixPath("").parent().isNone(), true);
 
     expect(
@@ -146,23 +148,29 @@ void main() {
     expect(UnixPath("foo.rs").withExtension("rs"), UnixPath("foo.rs"));
     expect(UnixPath("foo.tar.gz").withExtension("rs"), UnixPath("foo.tar.rs"));
     expect(UnixPath("foo.tar.gz").withExtension(""), UnixPath("foo.tar"));
-    expect(UnixPath("foo.tar.gz").withExtension("tar.gz"), UnixPath("foo.tar.tar.gz"));
-    expect(UnixPath("/tmp/foo.tar.gz").withExtension("tar.gz"), UnixPath("/tmp/foo.tar.tar.gz"));
-    expect(UnixPath("tmp/foo").withExtension("tar.gz"), UnixPath("tmp/foo.tar.gz"));
-    expect(UnixPath("tmp/.foo.tar").withExtension("tar.gz"), UnixPath("tmp/.foo.tar.gz"));
+    expect(UnixPath("foo.tar.gz").withExtension("tar.gz"),
+        UnixPath("foo.tar.tar.gz"));
+    expect(UnixPath("/tmp/foo.tar.gz").withExtension("tar.gz"),
+        UnixPath("/tmp/foo.tar.tar.gz"));
+    expect(UnixPath("tmp/foo").withExtension("tar.gz"),
+        UnixPath("tmp/foo.tar.gz"));
+    expect(UnixPath("tmp/.foo.tar").withExtension("tar.gz"),
+        UnixPath("tmp/.foo.tar.gz"));
 
     expect(
         UnixPath(
                 "/Downloads/The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
             .withExtension(""),
-        UnixPath("/Downloads/The Annual Report on the Health of the Parish of St"));
+        UnixPath(
+            "/Downloads/The Annual Report on the Health of the Parish of St"));
   });
 
   test("withFileName", () {
     expect(UnixPath("foo").withFileName("bar"), UnixPath("bar"));
     expect(UnixPath("foo.rs").withFileName("bar"), UnixPath("bar"));
     expect(UnixPath("foo.tar.gz").withFileName("bar"), UnixPath("bar"));
-    expect(UnixPath("/tmp/foo.tar.gz").withFileName("bar"), UnixPath("/tmp/bar"));
+    expect(
+        UnixPath("/tmp/foo.tar.gz").withFileName("bar"), UnixPath("/tmp/bar"));
     expect(UnixPath("tmp/foo").withFileName("bar"), UnixPath("tmp/bar"));
     expect(UnixPath("/var").withFileName("bar"), UnixPath("/bar"));
 

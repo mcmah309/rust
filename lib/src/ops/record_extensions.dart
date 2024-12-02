@@ -37,7 +37,16 @@ extension OpsRecordExtension7<A, B, C, D, E, F, G> on (A, B, C, D, E, F, G) {
       (this.$1, this.$2, this.$3, this.$4, this.$5, this.$6, this.$7, other);
 }
 
-extension OpsRecordExtension8<A, B, C, D, E, F, G, H> on (A, B, C, D, E, F, G, H) {
+extension OpsRecordExtension8<A, B, C, D, E, F, G, H> on (
+  A,
+  B,
+  C,
+  D,
+  E,
+  F,
+  G,
+  H
+) {
   @pragma("vm:prefer-inline")
   (A, B, C, D, E, F, G, H, Z) add<Z>(Z other) => (
         this.$1,

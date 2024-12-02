@@ -450,7 +450,8 @@ extension Result$RecordResult6Extension<A, B, C, D, E, F, Z extends Object> on (
   }
 }
 
-extension Result$RecordResult7Extension<A, B, C, D, E, F, G, Z extends Object> on (
+extension Result$RecordResult7Extension<A, B, C, D, E, F, G, Z extends Object>
+    on (
   Result<A, Z>,
   Result<B, Z>,
   Result<C, Z>,
@@ -567,7 +568,8 @@ extension Result$RecordResult7Extension<A, B, C, D, E, F, G, Z extends Object> o
   }
 }
 
-extension Result$RecordResult8Extension<A, B, C, D, E, F, G, H, Z extends Object> on (
+extension Result$RecordResult8Extension<A, B, C, D, E, F, G, H,
+    Z extends Object> on (
   Result<A, Z>,
   Result<B, Z>,
   Result<C, Z>,
@@ -698,7 +700,8 @@ extension Result$RecordResult8Extension<A, B, C, D, E, F, G, H, Z extends Object
   }
 }
 
-extension Result$RecordResult9Extension<A, B, C, D, E, F, G, H, I, Z extends Object> on (
+extension Result$RecordResult9Extension<A, B, C, D, E, F, G, H, I,
+    Z extends Object> on (
   Result<A, Z>,
   Result<B, Z>,
   Result<C, Z>,
@@ -843,7 +846,8 @@ extension Result$RecordResult9Extension<A, B, C, D, E, F, G, H, I, Z extends Obj
   }
 }
 
-extension Result$RecordResult10Extension<A, B, C, D, E, F, G, H, I, J, Z extends Object> on (
+extension Result$RecordResult10Extension<A, B, C, D, E, F, G, H, I, J,
+    Z extends Object> on (
   Result<A, Z>,
   Result<B, Z>,
   Result<C, Z>,
@@ -1101,7 +1105,8 @@ extension Result$RecordFunctionResult3Extension<A, B, C, Z extends Object> on (
   }
 }
 
-extension Result$RecordFunctionResult4Extension<A, B, C, D, Z extends Object> on (
+extension Result$RecordFunctionResult4Extension<A, B, C, D, Z extends Object>
+    on (
   Result<A, Z> Function(),
   Result<B, Z> Function(),
   Result<C, Z> Function(),
@@ -1142,7 +1147,8 @@ extension Result$RecordFunctionResult4Extension<A, B, C, D, Z extends Object> on
   }
 }
 
-extension Result$RecordFunctionResult5Extension<A, B, C, D, E, Z extends Object> on (
+extension Result$RecordFunctionResult5Extension<A, B, C, D, E, Z extends Object>
+    on (
   Result<A, Z> Function(),
   Result<B, Z> Function(),
   Result<C, Z> Function(),
@@ -1191,7 +1197,8 @@ extension Result$RecordFunctionResult5Extension<A, B, C, D, E, Z extends Object>
   }
 }
 
-extension Result$RecordFunctionResult6Extension<A, B, C, D, E, F, Z extends Object> on (
+extension Result$RecordFunctionResult6Extension<A, B, C, D, E, F,
+    Z extends Object> on (
   Result<A, Z> Function(),
   Result<B, Z> Function(),
   Result<C, Z> Function(),
@@ -1248,7 +1255,8 @@ extension Result$RecordFunctionResult6Extension<A, B, C, D, E, F, Z extends Obje
   }
 }
 
-extension Result$RecordFunctionResult7Extension<A, B, C, D, E, F, G, Z extends Object> on (
+extension Result$RecordFunctionResult7Extension<A, B, C, D, E, F, G,
+    Z extends Object> on (
   Result<A, Z> Function(),
   Result<B, Z> Function(),
   Result<C, Z> Function(),
@@ -1313,7 +1321,8 @@ extension Result$RecordFunctionResult7Extension<A, B, C, D, E, F, G, Z extends O
   }
 }
 
-extension Result$RecordFunctionResult8Extension<A, B, C, D, E, F, G, H, Z extends Object> on (
+extension Result$RecordFunctionResult8Extension<A, B, C, D, E, F, G, H,
+    Z extends Object> on (
   Result<A, Z> Function(),
   Result<B, Z> Function(),
   Result<C, Z> Function(),
@@ -1386,8 +1395,8 @@ extension Result$RecordFunctionResult8Extension<A, B, C, D, E, F, G, H, Z extend
   }
 }
 
-extension Result$RecordFunctionResult9Extension<A, B, C, D, E, F, G, H, I, Z extends Object>
-    on (
+extension Result$RecordFunctionResult9Extension<A, B, C, D, E, F, G, H, I,
+    Z extends Object> on (
   Result<A, Z> Function(),
   Result<B, Z> Function(),
   Result<C, Z> Function(),

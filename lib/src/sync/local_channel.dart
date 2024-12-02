@@ -138,8 +138,7 @@ class ReceiverImpl<T> implements Receiver<T> {
   @override
   Future<Result<T, RecvError>> recvTimeout(Duration timeLimit) async {
     try {
-      return await _next()
-          .timeout(timeLimit);
+      return await _next().timeout(timeLimit);
     } on TimeoutException catch (timeoutException) {
       return Err(RecvError$Timeout(timeoutException));
     } catch (error) {
@@ -156,7 +155,7 @@ class ReceiverImpl<T> implements Receiver<T> {
     while (_buffer.isNotEmpty) {
       final item = _buffer.removeAt(0);
       switch (item) {
-        case Ok(o:final ok):
+        case Ok(o: final ok):
           yield ok;
         case Err():
       }
@@ -168,9 +167,9 @@ class ReceiverImpl<T> implements Receiver<T> {
     while (true) {
       final rec = await recv();
       switch (rec) {
-        case Ok(o:final ok):
+        case Ok(o: final ok):
           yield ok;
-        case Err(e:final err):
+        case Err(e: final err):
           switch (err) {
             case RecvError$Disconnected():
               return;

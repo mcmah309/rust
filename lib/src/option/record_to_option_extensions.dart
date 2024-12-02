@@ -625,7 +625,8 @@ extension Option$RecordOptionFunction9Extension<A, B, C, D, E, F, G, H, I> on (
   }
 }
 
-extension Option$RecordOptionFunction10Extension<A, B, C, D, E, F, G, H, I, J> on (
+extension Option$RecordOptionFunction10Extension<A, B, C, D, E, F, G, H, I, J>
+    on (
   Option<A> Function(),
   Option<B> Function(),
   Option<C> Function(),

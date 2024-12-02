@@ -166,10 +166,12 @@ extension type WindowsPath._(String _string) implements Object {
   Future<bool> isSymlink() => io.isSymlink(_string);
 
   /// {@macro path.Path.iter}
-  Iter<String> iter() => Iter.fromIterable(components().map((e) => e.toString()));
+  Iter<String> iter() =>
+      Iter.fromIterable(components().map((e) => e.toString()));
 
   /// {@macro path.Path.join}
-  WindowsPath join(WindowsPath other) => WindowsPath(_windows.join(_string, other._string));
+  WindowsPath join(WindowsPath other) =>
+      WindowsPath(_windows.join(_string, other._string));
 
   /// {@macro path.Path.metadataSync}
   io.Metadata metadataSync() => io.metadataSync(_string);
@@ -232,10 +234,12 @@ extension type WindowsPath._(String _string) implements Object {
   }
 
   /// {@macro path.Path.symlinkMetadataSync}
-  Result<io.Metadata, PathIoError> symlinkMetadataSync() => io.symlinkMetadataSync(_string);
+  Result<io.Metadata, PathIoError> symlinkMetadataSync() =>
+      io.symlinkMetadataSync(_string);
 
   /// {@macro path.Path.symlinkMetadata}
-  Future<Result<io.Metadata, PathIoError>> symlinkMetadata() => io.symlinkMetadata(_string);
+  Future<Result<io.Metadata, PathIoError>> symlinkMetadata() =>
+      io.symlinkMetadata(_string);
 
   /// {@macro path.Path.withExtension}
   WindowsPath withExtension(String extension) {

@@ -6,7 +6,8 @@ typedef FutureResult<S, F extends Object> = Future<Result<S, F>>;
 /// {@template futureResult}
 /// [FutureResult] represents an asynchronous [Result]. And as such, inherits all of [Result]s methods.
 /// {@endtemplate}
-extension Result$FutureResultExtension<S, F extends Object> on FutureResult<S, F> {
+extension Result$FutureResultExtension<S, F extends Object>
+    on FutureResult<S, F> {
   @pragma("vm:prefer-inline")
   Future<S> unwrap() {
     return then((result) => result.unwrap());

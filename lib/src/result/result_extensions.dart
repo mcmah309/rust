@@ -1,6 +1,7 @@
 part of 'result.dart';
 
-extension Result$ResultResultExtension<S, F extends Object> on Result<Result<S, F>, F> {
+extension Result$ResultResultExtension<S, F extends Object>
+    on Result<Result<S, F>, F> {
   /// Converts a [Result] of a [Result] into a single [Result]
   @pragma("vm:prefer-inline")
   Result<S, F> flatten() {
@@ -36,8 +37,8 @@ extension Result$ResultNullableExtension<S, F extends Object> on Result<S?, F> {
   }
 }
 
-extension Result$FutureResultNullableExtension<S extends Object, F extends Object>
-    on Future<Result<S?, F>> {
+extension Result$FutureResultNullableExtension<S extends Object,
+    F extends Object> on Future<Result<S?, F>> {
   @pragma("vm:prefer-inline")
   Future<Result<S, F>?> transpose() {
     return then((result) => result.transposeOut());
@@ -192,7 +193,8 @@ extension Result$FutureIterableFutureResultExtension<S, F extends Object>
   }
 }
 
-extension Result$ResultToFutureResultExtension<S, F extends Object> on Result<S, F> {
+extension Result$ResultToFutureResultExtension<S, F extends Object>
+    on Result<S, F> {
   /// Turns a [Result] into a [FutureResult].
   @pragma("vm:prefer-inline")
   FutureResult<S, F> toFutureResult() async {
@@ -238,7 +240,8 @@ extension Result$InfallibleOkExtension<S> on Result<S, Infallible> {
   }
 }
 
-extension Result$InfallibleErrExtension<F extends Object> on Result<Infallible, F> {
+extension Result$InfallibleErrExtension<F extends Object>
+    on Result<Infallible, F> {
   @pragma("vm:prefer-inline")
   F intoErr() {
     return unwrapErr();

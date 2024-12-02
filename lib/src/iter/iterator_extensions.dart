@@ -30,7 +30,8 @@ extension Iter$IterIterableExtension<T> on Iter<Iterable<T>> {
   }
 }
 
-extension Iter$IterComparableOtherExtension<U, T extends Comparable<U>> on Iter<T> {
+extension Iter$IterComparableOtherExtension<U, T extends Comparable<U>>
+    on Iter<T> {
   /// Lexicographically compares the elements of this Iterator with those of another.
   /// Less = -1
   /// Equal = 0
