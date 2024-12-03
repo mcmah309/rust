@@ -111,7 +111,8 @@ void main() {
     test("5 records to result Err", () {
       bool hasErr = false;
       final a, b, c, d, e;
-      switch ((boolOk(), intOk(), doubleOk(), stringErr(), intOk()).toResult()) {
+      switch (
+          (boolOk(), intOk(), doubleOk(), stringErr(), intOk()).toResult()) {
         case Ok(o: final ok):
           (a, b, c, d, e) = ok;
         case Err():
@@ -202,7 +203,8 @@ void main() {
     // Case 5: 5 records to Result
     test("5 records to result Ok", () {
       final a, b, c, d, e;
-      switch ((boolOk(), intOk(), doubleOk(), stringOk(), intOk()).toResultEager()) {
+      switch ((boolOk(), intOk(), doubleOk(), stringOk(), intOk())
+          .toResultEager()) {
         case Ok(o: final ok):
           (a, b, c, d, e) = ok;
         case Err():
@@ -218,7 +220,8 @@ void main() {
     test("5 records to result Err", () {
       bool hasErr = false;
       final a, b, c, d, e;
-      switch ((boolOk(), intOk(), doubleOk(), stringErr(), intOk()).toResultEager()) {
+      switch ((boolOk(), intOk(), doubleOk(), stringErr(), intOk())
+          .toResultEager()) {
         case Ok(o: final ok):
           (a, b, c, d, e) = ok;
         case Err():
