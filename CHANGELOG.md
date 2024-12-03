@@ -1,8 +1,12 @@
+## 2.0.1
+
+- Doc update
+
 ## 2.0.0
 
 - Add `Path`, `UnixPath`, `WindowsPath`
 - Add `KeyedMutex`
-- Add `o` to `Ok`, `e` to `Err`, `value` to `Option`
+- Add `o`/`okay` to `Ok`, `e`/`error` to `Err`, `value` to `Option`
 - Change `channel` to `localChannel`
 - Remove deprecations
 - Remove individual library import files
