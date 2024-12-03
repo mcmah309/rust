@@ -10,7 +10,7 @@ can easily switch between the two with no runtime cost.
 Option<int> option = None;
 
 int? nullable = option.v; // or `.value`
-option = Option.from(nullable);
+option = Option.of(nullable);
 
 nullable = option as int?; // or
 option = nullable as Option<int>; // or

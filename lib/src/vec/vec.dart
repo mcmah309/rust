@@ -225,16 +225,16 @@ extension Vec$ListExtension<T> on List<T> {
 
   /// Returns the first element of an iterator, None if empty.
   @pragma('vm:prefer-inline')
-  Option<T> firstOrOption() => Option.from(firstOrNull);
+  Option<T> firstOrOption() => Option.of(firstOrNull);
 
 // isEmpty: implemented by List
 // isNotEmpty: implemented by List
 
   /// Returns the last element of an iterator, None if empty.
   @pragma('vm:prefer-inline')
-  Option<T> lastOrOption() => Option.from(lastOrNull);
+  Option<T> lastOrOption() => Option.of(lastOrNull);
 
   /// Returns the single element of an iterator, None if this is empty or has more than one element.
   @pragma('vm:prefer-inline')
-  Option<T> singleOrOption() => Option.from(singleOrNull);
+  Option<T> singleOrOption() => Option.of(singleOrNull);
 }

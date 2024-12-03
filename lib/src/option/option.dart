@@ -66,7 +66,11 @@ extension type const Option<T>._(T? v) {
   }
 
   /// Converts from `T?` to `Option<T>`.
+  @Deprecated('Use `Option.of`')
   Option.from(T? v) : this._(v);
+
+  /// Converts from `T?` to `Option<T>`.
+  Option.of(T? v) : this._(v);
 }
 
 extension Option$OptionMethodsExtension<T extends Object> on Option<T> {

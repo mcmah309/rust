@@ -202,14 +202,14 @@ void main() {
   //************************************************************************//
 
   test("Option UnixPath", () {
-    final optionUnixPath = Option.from(UnixPath("UnixPath"));
+    final optionUnixPath = Option.of(UnixPath("UnixPath"));
     switch (optionUnixPath) {
       case Some(v: final _):
         break;
       default:
         fail("Should be Some");
     }
-    final Option<String> optionString = Option.from("string");
+    final Option<String> optionString = Option.of("string");
     switch (optionString) {
       case Some(v: final _):
         break;

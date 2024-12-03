@@ -325,7 +325,7 @@ void main() {
     Option<int> option = intNone();
     int? nullable = option.v;
     nullable = option as int?; // or
-    option = Option.from(nullable);
+    option = Option.of(nullable);
     option = nullable as Option<int>; // or
   });
 
