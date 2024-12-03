@@ -21,10 +21,10 @@ Result<int, String> usingTheEarlyReturnKeyExample() => Result(($) {
 
 Result<int, String> usingRegularPatternMatchingExample() {
   switch (willAlwaysReturnErr()) {
-    case Err(:final err):
-      return Err(err);
-    case Ok(:final ok):
-      return Ok(ok.toInt());
+    case Err(:final e):
+      return Err(e);
+    case Ok(:final o):
+      return Ok(o.toInt());
   }
 }
 

@@ -19,9 +19,9 @@ void main() {
       final a, b;
       switch ((boolOk(), intOk()).toResult()) {
         case Ok(
-            :final ok,
+            :final o,
           ):
-          (a, b) = ok;
+          (a, b) = o;
         case Err(e: final _):
           throw Exception();
       }
@@ -33,9 +33,9 @@ void main() {
       bool hasErr = false;
       final a, b;
       switch ((boolOk(), intErr()).toResult()) {
-        case Ok(ok: final o):
-          (a, b) = o;
-        case Err(err: final _):
+        case Ok(okay: final record):
+          (a, b) = record;
+        case Err(error: final _):
           hasErr = true;
       }
       expect(hasErr, true);
@@ -44,8 +44,8 @@ void main() {
     test("3 records to result Ok", () {
       final a, b, c;
       switch ((boolOk(), intOk(), doubleOk()).toResult()) {
-        case Ok(o: final ok):
-          (a, b, c) = ok;
+        case Ok(o: final record):
+          (a, b, c) = record;
         case Err():
           throw Exception();
       }
@@ -111,8 +111,7 @@ void main() {
     test("5 records to result Err", () {
       bool hasErr = false;
       final a, b, c, d, e;
-      switch (
-          (boolOk(), intOk(), doubleOk(), stringErr(), intOk()).toResult()) {
+      switch ((boolOk(), intOk(), doubleOk(), stringErr(), intOk()).toResult()) {
         case Ok(o: final ok):
           (a, b, c, d, e) = ok;
         case Err():
@@ -203,8 +202,7 @@ void main() {
     // Case 5: 5 records to Result
     test("5 records to result Ok", () {
       final a, b, c, d, e;
-      switch ((boolOk(), intOk(), doubleOk(), stringOk(), intOk())
-          .toResultEager()) {
+      switch ((boolOk(), intOk(), doubleOk(), stringOk(), intOk()).toResultEager()) {
         case Ok(o: final ok):
           (a, b, c, d, e) = ok;
         case Err():
@@ -220,8 +218,7 @@ void main() {
     test("5 records to result Err", () {
       bool hasErr = false;
       final a, b, c, d, e;
-      switch ((boolOk(), intOk(), doubleOk(), stringErr(), intOk())
-          .toResultEager()) {
+      switch ((boolOk(), intOk(), doubleOk(), stringErr(), intOk()).toResultEager()) {
         case Ok(o: final ok):
           (a, b, c, d, e) = ok;
         case Err():

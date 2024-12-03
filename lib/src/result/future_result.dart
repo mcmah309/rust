@@ -36,8 +36,8 @@ extension Result$FutureResultExtension<S, F extends Object>
   }
 
   @pragma("vm:prefer-inline")
-  Future<Option<S>> unwrapOrOption() async {
-    return then((result) => result.unwrapOrOption());
+  Future<Option<S>> ok() async {
+    return then((result) => result.ok());
   }
 
   @pragma("vm:prefer-inline")

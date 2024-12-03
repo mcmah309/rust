@@ -12,14 +12,14 @@ There are four ways to never unwrap incorrectly:
 ### Pattern Matching
 Simple do a type check with `is` or `case` instead of `isErr()`.
 ```dart
-if (x case Err(:final err)){
-    return err;
+if (x case Err(:final error)){
+    return error;
 }
 ```
 and vice versa
 ```dart
-if (x case Ok(:final ok)){
-    return ok;
+if (x case Ok(:final okay)){
+    return okay;
 }
 ```
 The type check does an implicit cast, and we now have access to the immutable error and ok value respectively.
@@ -27,15 +27,15 @@ The type check does an implicit cast, and we now have access to the immutable er
 Similarly, we can mimic Rust's `match` keyword, with Dart's `switch`
 ```dart
 switch(x){
- case Ok(:final ok):
-   print(ok);
- case Err(:final err):
-   print(err);
+ case Ok(:final o):
+   print(o);
+ case Err(:final e):
+   print(e);
 }
 
 final y = switch(x){
-  Ok(:final ok) => ok,
-  Err(:final err) => err,
+  Ok(:final o) => o,
+  Err(:final e) => e,
 };
 ```
 ### Declaratively
@@ -103,22 +103,22 @@ like this:
 final a, b, c;
 final boolResult = boolOk();
 switch(boolResult){
-  case Ok(:final ok):
-    a = ok;
+  case Ok(:final o):
+    a = o;
   case Err():
     return boolResult;
 }
 final intResult = intOk();
 switch(intResult){
-  case Ok(:final ok):
-    b = ok;
+  case Ok(:final o):
+    b = o;
   case Err():
       return intResult;
 }
 final doubleResult = doubleOk();
 switch(doubleResult){
-    case Ok(:final ok):
-        c = ok;
+    case Ok(:final o):
+        c = o;
     case Err():
         return doubleResult;
 }
@@ -129,8 +129,8 @@ That is a little verbose. Fortunately, extensions to the recuse, instead do:
 final a, b, c;
 final result = (boolOk, intOk, doubleOk).toResultEager();
 switch(result){
-   case Ok(:final ok):
-      (a, b, c) = ok;
+   case Ok(:final o):
+      (a, b, c) = o;
    case Err():
       return result;
 }
@@ -155,10 +155,10 @@ Result<int,String> usingTheEarlyReturnKey() => Result(($){ // Early Return Key
 Result<int,String> usingRegularPatternMatching(){
   int x;
   switch(willAlwaysReturnErr()){
-    case Err(:final err):
-      return Err(err);
-    case Ok(:final ok):
-      x = ok.toInt();
+    case Err(:final e):
+      return Err(e);
+    case Ok(:final o):
+      x = o.toInt();
   }
   return Ok(x);
 }

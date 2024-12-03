@@ -13,17 +13,17 @@ import 'package:rust/result.dart';
 void main() {
   final result = processOrder("Bob", 2);
   switch(result) {
-    Ok(:var ok) => print("Success: $ok"),
-    Err(:var err) => print("Error: $err"),
+    Ok(:var okay) => print("Success: $okay"),
+    Err(:var error) => print("Error: $error"),
   };
 }
 
 Result<String, String> processOrder(String user, int orderNumber) {
   final result = makeFood(orderNumber);
-  if(result case Ok(:final ok)) {
+  if(result case Ok(o:final order)) {
     final paymentResult = processPayment(user);
-    if(paymentResult case Ok(ok:final paymentOk)) {
-      return Ok("Order of $ok is complete for $user. Payment: $paymentOk");
+    if(paymentResult case Ok(o:final payment)) {
+      return Ok("Order of $order is complete for $user. Payment: $payment");
     }
     return paymentResult;
   }

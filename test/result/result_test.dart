@@ -289,16 +289,16 @@ void main() {
     });
   });
 
-  group('unwrapOrOption', () {
+  group('ok', () {
     test('Ok', () {
       final result = Ok(0);
-      final value = result.unwrapOrOption();
+      final value = result.ok();
       expect(value, Some(0));
     });
 
     test('Err', () {
       final result = Err(0);
-      final value = result.unwrapOrOption();
+      final value = result.ok();
       expect(value, None);
     });
   });
@@ -487,5 +487,20 @@ void main() {
           });
       expect(testDoNotation().unwrapErr(), "");
     });
+  });
+
+  test("Result shadowing", () {
+    int outer = 2;
+    Result<int, String> result = Ok(1);
+    int value;
+    switch (result) {
+      case Ok(o: final outer):
+        value = outer;
+      case Err(e: final errorValue):
+        final _ = errorValue;
+        throw Exception();
+    }
+    expect(value, equals(1));
+    expect(outer, equals(2));
   });
 }

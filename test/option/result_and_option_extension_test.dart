@@ -2,22 +2,22 @@ import 'package:rust/rust.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test("ResultOnOptionExtension unwrapOrOption", () {
+  test("ResultOnOptionExtension ok", () {
     Result<int, String> okResult = Ok(5);
-    expect(okResult.unwrapOrOption(), Some(5));
+    expect(okResult.ok(), Some(5));
 
     Result<int, String> errResult = Err("Error");
-    expect(errResult.unwrapOrOption(), None);
+    expect(errResult.ok(), None);
   });
 
-  test("OkOnOptionExtension unwrapOrOption", () {
+  test("OkOnOptionExtension ok", () {
     Ok<int, String> okResult = Ok(5);
-    expect(okResult.unwrapOrOption(), Some(5));
+    expect(okResult.ok(), Some(5));
   });
 
-  test("ErrOnOptionExtension unwrapOrOption", () {
+  test("ErrOnOptionExtension ok", () {
     Err<int, String> errResult = Err("Error");
-    expect(errResult.unwrapOrOption(), None);
+    expect(errResult.ok(), None);
   });
 
   test("ResultOptionExtension transpose", () {
