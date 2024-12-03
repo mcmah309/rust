@@ -1,3 +1,7 @@
+## 2.0.2
+
+- Add `Option.of`
+
 ## 2.0.1
 
 - Doc update
