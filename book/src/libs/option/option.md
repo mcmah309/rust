@@ -119,7 +119,7 @@ print('Profile: $profile, Preferences: $preferences');
 Currently in Dart, one cannot rebind variables and `Option` does not support type promotion like nullable types. 
 This makes using `Option` less ergonomic in some scenarios.
 ```dart
-Option<int> xOpt = ...;
+Option<int> xOpt = optionFunc();
 int x;
 switch(xOpt) {
   Some(:final v):
@@ -131,7 +131,15 @@ switch(xOpt) {
 ```
 vs
 ```dart
-int? x = ...;
+int? x = nullableFunc();
+if(x == null){
+  return;
+}
+// use `int` x
+```
+Fortunately, since `Option` is an extension type of `T?`. This can be overcome with no runtime cost.
+```dart
+int? x = optionFunc().value;
 if(x == null){
   return;
 }
