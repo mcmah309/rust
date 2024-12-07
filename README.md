@@ -9,12 +9,12 @@
 
 Types include [Result](https://mcmah309.github.io/rust/libs/result/result.html), [Option](https://mcmah309.github.io/rust/libs/option/option.html), [Cell](https://mcmah309.github.io/rust/libs/cell/cell.html), [Slice](https://mcmah309.github.io/rust/libs/slice/slice.html), [Array](https://mcmah309.github.io/rust/libs/array/array.html), [Iterator](https://mcmah309.github.io/rust/libs/iter/iter.html), [Channels](https://mcmah309.github.io/rust/libs/sync/channels.html), [Mutex](https://mcmah309.github.io/rust/libs/sync/mutex.html), [Path](https://mcmah309.github.io/rust/libs/path/path.html) and more.
 
-See the [Book 📖](https://mcmah309.github.io/rust) for more!
+See the [Documentation Book 📖](https://mcmah309.github.io/rust) for more!
 
-## Example
+## Rust Language vs rust Package Example
 > Goal: Get the index of every "!" in a string not followed by a "?"
 
-**Rust:**
+**[Rust](https://play.rust-lang.org/?version=nightly&mode=debug&edition=2021&gist=6010cc86519e58e4592247403830cde7):**
 ```rust
 use std::iter::Peekable;
 

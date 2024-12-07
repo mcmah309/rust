@@ -3,6 +3,7 @@
 import 'package:rust/rust.dart';
 
 void main() {
+  readmeExample();
   usingTheEarlyReturnKeyExample();
   usingRegularPatternMatchingExample();
   usingFunctionChainingExample();
@@ -11,6 +12,32 @@ void main() {
 
   /// Visit the book to see more!
 }
+
+void readmeExample() {
+  final string = "kl!sd!?!";
+  Vec<int> answer = [];
+  Peekable<(int, Arr<String>)> iter = string
+      .chars()
+      .mapWindows(2, identity)
+      .enumerate()
+      .peekable();
+
+  while (iter.moveNext()) {
+    final (index, window) = iter.current;
+    switch (window) {
+      case ["!", "?"]:
+        break;
+      case ["!", _]:
+        answer.push(index);
+      case [_, "!"] when iter.peek().isNone():
+        answer.push(index + 1);
+    }
+  }
+  assert(answer.length == 2);
+  assert(answer[0] == 2);
+  assert(answer[1] == 7);
+}
+
 
 Result<int, String> usingTheEarlyReturnKeyExample() => Result(($) {
       // Early Return Key
