@@ -5,13 +5,14 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-purple.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://github.com/mcmah309/rust/actions/workflows/test.yml/badge.svg)](https://github.com/mcmah309/rust/actions)
 
-[rust](https://github.com/mcmah309/rust) (formally known as [rust_core](https://pub.dev/packages/rust_core)) is a pure Dart implementation of patterns found in the [Rust programming language](https://www.rust-lang.org/), bringing the power of Rust to Dart!
+[rust](https://github.com/mcmah309/rust) (formally known as [rust_core](https://pub.dev/packages/rust_core)) is a pure Dart implementation of patterns found in the [Rust programming language](https://www.rust-lang.org/), bringing powerful tools previously only available to Rust developers to Dart developers!
 
-Types include [Result](https://mcmah309.github.io/rust/libs/result/result.html), [Option](https://mcmah309.github.io/rust/libs/option/option.html), [Cell](https://mcmah309.github.io/rust/libs/cell/cell.html), [Slice](https://mcmah309.github.io/rust/libs/slice/slice.html), [Array](https://mcmah309.github.io/rust/libs/array/array.html), [Iterator](https://mcmah309.github.io/rust/libs/iter/iter.html), [Channels](https://mcmah309.github.io/rust/libs/sync/channels.html), [Mutex](https://mcmah309.github.io/rust/libs/sync/mutex.html), [Path](https://mcmah309.github.io/rust/libs/path/path.html) and more.
+New types include [Result](https://mcmah309.github.io/rust/libs/result/result.html), [Option](https://mcmah309.github.io/rust/libs/option/option.html), [Cell](https://mcmah309.github.io/rust/libs/cell/cell.html), [Slice](https://mcmah309.github.io/rust/libs/slice/slice.html), [Array](https://mcmah309.github.io/rust/libs/array/array.html), [Iterator](https://mcmah309.github.io/rust/libs/iter/iter.html), [Channels](https://mcmah309.github.io/rust/libs/sync/channels.html), [Mutex](https://mcmah309.github.io/rust/libs/sync/mutex.html), [Path](https://mcmah309.github.io/rust/libs/path/path.html) and more.
 
-See the [Documentation Book 📖](https://mcmah309.github.io/rust) for more!
+See the [Documentation Book 📖](https://mcmah309.github.io/rust) for a deeper dive!
 
-## Rust Language vs rust Package Example
+### Example: Rust Language vs rust Package
+---
 > Goal: Get the index of every "!" in a string not followed by a "?"
 
 **[Rust](https://play.rust-lang.org/?version=nightly&mode=debug&edition=2021&gist=6010cc86519e58e4592247403830cde7):**
