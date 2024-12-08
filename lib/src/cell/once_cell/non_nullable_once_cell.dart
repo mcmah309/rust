@@ -22,7 +22,7 @@ class NonNullableOnceCell<T extends Object> implements OnceCell<T> {
 
   @override
   T? getOrNull() {
-    return get().v;
+    return get().toNullable();
   }
 
   @override
@@ -67,7 +67,7 @@ class NonNullableOnceCell<T extends Object> implements OnceCell<T> {
 
   @override
   T? takeOrNull() {
-    return take().v;
+    return take().toNullable();
   }
 
   @override

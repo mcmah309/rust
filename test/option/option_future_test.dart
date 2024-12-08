@@ -205,10 +205,10 @@ void main() {
 
     test("v", () async {
       FutureOption<int> x = Future.value(Some(1));
-      expect(await x.v, 1);
+      expect(await x.toNullable(), 1);
 
       x = Future.value(None);
-      expect(await x.v, null);
+      expect(await x.toNullable(), null);
     });
 
     group("Async Early Return Key", () {

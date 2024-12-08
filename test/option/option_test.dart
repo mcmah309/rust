@@ -330,7 +330,7 @@ void main() {
   test("Option and nullable conversions", () {
     Option<int> intNone() => None;
     Option<int> option = intNone();
-    int? nullable = option.v;
+    int? nullable = option.toNullable();
     option = Option.of(nullable);
   });
 

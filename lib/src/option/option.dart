@@ -61,11 +61,6 @@ sealed class Option<T> {
   /// Converts from `T?` to `Option<T>`.
   factory Option.of(T? v) => v == null ? None : Some(v);
 
-  T? get v;
-
-  @pragma("vm:prefer-inline")
-  T? get value => v;
-
   /// Returns None if the option is None, otherwise returns [other].
   Option<U> and<U>(Option<U> other);
 
@@ -150,17 +145,18 @@ sealed class Option<T> {
 
   //************************************************************************//
 
+  T? toNullable();
+
   /// Functions an "Early Return Operator" when given an "Early Return key" "$". See [Option.$] for more information.
   @pragma("vm:prefer-inline")
   T operator [](_OptionEarlyReturnKey op);
 }
 
 final class Some<T> implements Option<T> {
-  @override
+
   final T v;
 
   @pragma("vm:prefer-inline")
-  @override
   T get value => v;
 
   const Some(this.v);
@@ -296,6 +292,10 @@ final class Some<T> implements Option<T> {
   //************************************************************************//
 
   @override
+  @pragma("vm:prefer-inline")
+  T toNullable() => v;
+
+  @override
   T operator [](_OptionEarlyReturnKey op) {
     return v;
   }
@@ -320,14 +320,6 @@ const None = _None();
 final class _None implements Option<Never> {
   //@literal
   const _None();
-
-  @pragma("vm:prefer-inline")
-  @override
-  Null get v => null;
-
-  @pragma("vm:prefer-inline")
-  @override
-  Null get value => null;
 
   @override
   _None and<U>(Option<U> other) {
@@ -420,6 +412,10 @@ final class _None implements Option<Never> {
   }
 
   //************************************************************************//
+
+  @override
+  @pragma("vm:prefer-inline")
+  Null toNullable() => null;
 
   @override
   Never operator [](_OptionEarlyReturnKey op) {

@@ -7,15 +7,6 @@ typedef FutureOption<T> = Future<Option<T>>;
 /// [FutureOption] represents an asynchronous [Option]. And as such, inherits all of [Option]'s methods.
 /// {@endtemplate}
 extension Option$FutureOptionExtension<T> on FutureOption<T> {
-  @pragma("vm:prefer-inline")
-  Future<T?> get v {
-    return then((option) => option.v);
-  }
-
-  @pragma("vm:prefer-inline")
-  Future<T?> get value {
-    return then((option) => option.value);
-  }
 
   @pragma("vm:prefer-inline")
   Future<Option<U>> and<U>(Option<U> other) {
@@ -148,6 +139,11 @@ extension Option$FutureOptionExtension<T> on FutureOption<T> {
   }
 
   //************************************************************************//
+
+  @pragma("vm:prefer-inline")
+  Future<T?> toNullable() {
+    return then((option) => option.toNullable());
+  }
 
   @pragma("vm:prefer-inline")
   // ignore: library_private_types_in_public_api

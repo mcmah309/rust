@@ -15,7 +15,7 @@ extension Option$OptionNullableExtension<T extends Object> on Option<T?> {
   /// Converts from Option<T?> to Option<T>.
   @pragma("vm:prefer-inline")
   Option<T> flatten() {
-    return Option.of(v);
+    return Option.of(toNullable());
   }
 }
 

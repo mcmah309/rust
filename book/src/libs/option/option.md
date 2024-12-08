@@ -38,7 +38,7 @@ Easy to declare and translate back and forth between nullable types.
 Option<int> option = None;
 Option<int> option = Some(1);
 
-int? nullable = option.v; // or `.value`
+int? nullable = option.toNullable();
 option = Option.of(nullable);
 ```
 
@@ -118,7 +118,7 @@ if(x == null){
 ```
 Fortunately, since `Option` is an extension type of `T?`.
 ```dart
-int? x = optionFunc().value;
+int? x = optionFunc().toNullable();
 if(x == null){
   return;
 }
