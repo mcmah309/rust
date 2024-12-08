@@ -4,8 +4,6 @@ import 'package:path/path.dart' as p;
 import 'io/io.dart' as io;
 import 'utils.dart';
 
-export 'io_error.dart';
-
 part 'platform_path.dart';
 part 'unix_path.dart';
 part 'windows_path.dart';

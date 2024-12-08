@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:rust/rust.dart';
-import 'common.dart' as common;
 
 /// A cross platform version of [Platform] with additional powers related to the environment
 class Env {
@@ -9,14 +8,29 @@ class Env {
   static set setCurrentDirectory(Path path) => Directory.current = path.asString();
 
   /// joins a collection of Paths appropriately for the PATH environment variable.
-  static String joinPaths(Iterable<String> paths) => common.joinPaths(paths);
+  static String joinPaths(Iterable<String> paths) {
+    StringBuffer buf = StringBuffer();
+    bool canAddToEnd = false;
+    for (var path in paths) {
+      if (canAddToEnd) {
+        buf.write(envVarPathSeparator);
+      }
+      canAddToEnd = true;
+      buf.write(path);
+    }
+    return buf.toString();
+  }
 
   /// splits a PATH environment variable string into a collection of Paths.
-  static Iterable<String> splitPaths(String paths) => common.splitPaths(paths);
+  static Iterable<String> splitPaths(String paths) => paths.split(envVarPathSeparator);
 
-  static Iterable<(String key, String val)> envVars() => environment.entries.map((item) => (item.key, item.value));
+  static Iterable<(String key, String val)> envVars() =>
+      environment.entries.map((item) => (item.key, item.value));
 
   static String? envVar(String key) => environment[key];
+
+  /// The PATH separator for the current platform.
+  static final String envVarPathSeparator = isWindows ? ";" : ":";
 
   //************************************************************************//
 

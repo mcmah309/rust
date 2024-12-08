@@ -172,10 +172,10 @@ extension type WindowsPath._(String _string) implements Object {
       WindowsPath(_windows.join(_string, other._string));
 
   /// {@macro path.Path.metadataSync}
-  io.Metadata metadataSync() => io.metadataSync(_string);
+  Result<Metadata, IoError>  metadataSync() => io.metadataSync(_string);
 
   /// {@macro path.Path.metadata}
-  Future<io.Metadata> metadata() => io.metadata(_string);
+  FutureResult<Metadata, IoError>  metadata() => io.metadata(_string);
 
   /// {@macro path.Path.normalize}
   Option<WindowsPath> parent() {
@@ -206,18 +206,18 @@ extension type WindowsPath._(String _string) implements Object {
   }
 
   /// {@macro path.Path.readDirSync}
-  Result<io.ReadDir, PathIoError> readDirSync() => io.readDirSync(_string);
+  Result<ReadDir, IoError> readDirSync() => io.readDirSync(_string);
 
   /// {@macro path.Path.readDir}
-  Future<Result<io.ReadDir, PathIoError>> readDir() => io.readDir(_string);
+  Future<Result<ReadDir, IoError>> readDir() => io.readDir(_string);
 
   /// {@macro path.Path.readLinkSync}
-  Result<WindowsPath, PathIoError> readLinkSync() =>
-      io.readLinkSync(_string) as Result<WindowsPath, PathIoError>;
+  Result<WindowsPath, IoError> readLinkSync() =>
+      io.readLinkSync(_string) as Result<WindowsPath, IoError>;
 
   /// {@macro path.Path.readLink}
-  Future<Result<WindowsPath, PathIoError>> readLink() =>
-      io.readLink(_string) as Future<Result<WindowsPath, PathIoError>>;
+  Future<Result<WindowsPath, IoError>> readLink() =>
+      io.readLink(_string) as Future<Result<WindowsPath, IoError>>;
 
   /// {@macro path.Path.startsWith}
   bool startsWith(WindowsPath other) => _string.startsWith(other._string);
@@ -232,11 +232,11 @@ extension type WindowsPath._(String _string) implements Object {
   }
 
   /// {@macro path.Path.symlinkMetadataSync}
-  Result<io.Metadata, PathIoError> symlinkMetadataSync() =>
+  Result<Metadata, IoError> symlinkMetadataSync() =>
       io.symlinkMetadataSync(_string);
 
   /// {@macro path.Path.symlinkMetadata}
-  Future<Result<io.Metadata, PathIoError>> symlinkMetadata() =>
+  Future<Result<Metadata, IoError>> symlinkMetadata() =>
       io.symlinkMetadata(_string);
 
   /// {@macro path.Path.withExtension}

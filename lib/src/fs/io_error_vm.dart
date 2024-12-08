@@ -1,39 +1,27 @@
 part of 'vm.dart';
 
+/// Represents an error that occurred during an IO operation.
 sealed class IoError {
-  factory IoError.fileSystem(FileSystemException error) = IoError$FileSystem._;
-  factory IoError.pathAccess(PathAccessException error) = IoError$PathAccess._;
-  factory IoError.pathExists(PathExistsException error) = IoError$PathExists._;
-  factory IoError.pathNotFound(PathNotFoundException error) = IoError$PathNotFound._;
-  factory IoError.unknown(Object error) = IoError$Unknown._;
+  factory IoError.ioException(IOException error) = FsIoError$IOException._;
+  factory IoError.unknown(Object error) = FsIoError$Unknown._;
 }
 
-class IoError$FileSystem implements IoError {
-  final FileSystemException error;
+class FsIoError$IOException implements IoError {
+  final IOException error;
 
-  IoError$FileSystem._(this.error);
+  FsIoError$IOException._(this.error);
+
+  @override
+  String toString() => 'IoError\$IOException: $error';
 }
 
-class IoError$PathAccess implements IoError {
-  final PathAccessException error;
-
-  IoError$PathAccess._(this.error);
-}
-
-class IoError$PathExists implements IoError {
-  final PathExistsException error;
-
-  IoError$PathExists._(this.error);
-}
-
-class IoError$PathNotFound implements IoError {
-  final PathNotFoundException error;
-
-  IoError$PathNotFound._(this.error);
-}
-
-class IoError$Unknown implements IoError {
+/// Represents an error that occurred during an IO operation that is not an [IOException].
+/// This state may never be possible but is needed to ensure a value does not leak past the guard.
+class FsIoError$Unknown implements IoError {
   final Object error;
 
-  IoError$Unknown._(this.error);
+  FsIoError$Unknown._(this.error);
+
+  @override
+  String toString() => 'IoError\$Unknown: $error';
 }

@@ -1,5 +1,4 @@
 import 'package:rust/rust.dart';
-import 'common.dart' as common;
 
 /// A cross platform version of [Platform] with additional powers related to the environment
 class Env {
@@ -9,17 +8,17 @@ class Env {
   static set setCurrentDirectory(Path path) =>
       throw UnsupportedError("'setCurrentDirectory' is not supported on on this platform");
 
-  /// joins a collection of Paths appropriately for the PATH environment variable.
-  static String joinPaths(Iterable<String> paths) => common.joinPaths(paths);
+  static String joinPaths(Iterable<String> paths) => throw UnsupportedError("'joinPaths' is not supported on on this platform");
 
-  /// splits a PATH environment variable string into a collection of Paths.
-  static Iterable<String> splitPaths(String paths) => common.splitPaths(paths);
+  static Iterable<String> splitPaths(String paths) => throw UnsupportedError("'splitPaths' is not supported on on this platform");
 
   static Iterable<(String key, String val)> envVars() =>
       throw UnsupportedError("'envVars' is not supported on on this platform");
 
   static String? envVar(String key) =>
       throw UnsupportedError("'envVar' is not supported on on this platform");
+
+  static String get envVarPathSeparator => throw UnsupportedError("'envVarPathSeparator' is not supported on on this platform");
 
   //************************************************************************//
 

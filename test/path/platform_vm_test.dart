@@ -49,12 +49,11 @@ void main() {
 
   test("metadata", () async {
     if (Env.isWindows) {
-      final _ = await Path("test\\path\\fixtures\\file").metadata();
+      final _ = await Path("test\\path\\fixtures\\file").metadata().unwrap();
     } else {
       // ignore: unused_local_variable
-      final metadata = await Path("test/path/fixtures/file").metadata();
-      // Dev Note: uncommenting below will cause a compilation error when the target is web.
-      // DateTime accessed = metadata.accessed;
+      final metadata = await Path("test/path/fixtures/file").metadata().unwrap();
+      DateTime _ = metadata.accessed;
     }
   });
 

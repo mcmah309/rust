@@ -177,7 +177,7 @@ extension type Path._(String _string) implements Object {
   /// Queries the file system to get information about a file, directory, etc.
   /// Note: using this method means that the program can no longer compile for the web.
   /// {@endtemplate}
-  io.Metadata metadataSync() => Env.isWindows
+  Result<Metadata, IoError>  metadataSync() => Env.isWindows
       ? WindowsPath(_string).metadataSync()
       : UnixPath(_string).metadataSync();
 
@@ -185,7 +185,7 @@ extension type Path._(String _string) implements Object {
   /// Queries the file system to get information about a file, directory, etc.
   /// Note: using this method means that the program can no longer compile for the web.
   /// {@endtemplate}
-  Future<io.Metadata> metadata() => Env.isWindows
+  FutureResult<Metadata, IoError>  metadata() => Env.isWindows
       ? WindowsPath(_string).metadata()
       : UnixPath(_string).metadata();
 
@@ -204,7 +204,7 @@ extension type Path._(String _string) implements Object {
   /// Returns an iterator over the entries within a directory.
   /// Note: using this method results in the program no longer being able to compile to web.
   /// {@endtemplate}
-  Result<io.ReadDir, PathIoError> readDirSync() => Env.isWindows
+  Result<ReadDir, IoError> readDirSync() => Env.isWindows
       ? WindowsPath(_string).readDirSync()
       : UnixPath(_string).readDirSync();
 
@@ -212,20 +212,20 @@ extension type Path._(String _string) implements Object {
   /// Returns an iterator over the entries within a directory.
   /// Note: using this method results in the program no longer being able to compile to web.
   /// {@endtemplate}
-  Future<Result<io.ReadDir, PathIoError>> readDir() =>
+  Future<Result<ReadDir, IoError>> readDir() =>
       Env.isWindows ? WindowsPath(_string).readDir() : UnixPath(_string).readDir();
 
   /// {@template path.Path.readLinkSync}
   /// Reads a symbolic link, returning the file that the link points to.
   /// {@endtemplate}
-  Result<Path, PathIoError> readLinkSync() => Env.isWindows
+  Result<Path, IoError> readLinkSync() => Env.isWindows
       ? WindowsPath(_string).readLinkSync().map((e) => Path(e._string))
       : UnixPath(_string).readLinkSync().map((e) => Path(e._string));
 
   /// {@template path.Path.readLink}
   /// Reads a symbolic link, returning the file that the link points to.
   /// {@endtemplate}
-  Future<Result<Path, PathIoError>> readLink() => Env.isWindows
+  Future<Result<Path, IoError>> readLink() => Env.isWindows
       ? WindowsPath(_string).readLink().map((e) => Path(e._string))
       : UnixPath(_string).readLink().map((e) => Path(e._string));
 
@@ -251,7 +251,7 @@ extension type Path._(String _string) implements Object {
   /// Returns the metadata for the symlink.
   /// Note: using this method means that the program can no longer compile for the web.
   /// {@endtemplate}
-  Result<io.Metadata, PathIoError> symlinkMetadataSync() => Env.isWindows
+  Result<Metadata, IoError> symlinkMetadataSync() => Env.isWindows
       ? WindowsPath(_string).symlinkMetadataSync()
       : UnixPath(_string).symlinkMetadataSync();
 
@@ -259,7 +259,7 @@ extension type Path._(String _string) implements Object {
   /// Returns the metadata for the symlink.
   /// Note: using this method means that the program can no longer compile for the web.
   /// {@endtemplate}
-  Future<Result<io.Metadata, PathIoError>> symlinkMetadata() => Env.isWindows
+  Future<Result<Metadata, IoError>> symlinkMetadata() => Env.isWindows
       ? WindowsPath(_string).symlinkMetadata()
       : UnixPath(_string).symlinkMetadata();
 

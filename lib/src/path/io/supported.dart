@@ -2,115 +2,134 @@ import 'dart:io' as io;
 
 import 'package:rust/rust.dart';
 
-/// An iterator over the entries within a directory.
-typedef ReadDir = List<io.FileSystemEntity>;
-
-typedef Metadata = io.FileStat;
+@pragma('vm:prefer-inline')
+FutureResult<Metadata, IoError> metadata(String path) async {
+  return Fs.ioGuard(() async {
+    return io.FileStat.stat(path);
+  });
+}
 
 @pragma('vm:prefer-inline')
-Future<Metadata> metadata(String path) => io.FileStat.stat(path);
+Result<Metadata, IoError> metadataSync(String path) {
+  return Fs.ioGuardSync(() {
+    return io.FileStat.statSync(path);
+  });
+}
 
 @pragma('vm:prefer-inline')
-Metadata metadataSync(String path) => io.FileStat.statSync(path);
-
-@pragma('vm:prefer-inline')
-Future<bool> exists(String path) async =>
-    await io.FileSystemEntity.type(path, followLinks: true) !=
-    io.FileSystemEntityType.notFound;
-
-@pragma('vm:prefer-inline')
-bool existsSync(String path) =>
-    io.FileSystemEntity.typeSync(path, followLinks: true) !=
-    io.FileSystemEntityType.notFound;
-
-@pragma('vm:prefer-inline')
-Future<bool> isDir(String path) => io.FileSystemEntity.isDirectory(path);
-
-@pragma('vm:prefer-inline')
-bool isDirSync(String path) => io.FileSystemEntity.isDirectorySync(path);
-
-@pragma('vm:prefer-inline')
-Future<bool> isFile(String path) => io.FileSystemEntity.isFile(path);
-
-@pragma('vm:prefer-inline')
-bool isFileSync(String path) => io.FileSystemEntity.isFileSync(path);
-
-@pragma('vm:prefer-inline')
-Future<bool> isSymlink(String path) => io.FileSystemEntity.isLink(path);
-
-@pragma('vm:prefer-inline')
-bool isSymlinkSync(String path) => io.FileSystemEntity.isLinkSync(path);
-
-Future<Result<ReadDir, PathIoError>> readDir(String path) async {
-  if (!await isDir(path)) {
-    return Err(PathIoError$NotADirectory(path));
-  }
+Future<bool> exists(String path) async {
   try {
+    return await io.FileSystemEntity.type(path, followLinks: true) !=
+        io.FileSystemEntityType.notFound;
+  } catch (_) {
+    return false;
+  }
+}
+
+@pragma('vm:prefer-inline')
+bool existsSync(String path) {
+  try {
+    return io.FileSystemEntity.typeSync(path, followLinks: true) !=
+        io.FileSystemEntityType.notFound;
+  } catch (_) {
+    return false;
+  }
+}
+
+@pragma('vm:prefer-inline')
+Future<bool> isDir(String path) async {
+  try {
+    return await io.FileSystemEntity.isDirectory(path);
+  } catch (_) {
+    return false;
+  }
+}
+
+@pragma('vm:prefer-inline')
+bool isDirSync(String path) {
+  try {
+    return io.FileSystemEntity.isDirectorySync(path);
+  } catch (_) {
+    return false;
+  }
+}
+
+@pragma('vm:prefer-inline')
+Future<bool> isFile(String path) async {
+  try {
+    return await io.FileSystemEntity.isFile(path);
+  } catch (_) {
+    return false;
+  }
+}
+
+@pragma('vm:prefer-inline')
+bool isFileSync(String path) {
+  try {
+    return io.FileSystemEntity.isFileSync(path);
+  } catch (_) {
+    return false;
+  }
+}
+
+@pragma('vm:prefer-inline')
+Future<bool> isSymlink(String path) async {
+  try {
+    return await io.FileSystemEntity.isLink(path);
+  } catch (_) {
+    return false;
+  }
+}
+
+@pragma('vm:prefer-inline')
+bool isSymlinkSync(String path) {
+  try {
+    return io.FileSystemEntity.isLinkSync(path);
+  } catch (_) {
+    return false;
+  }
+}
+
+Future<Result<ReadDir, IoError>> readDir(String path) async {
+  return Fs.ioGuard(() async {
     final dir = io.Directory(path);
     final listResult = await dir.list().toList();
 
-    return Ok(listResult);
-  } catch (e) {
-    return Err(PathIoError$Unknown(path, e));
-  }
+    return listResult;
+  });
 }
 
-Result<ReadDir, PathIoError> readDirSync(String path) {
-  if (!isDirSync(path)) {
-    return Err(PathIoError$NotADirectory(path));
-  }
-  try {
+Result<ReadDir, IoError> readDirSync(String path) {
+  return Fs.ioGuardSync(() {
     final dir = io.Directory(path);
-    return Ok(dir.listSync());
-  } catch (e) {
-    return Err(PathIoError$Unknown(path, e));
-  }
+    return dir.listSync();
+  });
 }
 
-Future<Result<String, PathIoError>> readLink(String path) async {
-  if (!await isSymlink(path)) {
-    return Err(PathIoError$NotALink(path));
-  }
-  try {
+Future<Result<String, IoError>> readLink(String path) async {
+  return Fs.ioGuard(() async {
     final link = io.Link(path);
     final resolvedLinkResult = await link.resolveSymbolicLinks();
 
-    return Ok(resolvedLinkResult);
-  } catch (e) {
-    return Err(PathIoError$Unknown(path, e));
-  }
+    return resolvedLinkResult;
+  });
 }
 
-Result<String, PathIoError> readLinkSync(String path) {
-  if (!isSymlinkSync(path)) {
-    return Err(PathIoError$NotALink(path));
-  }
-  try {
+Result<String, IoError> readLinkSync(String path) {
+  return Fs.ioGuardSync(() {
     final link = io.Link(path);
-    return Ok(link.resolveSymbolicLinksSync());
-  } catch (e) {
-    return Err(PathIoError$Unknown(path, e));
-  }
+    return link.resolveSymbolicLinksSync();
+  });
 }
 
-Result<Metadata, PathIoError> symlinkMetadataSync(String path) {
-  if (!isSymlinkSync(path)) {
-    return Err(PathIoError$NotALink(path));
-  }
-  try {
-    return Ok(io.Link(path).statSync());
-  } catch (e) {
-    return Err(PathIoError$Unknown(path, e));
-  }
+Result<Metadata, IoError> symlinkMetadataSync(String path) {
+  return Fs.ioGuardSync(() {
+    return io.Link(path).statSync();
+  });
 }
 
-Future<Result<Metadata, PathIoError>> symlinkMetadata(String path) async {
-  if (!await isSymlink(path)) {
-    return Err(PathIoError$NotALink(path));
-  }
-  try {
-    return Ok(await io.Link(path).stat());
-  } catch (e) {
-    return Err(PathIoError$Unknown(path, e));
-  }
+Future<Result<Metadata, IoError>> symlinkMetadata(String path) async {
+  return Fs.ioGuard(() async {
+    return await io.Link(path).stat();
+  });
 }

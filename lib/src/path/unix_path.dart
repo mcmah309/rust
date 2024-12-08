@@ -225,13 +225,13 @@ extension type UnixPath._(String _string) implements Object {
   /// Queries the file system to get information about a file, directory, etc.
   /// Note: using this method means that the program can no longer compile for the web.
   /// {@endtemplate}
-  io.Metadata metadataSync() => io.metadataSync(_string);
+  Result<Metadata, IoError>  metadataSync() => io.metadataSync(_string);
 
   /// {@template path.Path.metadata}
   /// Queries the file system to get information about a file, directory, etc.
   /// Note: using this method means that the program can no longer compile for the web.
   /// {@endtemplate}
-  Future<io.Metadata> metadata() => io.metadata(_string);
+  FutureResult<Metadata, IoError>  metadata() => io.metadata(_string);
 
 // new : will not be implemented
 
@@ -266,25 +266,25 @@ extension type UnixPath._(String _string) implements Object {
   /// Returns an iterator over the entries within a directory.
   /// Note: using this method results in the program no longer being able to compile to web.
   /// {@endtemplate}
-  Result<io.ReadDir, PathIoError> readDirSync() => io.readDirSync(_string);
+  Result<ReadDir, IoError> readDirSync() => io.readDirSync(_string);
 
   /// {@template path.Path.readDir}
   /// Returns an iterator over the entries within a directory.
   /// Note: using this method results in the program no longer being able to compile to web.
   /// {@endtemplate}
-  Future<Result<io.ReadDir, PathIoError>> readDir() => io.readDir(_string);
+  Future<Result<ReadDir, IoError>> readDir() => io.readDir(_string);
 
   /// {@template path.Path.readLinkSync}
   /// Reads a symbolic link, returning the file that the link points to.
   /// {@endtemplate}
-  Result<UnixPath, PathIoError> readLinkSync() =>
-      io.readLinkSync(_string) as Result<UnixPath, PathIoError>;
+  Result<UnixPath, IoError> readLinkSync() =>
+      io.readLinkSync(_string) as Result<UnixPath, IoError>;
 
   /// {@template path.Path.readLink}
   /// Reads a symbolic link, returning the file that the link points to.
   /// {@endtemplate}
-  Future<Result<UnixPath, PathIoError>> readLink() =>
-      io.readLink(_string) as Future<Result<UnixPath, PathIoError>>;
+  Future<Result<UnixPath, IoError>> readLink() =>
+      io.readLink(_string) as Future<Result<UnixPath, IoError>>;
 
   /// {@template path.Path.relativeTo}
   /// Determines whether other is a prefix of this.
@@ -306,14 +306,14 @@ extension type UnixPath._(String _string) implements Object {
   /// Returns the metadata for the symlink.
   /// Note: using this method means that the program can no longer compile for the web.
   /// {@endtemplate}
-  Result<io.Metadata, PathIoError> symlinkMetadataSync() =>
+  Result<Metadata, IoError> symlinkMetadataSync() =>
       io.symlinkMetadataSync(_string);
 
   /// {@template path.Path.symlinkMetadata}
   /// Returns the metadata for the symlink.
   /// Note: using this method means that the program can no longer compile for the web.
   /// {@endtemplate}
-  Future<Result<io.Metadata, PathIoError>> symlinkMetadata() =>
+  Future<Result<Metadata, IoError>> symlinkMetadata() =>
       io.symlinkMetadata(_string);
 
 // to_path_buf: Will not implement, implementing a PathBuf does not make sense at the present (equality cannot hold for extension types and a potential PathBuf would likely be `StringBuffer` or `List<String>`).
