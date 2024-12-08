@@ -18,7 +18,6 @@ typedef Metadata = FileStat;
 
 /// static methods for filesystem manipulation operations.
 class Fs {
-
   Fs._();
 
   /// Returns whether io operations are supported. If false, is currently running on the web.
@@ -376,5 +375,75 @@ class Fs {
       final file = File(path.asString());
       file.writeAsStringSync(contents);
     }).map((_) => ());
+  }
+
+  // Dev Note: These where added since static extension methods cannot be added to the [File] class
+  // and creating a `OpenOption` class does not make much sense given the options are different in Dart.
+  // Thus the following is the combination of Rust's `File` and `OpenOption` structs.
+  // Additional static File methods
+  //************************************************************************//
+
+  /// {@template Fs.open}
+  /// Opens a file. Must call [RandomAccessFile.close] when done.
+  /// {@endtemplate}
+  static FutureResult<RandomAccessFile, IoError> open(Path path, FileMode mode) {
+    return Fs.ioGuard(() async => File(path.asString()).open(mode: mode));
+  }
+
+  /// {@template Fs.openSync}
+  /// Opens a file. Must call [RandomAccessFile.close] when done.
+  /// {@endtemplate}
+  static Result<RandomAccessFile, IoError> openSync(Path path, FileMode mode) {
+    return Fs.ioGuardSync(() => File(path.asString()).openSync(mode: mode));
+  }
+
+  /// {@template Fs.createFile}
+  /// Creates a file at the specified path if it does not exist, and will truncate it if it does.
+  /// The target directory must exist.
+  /// {@endtemplate}
+  static FutureResult<File, IoError> createFile(Path path) {
+    return Fs.ioGuard(() async {
+      final file = File(path.asString());
+      if (await file.exists()) {
+        await file.writeAsBytes([]);
+        return file;
+      } else {
+        return file.create(recursive: false, exclusive: false);
+      }
+    });
+  }
+
+  /// {@macro Fs.createFile}
+  static Result<File, IoError> createFileSync(Path path) {
+    return Fs.ioGuardSync(() {
+      final file = File(path.asString());
+      if (file.existsSync()) {
+        file.writeAsBytesSync([]);
+        return file;
+      } else {
+        file.createSync(recursive: false, exclusive: false);
+        return file;
+      }
+    });
+  }
+
+  /// {@template Fs.createNew}
+  /// Creates a file at the specified path if it does not exist, and will fail if it does.
+  /// The target directory must exist.
+  /// {@endtemplate}
+  static FutureResult<File, IoError> createNewFile(Path path) {
+    return Fs.ioGuard(() async {
+      final file = File(path.asString());
+      return file.create(recursive: false, exclusive: true);
+    });
+  }
+
+  /// {@macro Fs.createNew}
+  static Result<File, IoError> createNewFileSync(Path path) {
+    return Fs.ioGuardSync(() {
+      final file = File(path.asString());
+      file.createSync(recursive: false, exclusive: true);
+      return file;
+    });
   }
 }

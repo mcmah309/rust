@@ -9,6 +9,12 @@ class ReadDir {}
 
 class Metadata {}
 
+class File {}
+
+class RandomAccessFile {}
+
+class FileMode {}
+
 class Fs {
   /// Returns whether io operations are supported. If false, is currently running on the web.
   static final bool isIoSupported = false;
@@ -91,4 +97,18 @@ class Fs {
   static FutureResult<(), IoError> writeString(Path path, String contents) => throw UnsupportedError("'writeString' is not supported on this platform");
 
   static Result<(), IoError> writeStringSync(Path path, String contents) => throw UnsupportedError("'writeStringSync' is not supported on this platform");
+
+  //************************************************************************//
+
+  static FutureResult<RandomAccessFile, IoError> open(Path path, FileMode mode) => throw UnsupportedError("'open' is not supported on this platform");
+
+  static Result<RandomAccessFile, IoError> openSync(Path path, FileMode mode) => throw UnsupportedError("'openSync' is not supported on this platform");
+
+  static FutureResult<File, IoError> createFile(Path path) => throw UnsupportedError("'createFile' is not supported on this platform");
+
+  static Result<File, IoError> createFileSync(Path path) => throw UnsupportedError("'createFileSync' is not supported on this platform");
+
+  static FutureResult<File, IoError> createNewFile(Path path) => throw UnsupportedError("'createNewFile' is not supported on this platform");
+
+  static Result<File, IoError> createNewFileSync(Path path) => throw UnsupportedError("'createNewFileSync' is not supported on this platform");
 }
