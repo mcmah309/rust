@@ -1,19 +1,45 @@
 # Option
 ***
-Option represents the union of two types - `Some<T>` and `None`. An `Option<T>` is an extension type of `T?`. Therefore, `Option`
-has zero runtime cost.
+`Option` represents the union of two types - `Some<T>` and `None`.
 
-rust support nullable and `Option` implementations of classes and methods for ergonomic convenience where possible, but you
-can easily switch between the two with no runtime cost.
+## If Dart Has Nullable Types Why Ever Use `Option`?
 
+`Option` is wrapper around a value that may or may be set. A nullable type is a type that may or may not be set.
+This small distinction leads to some useful differences:
+
+- Any extension method on `T?` also exists for `T`. So null specific extensions cannot be added.
+Also since `T` is all types, there would be a lot of clashes with existing types if you tried to
+do so - e.g. `map` on `Iterable`.
+
+- `Option` can be passed around like a reference and values can be taken in and 
+  out of. Thus visible to all with reference to the `Option`, unlike null.
+
+- `T??` is not possible, while Option<Option<T>> or Option<T?> is. This may be useful,
+  e.g.
+
+  State 1 (`None`): The configuration value isn't defined at all.
+
+  State 2 (`Some(None)`): The configuration value is explicitly disabled.
+
+  State 3 (`Some(Some(value))`): The configuration value is explicitly set to value.
+
+  With nullable types a separate field would be needed to keep track of this.
+
+- Certain operations should not be used without it e.g. `flatmap` - since null can be a valid state.
+
+These issues are not insurmountable, and if fact, most of the time nullable types are probably more concise
+and easier to deal with. Therefore, `Option` is only used where needed in the library, like `flatmap`, where it is not,
+nullable types are used.
+
+## The Option Type
+
+Easy to declare and translate back and forth between nullable types.
 ```dart
 Option<int> option = None;
+Option<int> option = Some(1);
 
 int? nullable = option.v; // or `.value`
 option = Option.of(nullable);
-
-nullable = option as int?; // or
-option = nullable as Option<int>; // or
 ```
 
 ### Usage
@@ -34,7 +60,7 @@ You can also use Option in pattern matching
 switch(Some(2)){
   case Some(:final v):
     // do something
-  default:
+  case _:
     // do something
 }
 ```
@@ -67,64 +93,17 @@ FutureOption<double> earlyReturn() => Option.async(($) async {
 });
 ```
 
-### To Option or Not To Option
-If Dart already supports nullable types, why use an option type? Nullable types may required an
-uncomfortable level of null checking and nesting. Even so, one may also still need to write a null
-assertion `!` for some edge cases where the compiler is not smart enough.
-The `Option` type provides an alternative solution with methods and early return.
-
-Methods:
-```dart
-final profile;
-final preferences;
-
-switch (fetchUserProfile()
-    .map((e) => "${e.name} - profile")
-    .andThen((e) => Some(e).zip(fetchUserPreferences()))) {
-  case Some(:final value):
-    (profile, preferences) = value;
-  default:
-    return;
-}
-
-print('Profile: $profile, Preferences: $preferences');
-
-```
-Early Return Notation:
-```dart
-final (profile, preferences) = fetchUserProfile()
-      .map((e) => "${e.name} - profile")
-      .andThen((e) => Some(e).zip(fetchUserPreferences()))[$];
-
-print('Profile: $profile, Preferences: $preferences');
-```
-Traditional Null-Based Approach:
-```dart
-final profile = fetchUserProfile();
-if (profile == null) {
-  return;
-} else {
-  profile = profile.name + " - profile";
-}
-
-final preferences = fetchUserPreferences();
-if (preferences == null) {
-  return;
-}
-
-print('Profile: $profile, Preferences: $preferences');
-```
-
 #### Drawbacks
+
 Currently in Dart, one cannot rebind variables and `Option` does not support type promotion like nullable types. 
 This makes using `Option` less ergonomic in some scenarios.
 ```dart
 Option<int> xOpt = optionFunc();
 int x;
 switch(xOpt) {
-  Some(:final v):
+  case Some(:final v):
     x = v;
-  default:
+  case _:
     return;
 }
 // use `int` x
@@ -137,7 +116,7 @@ if(x == null){
 }
 // use `int` x
 ```
-Fortunately, since `Option` is an extension type of `T?`. This can be overcome with no runtime cost.
+Fortunately, since `Option` is an extension type of `T?`.
 ```dart
 int? x = optionFunc().value;
 if(x == null){
@@ -147,6 +126,5 @@ if(x == null){
 ```
 
 #### Conclusion
-If you can't decide between the two, it is recommended to use the `Option` type as the return type, since it allows 
-early return, chaining operations, and easy conversion to a nullable type with `.v`/`.value`. But the choice is up to the developer.
-You can easily use this package and never use `Option`.
+
+The choice to use `Option` is up to the developer. You can easily use this package and never use `Option`.

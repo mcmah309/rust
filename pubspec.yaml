@@ -4,7 +4,7 @@ version: 2.0.2
 repository: https://github.com/mcmah309/rust
 
 environment:
-  sdk: ^3.3.0
+  sdk: ^3.4.0
 
 # Add regular dependencies here.
 dependencies:

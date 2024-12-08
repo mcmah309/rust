@@ -722,7 +722,7 @@ main() {
   test("tryReduce Result", () {
     final list = <Result<int, String>>[Ok(1), Ok(2), Ok(3), Ok(4), Ok(5)];
     final reduced = list.iter().tryReduce((acc, e) => acc + e);
-    expect(reduced, Ok(15));
+    expect(reduced, Ok(Some(15)));
 
     final list2 = <Result<int, String>>[
       Ok(1),
@@ -738,7 +738,7 @@ main() {
   test("tryReduce", () {
     final list = [1, 2, 3, 4, 5];
     final reduced = list.iter().tryReduce((acc, e) => Ok<int, String>(acc + e));
-    expect(reduced, Ok<int, String>(15));
+    expect(reduced, Ok<Option<int>, String>(Some(15)));
 
     final list2 = [1, 2, 3, 4, 5];
     final reduced2 = list2.iter().tryReduce((acc, e) {
@@ -935,7 +935,7 @@ main() {
       [4, 5, 6],
       [7, 8, 9]
     ]);
-    expect(cloned.next(), [1, 2, 3]);
+    expect(cloned.next().unwrap(), [1, 2, 3]);
 
     list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     iter = list.iter();
@@ -950,9 +950,9 @@ main() {
       [7, 8, 9],
     ]);
     cloned = chunks.clone();
-    expect(chunks.intoRemainder(), [10]);
+    expect(chunks.intoRemainder().unwrap(), [10]);
     expect(chunks.collectList(), []);
-    expect(cloned.intoRemainder(), [10]);
+    expect(cloned.intoRemainder().unwrap(), [10]);
     expect(cloned.collectList(), []);
   });
 
@@ -1096,7 +1096,8 @@ main() {
         .peekable();
     out:
     do {
-      switch (iter.next()) {
+      final current = iter.next();
+      switch (current) {
         // ignore: unused_local_variable
         case Some(v: (int index, ["!", "?"])):
           break;
@@ -1104,7 +1105,9 @@ main() {
           answer.add(index);
         case Some(v: (int index, [_, "!"])) when iter.peek().isNone():
           answer.add(index + 1);
-        case None:
+        case Some(v: (int _, [_, _])):
+          continue;
+        case _:
           break out;
       }
     } while (true);
@@ -1146,7 +1149,7 @@ main() {
             case [_, "!"] when iter.peek().isNone():
               answer.add(index + 1);
           }
-        case None:
+        case _:
           break out;
       }
     } while (true);
