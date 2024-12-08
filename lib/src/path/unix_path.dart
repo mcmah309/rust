@@ -5,11 +5,6 @@ part of 'path.dart';
 extension type UnixPath._(String _string) implements Object {
   static const String separator = "/";
 
-  /// {@template path.Path.isIoSupported}
-  /// Returns whether io operations are supported. If false, is currently running on the web.
-  /// {@endtemplate}
-  static const bool isIoSupported = io.isIoSupported;
-
   static final RegExp _oneOrMoreSlashes = RegExp('$separator+');
   static final p.Context _posix = p.Context(style: p.Style.posix);
 

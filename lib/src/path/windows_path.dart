@@ -5,9 +5,6 @@ part of 'path.dart';
 extension type WindowsPath._(String _string) implements Object {
   static const String separator = "\\";
 
-  /// {@macro path.Path.isIoSupported}
-  static const bool isIoSupported = io.isIoSupported;
-
   static final RegExp _regularPathComponent = RegExp(r'^[ .\w-]+$');
   static final RegExp _oneOrMoreSlashes = RegExp(r'\\+');
   static final p.Context _windows = p.Context(style: p.Style.windows);

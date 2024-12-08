@@ -6,7 +6,7 @@ import 'package:test/scaffolding.dart';
 
 void main() {
   test("isIoSupported", () {
-    expect(Path.isIoSupported, isFalse);
+    expect(Env.isIoSupported, isFalse);
   });
 
   test("readLinkSync", () {

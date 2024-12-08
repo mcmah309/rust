@@ -19,6 +19,12 @@ export 'src/cell/once_cell/nullable_once_cell.dart';
 // convert
 export 'src/convert/convert.dart';
 
+// env
+export 'src/env/env.dart';
+
+// fs
+export 'src/fs/fs.dart';
+
 // iter
 export "src/iter/iterator.dart";
 

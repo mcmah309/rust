@@ -1,7 +1,5 @@
 import 'package:rust/rust.dart';
 
-const bool isIoSupported = false;
-
 class ReadDir {}
 
 class Metadata {}

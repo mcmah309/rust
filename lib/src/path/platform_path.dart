@@ -8,12 +8,7 @@ part of 'path.dart';
 /// {@endtemplate}
 extension type Path._(String _string) implements Object {
   static String get separator =>
-      isWindows ? WindowsPath.separator : UnixPath.separator;
-
-  /// {@template path.Path.isIoSupported}
-  /// Returns whether io operations are supported. If false, is currently running on the web.
-  /// {@endtemplate}
-  static const bool isIoSupported = io.isIoSupported;
+      Env.isWindows ? WindowsPath.separator : UnixPath.separator;
 
   const Path(this._string);
 
@@ -23,7 +18,7 @@ extension type Path._(String _string) implements Object {
   /// {@template path.Path.ancestors}
   /// Produces an iterator over Path and its ancestors. e.g. `/a/b/c` will produce `/a/b/c`, `/a/b`, `/a`, and `/`.
   /// {@endtemplate}
-  Iterable<Path> ancestors() => isWindows
+  Iterable<Path> ancestors() => Env.isWindows
       ? WindowsPath(_string).ancestors().map((e) => Path(e._string))
       : UnixPath(_string).ancestors().map((e) => Path(e._string));
 
@@ -33,28 +28,28 @@ extension type Path._(String _string) implements Object {
   /// {@template path.Path.canonicalize}
   /// Returns the canonical, absolute form of the path with all intermediate components normalized.
   /// {@endtemplate}
-  Path canonicalize() => isWindows
+  Path canonicalize() => Env.isWindows
       ? Path(WindowsPath(_string).canonicalize()._string)
       : Path(UnixPath(_string).canonicalize()._string);
 
   /// {@template path.Path.components}
   /// Produces an iterator over the Components of the path.
   /// {@endtemplate}
-  Iterable<Component> components() => isWindows
+  Iterable<Component> components() => Env.isWindows
       ? WindowsPath(_string).components()
       : UnixPath(_string).components();
 
   /// {@template path.Path.endsWith}
   /// Determines whether other is a suffix of this.
   /// {@endtemplate}
-  bool endsWith(Path other) => isWindows
+  bool endsWith(Path other) => Env.isWindows
       ? WindowsPath(_string).endsWith(WindowsPath(other._string))
       : UnixPath(_string).endsWith(UnixPath(other._string));
 
   /// {@template path.Path.existsSync}
   /// Determines whether file exists on disk.
   /// {@endtemplate}
-  bool existsSync() => isWindows
+  bool existsSync() => Env.isWindows
       ? WindowsPath(_string).existsSync()
       : UnixPath(_string).existsSync();
 
@@ -62,19 +57,19 @@ extension type Path._(String _string) implements Object {
   /// Determines whether file exists on disk.
   /// {@endtemplate}
   Future<bool> exists() =>
-      isWindows ? WindowsPath(_string).exists() : UnixPath(_string).exists();
+      Env.isWindows ? WindowsPath(_string).exists() : UnixPath(_string).exists();
 
   /// {@template path.Path.extension}
   /// Extracts the extension (without the leading dot) of self.file_name, if possible.
   /// {@endtemplate}
-  String extension() => isWindows
+  String extension() => Env.isWindows
       ? WindowsPath(_string).extension()
       : UnixPath(_string).extension();
 
   /// {@template path.Path.fileName}
   /// Returns the final component of the Path, if there is one.
   /// {@endtemplate}
-  String fileName() => isWindows
+  String fileName() => Env.isWindows
       ? WindowsPath(_string).fileName()
       : UnixPath(_string).fileName();
 
@@ -87,7 +82,7 @@ extension type Path._(String _string) implements Object {
   /// The entire file name if the file name begins with . and has no other .s within;
   /// The portion of the file name before the second . if the file name begins with .
   /// {@endtemplate}
-  Option<String> filePrefix() => isWindows
+  Option<String> filePrefix() => Env.isWindows
       ? WindowsPath(_string).filePrefix()
       : UnixPath(_string).filePrefix();
 
@@ -99,7 +94,7 @@ extension type Path._(String _string) implements Object {
   /// The entire file name if the file name begins with . and has no other .s within;
   /// Otherwise, the portion of the file name before the final .
   /// {@endtemplate}
-  Option<String> fileStem() => isWindows
+  Option<String> fileStem() => Env.isWindows
       ? WindowsPath(_string).fileStem()
       : UnixPath(_string).fileStem();
 
@@ -107,21 +102,21 @@ extension type Path._(String _string) implements Object {
   /// Returns true if the Path has a root.
   /// {@endtemplate}
   bool hasRoot() =>
-      isWindows ? WindowsPath(_string).hasRoot() : UnixPath(_string).hasRoot();
+      Env.isWindows ? WindowsPath(_string).hasRoot() : UnixPath(_string).hasRoot();
 
   // into_path_buf : will not be implemented
 
   /// {@template path.Path.isAbsolute}
   /// Returns true if the Path is absolute, i.e., if it is independent of the current directory.
   /// {@endtemplate}
-  bool isAbsolute() => isWindows
+  bool isAbsolute() => Env.isWindows
       ? WindowsPath(_string).isAbsolute()
       : UnixPath(_string).isAbsolute();
 
   /// {@template path.Path.isDirSync}
   /// Returns true if the path exists on disk and is pointing at a directory. Does not follow links.
   /// {@endtemplate}
-  bool isDirSync() => isWindows
+  bool isDirSync() => Env.isWindows
       ? WindowsPath(_string).isDirSync()
       : UnixPath(_string).isDirSync();
 
@@ -129,12 +124,12 @@ extension type Path._(String _string) implements Object {
   /// Returns true if the path exists on disk and is pointing at a directory. Does not follow links.
   /// {@endtemplate}
   Future<bool> isDir() =>
-      isWindows ? WindowsPath(_string).isDir() : UnixPath(_string).isDir();
+      Env.isWindows ? WindowsPath(_string).isDir() : UnixPath(_string).isDir();
 
   /// {@template path.Path.isFileSync}
   /// Returns true if the path exists on disk and is pointing at a regular file. Does not follow links.
   /// {@endtemplate}
-  bool isFileSync() => isWindows
+  bool isFileSync() => Env.isWindows
       ? WindowsPath(_string).isFileSync()
       : UnixPath(_string).isFileSync();
 
@@ -142,26 +137,26 @@ extension type Path._(String _string) implements Object {
   /// Returns true if the path exists on disk and is pointing at a regular file. Does not follow links.
   /// {@endtemplate}
   Future<bool> isFile() =>
-      isWindows ? WindowsPath(_string).isFile() : UnixPath(_string).isFile();
+      Env.isWindows ? WindowsPath(_string).isFile() : UnixPath(_string).isFile();
 
   /// {@template path.Path.isRelative}
   /// Returns true if the Path is relative, i.e., not absolute.
   /// {@endtemplate}
-  bool isRelative() => isWindows
+  bool isRelative() => Env.isWindows
       ? WindowsPath(_string).isRelative()
       : UnixPath(_string).isRelative();
 
   /// {@template path.Path.isRoot}
   /// Returns true if the path exists on disk and is pointing at a symlink. Does not follow links.
   /// {@endtemplate}
-  bool isSymlinkSync() => isWindows
+  bool isSymlinkSync() => Env.isWindows
       ? WindowsPath(_string).isSymlinkSync()
       : UnixPath(_string).isSymlinkSync();
 
   /// {@template path.Path.isSymlink}
   /// Returns true if the path exists on disk and is pointing at a symlink. Does not follow links.
   /// {@endtemplate}
-  Future<bool> isSymlink() => isWindows
+  Future<bool> isSymlink() => Env.isWindows
       ? WindowsPath(_string).isSymlink()
       : UnixPath(_string).isSymlink();
 
@@ -169,12 +164,12 @@ extension type Path._(String _string) implements Object {
   /// Produces an iterator over the path’s components viewed as Strings
   /// {@endtemplate}
   Iter<String> iter() =>
-      isWindows ? WindowsPath(_string).iter() : UnixPath(_string).iter();
+      Env.isWindows ? WindowsPath(_string).iter() : UnixPath(_string).iter();
 
   /// {@template path.Path.join}
   /// Creates an Path with path adjoined to this.
   /// {@endtemplate}
-  Path join(Path other) => isWindows
+  Path join(Path other) => Env.isWindows
       ? Path(WindowsPath(_string).join(WindowsPath(other._string))._string)
       : Path(UnixPath(_string).join(UnixPath(other._string))._string);
 
@@ -182,7 +177,7 @@ extension type Path._(String _string) implements Object {
   /// Queries the file system to get information about a file, directory, etc.
   /// Note: using this method means that the program can no longer compile for the web.
   /// {@endtemplate}
-  io.Metadata metadataSync() => isWindows
+  io.Metadata metadataSync() => Env.isWindows
       ? WindowsPath(_string).metadataSync()
       : UnixPath(_string).metadataSync();
 
@@ -190,7 +185,7 @@ extension type Path._(String _string) implements Object {
   /// Queries the file system to get information about a file, directory, etc.
   /// Note: using this method means that the program can no longer compile for the web.
   /// {@endtemplate}
-  Future<io.Metadata> metadata() => isWindows
+  Future<io.Metadata> metadata() => Env.isWindows
       ? WindowsPath(_string).metadata()
       : UnixPath(_string).metadata();
 
@@ -201,7 +196,7 @@ extension type Path._(String _string) implements Object {
   /// This means it returns Some("") for relative paths with one component.
   /// Returns None if the path terminates in a root or prefix, or if it’s the empty string.
   /// {@endtemplate}
-  Option<Path> parent() => isWindows
+  Option<Path> parent() => Env.isWindows
       ? WindowsPath(_string).parent().map((e) => Path(e._string))
       : UnixPath(_string).parent().map((e) => Path(e._string));
 
@@ -209,7 +204,7 @@ extension type Path._(String _string) implements Object {
   /// Returns an iterator over the entries within a directory.
   /// Note: using this method results in the program no longer being able to compile to web.
   /// {@endtemplate}
-  Result<io.ReadDir, PathIoError> readDirSync() => isWindows
+  Result<io.ReadDir, PathIoError> readDirSync() => Env.isWindows
       ? WindowsPath(_string).readDirSync()
       : UnixPath(_string).readDirSync();
 
@@ -218,33 +213,33 @@ extension type Path._(String _string) implements Object {
   /// Note: using this method results in the program no longer being able to compile to web.
   /// {@endtemplate}
   Future<Result<io.ReadDir, PathIoError>> readDir() =>
-      isWindows ? WindowsPath(_string).readDir() : UnixPath(_string).readDir();
+      Env.isWindows ? WindowsPath(_string).readDir() : UnixPath(_string).readDir();
 
   /// {@template path.Path.readLinkSync}
   /// Reads a symbolic link, returning the file that the link points to.
   /// {@endtemplate}
-  Result<Path, PathIoError> readLinkSync() => isWindows
+  Result<Path, PathIoError> readLinkSync() => Env.isWindows
       ? WindowsPath(_string).readLinkSync().map((e) => Path(e._string))
       : UnixPath(_string).readLinkSync().map((e) => Path(e._string));
 
   /// {@template path.Path.readLink}
   /// Reads a symbolic link, returning the file that the link points to.
   /// {@endtemplate}
-  Future<Result<Path, PathIoError>> readLink() => isWindows
+  Future<Result<Path, PathIoError>> readLink() => Env.isWindows
       ? WindowsPath(_string).readLink().map((e) => Path(e._string))
       : UnixPath(_string).readLink().map((e) => Path(e._string));
 
   /// {@template path.Path.relativeTo}
   /// Determines whether other is a prefix of this.
   /// {@endtemplate}
-  bool startsWith(Path other) => isWindows
+  bool startsWith(Path other) => Env.isWindows
       ? WindowsPath(_string).startsWith(WindowsPath(other._string))
       : UnixPath(_string).startsWith(UnixPath(other._string));
 
   /// {@template path.Path.stripPrefix}
   /// Returns a path that, when joined onto base, yields this. Returns None if [prefix] is not a subpath of base.
   /// {@endtemplate}
-  Option<Path> stripPrefix(Path prefix) => isWindows
+  Option<Path> stripPrefix(Path prefix) => Env.isWindows
       ? WindowsPath(_string)
           .stripPrefix(WindowsPath(prefix._string))
           .map((e) => Path(e._string))
@@ -256,7 +251,7 @@ extension type Path._(String _string) implements Object {
   /// Returns the metadata for the symlink.
   /// Note: using this method means that the program can no longer compile for the web.
   /// {@endtemplate}
-  Result<io.Metadata, PathIoError> symlinkMetadataSync() => isWindows
+  Result<io.Metadata, PathIoError> symlinkMetadataSync() => Env.isWindows
       ? WindowsPath(_string).symlinkMetadataSync()
       : UnixPath(_string).symlinkMetadataSync();
 
@@ -264,7 +259,7 @@ extension type Path._(String _string) implements Object {
   /// Returns the metadata for the symlink.
   /// Note: using this method means that the program can no longer compile for the web.
   /// {@endtemplate}
-  Future<Result<io.Metadata, PathIoError>> symlinkMetadata() => isWindows
+  Future<Result<io.Metadata, PathIoError>> symlinkMetadata() => Env.isWindows
       ? WindowsPath(_string).symlinkMetadata()
       : UnixPath(_string).symlinkMetadata();
 
@@ -276,14 +271,14 @@ extension type Path._(String _string) implements Object {
   /// {@template path.Path.withExtension}
   /// Creates an Path like this but with the given extension.
   /// {@endtemplate}
-  Path withExtension(String extension) => isWindows
+  Path withExtension(String extension) => Env.isWindows
       ? Path(WindowsPath(_string).withExtension(extension)._string)
       : Path(UnixPath(_string).withExtension(extension)._string);
 
   /// {@template path.Path.withFileName}
   /// Creates an PathBuf like this but with the given file name.
   /// {@endtemplate}
-  Path withFileName(String fileName) => isWindows
+  Path withFileName(String fileName) => Env.isWindows
       ? Path(WindowsPath(_string).withFileName(fileName)._string)
       : Path(UnixPath(_string).withFileName(fileName)._string);
 }

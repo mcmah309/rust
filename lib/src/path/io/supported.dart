@@ -2,8 +2,6 @@ import 'dart:io' as io;
 
 import 'package:rust/rust.dart';
 
-const bool isIoSupported = true;
-
 /// An iterator over the entries within a directory.
 typedef ReadDir = List<io.FileSystemEntity>;
 
