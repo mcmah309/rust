@@ -83,4 +83,12 @@ class Fs {
   static FutureResult<(), IoError> move(Path from, Path to) => throw UnsupportedError("'move' is not supported on this platform");
 
   static Result<(), IoError> moveSync(Path from, Path to) => throw UnsupportedError("'moveSync' is not supported on this platform");
+
+  static FutureResult<(), IoError> write(Path path, Uint8List bytes) => throw UnsupportedError("'write' is not supported on this platform");
+
+  static Result<(), IoError> writeSync(Path path, Uint8List bytes) => throw UnsupportedError("'writeSync' is not supported on this platform");
+
+  static FutureResult<(), IoError> writeString(Path path, String contents) => throw UnsupportedError("'writeString' is not supported on this platform");
+
+  static Result<(), IoError> writeStringSync(Path path, String contents) => throw UnsupportedError("'writeStringSync' is not supported on this platform");
 }

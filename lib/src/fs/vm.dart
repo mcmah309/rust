@@ -6,7 +6,7 @@ import 'common.dart' as common;
 
 part 'io_error_vm.dart';
 
-/// An iterator over the entries within a directory.
+/// A List of the entries within a directory.
 typedef ReadDir = List<FileSystemEntity>;
 
 // Dev Note: Dart did not name [FileStat] well. Since it is for not just files.
@@ -16,7 +16,11 @@ typedef ReadDir = List<FileSystemEntity>;
 /// This is an immutable object, representing the snapshotted values returned by the stat() call.
 typedef Metadata = FileStat;
 
+/// static methods for filesystem manipulation operations.
 class Fs {
+
+  Fs._();
+
   /// Returns whether io operations are supported. If false, is currently running on the web.
   static final bool isIoSupported = true;
 
@@ -331,6 +335,46 @@ class Fs {
         return Ok(entity.renameSync(toStr));
       }
       return Err(IoError.ioException(PathNotFoundException(fromStr, const OSError())));
+    }).map((_) => ());
+  }
+
+  // set_permissions: Api equivalent does not exist in Dart
+
+  // symlink_metadata: Api equivalent does not exist in Dart, since `Filestat.stat` always resolves symlinks
+
+  /// {@template Fs.write}
+  /// Writes the entire contents of a file.
+  /// {@endtemplate}
+  static FutureResult<(), IoError> write(Path path, Uint8List bytes) async {
+    return await Fs.ioGuard(() async {
+      final file = File(path.asString());
+      await file.writeAsBytes(bytes);
+    }).map((_) => ());
+  }
+
+  /// {@macro Fs.write}
+  static Result<(), IoError> writeSync(Path path, Uint8List bytes) {
+    return Fs.ioGuardSync(() {
+      final file = File(path.asString());
+      file.writeAsBytesSync(bytes);
+    }).map((_) => ());
+  }
+
+  /// {@template Fs.writeString}
+  /// Writes the entire contents of a file as a string.
+  /// {@endtemplate}
+  static FutureResult<(), IoError> writeString(Path path, String contents) async {
+    return await Fs.ioGuard(() async {
+      final file = File(path.asString());
+      await file.writeAsString(contents);
+    }).map((_) => ());
+  }
+
+  /// {@macro Fs.writeString}
+  static Result<(), IoError> writeStringSync(Path path, String contents) {
+    return Fs.ioGuardSync(() {
+      final file = File(path.asString());
+      file.writeAsStringSync(contents);
     }).map((_) => ());
   }
 }
