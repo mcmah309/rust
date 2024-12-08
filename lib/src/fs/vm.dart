@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:rust/rust.dart';
 import 'common.dart' as common;
@@ -39,8 +40,7 @@ class Fs {
     }
   }
 
-  static FutureResult<T, IoError> ioGuardResult<T>(
-      FutureResult<T, IoError> Function() fn) async {
+  static FutureResult<T, IoError> ioGuardResult<T>(FutureResult<T, IoError> Function() fn) async {
     try {
       return await fn();
     } on IOException catch (e) {
@@ -158,14 +158,179 @@ class Fs {
   /// If [path] is a symbolic link then it is resolved and results for the
   /// resulting file are returned.
   /// {@endtemplate}
-  static FutureResult<Metadata, IoError> metadata(Path file) async {
+  static FutureResult<Metadata, IoError> metadata(Path path) async {
     return await Fs.ioGuard(() async {
-      return await FileStat.stat(file.asString());
+      return await FileStat.stat(path.asString());
     });
   }
 
   /// {@macro Fs.metadata}
-  static Result<Metadata, IoError> metadataSync(Path file) {
-    return Fs.ioGuardSync(() => FileStat.statSync(file.asString()));
+  static Result<Metadata, IoError> metadataSync(Path path) {
+    return Fs.ioGuardSync(() => FileStat.statSync(path.asString()));
+  }
+
+  /// {@template Fs.read}
+  /// Reads the entire file contents of a file as bytes.
+  /// {@endtemplate}
+  static FutureResult<Uint8List, IoError> read(Path path) async {
+    return Fs.ioGuard(() async {
+      return await File(path.asString()).readAsBytes();
+    });
+  }
+
+  /// {@macro Fs.read}
+  static Result<Uint8List, IoError> readSync(Path path) {
+    return Fs.ioGuardSync(() => File(path.asString()).readAsBytesSync());
+  }
+
+  /// {@template Fs.readDr}
+  /// Returns a list with the entries within a directory.
+  /// {@endtemplate}
+  static FutureResult<ReadDir, IoError> readDir(Path path) async {
+    return await Fs.ioGuard(() async {
+      return await Directory(path.asString()).list(recursive: false, followLinks: false).toList();
+    });
+  }
+
+  /// {@macro Fs.readDr}
+  static Result<ReadDir, IoError> readDirSync(Path path) {
+    return Fs.ioGuardSync(() {
+      return Directory(path.asString()).listSync(recursive: false, followLinks: false);
+    });
+  }
+
+  /// {@template Fs.readLink}
+  /// Reads a symbolic link, returning the file that the link points to.
+  /// {@endtemplate}
+  static FutureResult<Path, IoError> readLink(Path path) async {
+    return await Fs.ioGuard(() async {
+      return Path((await Link(path.asString()).target()));
+    });
+  }
+
+  /// {@macro Fs.readLink}
+  static Result<Path, IoError> readLinkSync(Path path) {
+    return Fs.ioGuardSync(() => Path(Link(path.asString()).targetSync()));
+  }
+
+  /// {@template Fs.readToString}
+  /// Reads the entire contents of a file into a string.
+  /// {@endtemplate}
+  static FutureResult<String, IoError> readToString(Path path) async {
+    return Fs.ioGuard(() async {
+      return await File(path.asString()).readAsString();
+    });
+  }
+
+  /// {@macro Fs.readToString}
+  static Result<String, IoError> readToStringSync(Path path) {
+    return Fs.ioGuardSync(() => File(path.asString()).readAsStringSync());
+  }
+
+  /// {@template Fs.removeDir}
+  /// Removes an empty directory.
+  /// {@endtemplate}
+  static FutureResult<(), IoError> removeDir(Path path) async {
+    return await Fs.ioGuard(() async {
+      return await Directory(path.asString()).delete(recursive: false);
+    }).map((_) => ());
+  }
+
+  /// {@macro Fs.removeDir}
+  static Result<(), IoError> removeDirSync(Path path) {
+    return Fs.ioGuardSync(() => Directory(path.asString()).deleteSync(recursive: false))
+        .map((_) => ());
+  }
+
+  /// {@template Fs.removeDirAll}
+  /// Removes a directory at this path, after removing all its contents. Use carefully!
+  /// {@endtemplate}
+  static FutureResult<(), IoError> removeDirAll(Path path) async {
+    return await Fs.ioGuard(() async {
+      return await Directory(path.asString()).delete(recursive: true);
+    }).map((_) => ());
+  }
+
+  /// {@macro Fs.removeDirAll}
+  static Result<(), IoError> removeDirAllSync(Path path) {
+    return Fs.ioGuardSync(() => Directory(path.asString()).deleteSync(recursive: true))
+        .map((_) => ());
+  }
+
+  /// {@template Fs.removeFile}
+  /// Removes a file.
+  /// {@endtemplate}
+  static FutureResult<(), IoError> removeFile(Path path) async {
+    return await Fs.ioGuard(() async {
+      return await File(path.asString()).delete(recursive: false);
+    }).map((_) => ());
+  }
+
+  /// {@macro Fs.removeFile}
+  static Result<(), IoError> removeFileSync(Path path) {
+    return Fs.ioGuardSync(() => File(path.asString()).deleteSync(recursive: false)).map((_) => ());
+  }
+
+  /// {@template Fs.rename}
+  /// Renames a file or directory.
+  /// Note this is different from the rust `rename` as this is just a rename, for an equivalent use - [move].
+  /// {@endtemplate}
+  static FutureResult<(), IoError> rename(Path path, String newName) async {
+    final pathStr = path.asString();
+    final lastSeparatorIndex = pathStr.lastIndexOf(Path.separator);
+    final newPath = pathStr.substring(0, lastSeparatorIndex + 1) + newName;
+    return Fs.move(path, newPath.asPath());
+  }
+
+  /// {@macro Fs.rename}
+  static Result<(), IoError> renameSync(Path path, String newName) {
+    final pathStr = path.asString();
+    final lastSeparatorIndex = pathStr.lastIndexOf(Path.separator);
+    final newPath = pathStr.substring(0, lastSeparatorIndex + 1) + newName;
+    return Fs.moveSync(path, newPath.asPath());
+  }
+
+  /// {@template Fs.move}
+  /// Moves a file or directory, possibly just a rename operation.
+  /// {@endtemplate}
+  static FutureResult<(), IoError> move(Path from, Path to) async {
+    final fromStr = from.asString();
+    final toStr = to.asString();
+    return await Fs.ioGuardResult(() async {
+      FileSystemEntity entity = File(fromStr);
+      if (await entity.exists()) {
+        return Ok(await entity.rename(toStr));
+      }
+      entity = Directory(fromStr);
+      if (await entity.exists()) {
+        return Ok(await entity.rename(toStr));
+      }
+      entity = Link(fromStr);
+      if (await entity.exists()) {
+        return Ok(await entity.rename(toStr));
+      }
+      return Err(IoError.ioException(PathNotFoundException(fromStr, const OSError())));
+    }).map((_) => ());
+  }
+
+  /// {@macro Fs.move}
+  static Result<(), IoError> moveSync(Path from, Path to) {
+    final fromStr = from.asString();
+    final toStr = to.asString();
+    return Fs.ioGuardResultSync(() {
+      FileSystemEntity entity = File(fromStr);
+      if (entity.existsSync()) {
+        return Ok(entity.renameSync(toStr));
+      }
+      entity = Directory(fromStr);
+      if (entity.existsSync()) {
+        return Ok(entity.renameSync(toStr));
+      }
+      entity = Link(fromStr);
+      if (entity.existsSync()) {
+        return Ok(entity.renameSync(toStr));
+      }
+      return Err(IoError.ioException(PathNotFoundException(fromStr, const OSError())));
+    }).map((_) => ());
   }
 }
