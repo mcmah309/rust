@@ -314,17 +314,6 @@ void main() {
         fail("Should not reach here");
     }
     int _ = p;
-
-    // fails since: https://github.com/dart-lang/sdk/issues/55104
-    // w = Some(1);
-    // int u;
-    // switch (w) {
-    //   case Some(:final v):
-    //     p = v;
-    //   case None:
-    //     fail("Should not reach here");
-    // }
-    // z = u;
   });
 
   test("Option and nullable conversions", () {

@@ -83,9 +83,9 @@ sealed class Option<T> {
 
   // T getOrInsert(T value); // not possible, otherwise would not be const
 
-  // T getOrInsertWith(T Function() f); // not possible, otherwise cannot be const
+  // T getOrInsertWith(T Function() f); // not possible, otherwise would not be const
 
-  // T insert(T value); // not possible, otherwise lose const
+  // T insert(T value); // only applicable to Rust
 
   /// Calls the provided closure with a reference to the contained value
   Option<T> inspect(Function(T) f);
@@ -184,7 +184,7 @@ final class Some<T> implements Option<T> {
   @override
   Option<T> filter(bool Function(T self) predicate) {
     if (predicate(v)) {
-      return Some(v);
+      return this;
     }
     return None;
   }
@@ -242,12 +242,12 @@ final class Some<T> implements Option<T> {
 
   /// Returns the option if it contains a value, otherwise returns other.
   Some<T> or(Option<T> other) {
-    return Some(v);
+    return this;
   }
 
   /// Returns this value as [Some]
   Some<T> orElse(Option<T> Function() f) {
-    return Some(v);
+    return this;
   }
 
   @override
@@ -452,7 +452,7 @@ extension Option$NoneExtension<T> on Option<T> {
 
   /// Returns the option if it contains a value, otherwise calls f and returns the result.
   Option<T> orElse(Option<T> Function() f) {
-    return switch (this) { Some(:final value) => Some(value), _ => f() };
+    return switch (this) { Some() => this, _ => f() };
   }
 
   /// Returns the contained [Some] value or a provided default.
