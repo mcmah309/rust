@@ -408,13 +408,13 @@ main() {
   test("lastChunk", () {
     var list = [1, 2, 3, 4, 5];
     var slice = Slice(list, 0, 5);
-    expect(slice.lastChunk(2), Some([4, 5]));
+    expect(slice.lastChunk(2).unwrap(), [4, 5]);
 
     slice = Slice(list, 1, 4);
-    expect(slice.lastChunk(2), Some([3, 4]));
+    expect(slice.lastChunk(2).unwrap(), [3, 4]);
 
     slice = Slice(list, 0, 5);
-    expect(slice.lastChunk(5), Some([1, 2, 3, 4, 5]));
+    expect(slice.lastChunk(5).unwrap(), [1, 2, 3, 4, 5]);
 
     slice = Slice(list, 1, 4);
     expect(slice.lastChunk(5), None);
@@ -422,7 +422,7 @@ main() {
     list = [];
     slice = list.asSlice();
     expect(slice.lastChunk(1), None);
-    expect(slice.lastChunk(0), Some([]));
+    expect(slice.lastChunk(0).unwrap(), []);
   });
 
   test("partitionDedup", () {
@@ -581,13 +581,13 @@ main() {
     var list = [1, 2, 3, 4, 5];
     var slice = Slice(list, 0, 5);
     var taken = slice.takeStart(3);
-    expect(taken, [1, 2, 3]);
+    expect(taken.unwrap(), [1, 2, 3]);
     expect(list, [1, 2, 3, 4, 5]);
 
     list = [1, 2, 3, 4, 5];
     slice = Slice(list, 1, 4);
     taken = slice.takeStart(3);
-    expect(taken, [2, 3, 4]);
+    expect(taken.unwrap(), [2, 3, 4]);
     expect(list, [1, 2, 3, 4, 5]);
   });
 
@@ -595,13 +595,13 @@ main() {
     var list = [1, 2, 3, 4, 5];
     var slice = Slice(list, 0, 5);
     var taken = slice.takeEnd(3);
-    expect(taken, [3, 4, 5]);
+    expect(taken.unwrap(), [3, 4, 5]);
     expect(list, [1, 2, 3, 4, 5]);
 
     list = [1, 2, 3, 4, 5];
     slice = Slice(list, 1, 4);
     taken = slice.takeEnd(3);
-    expect(taken, [2, 3, 4]);
+    expect(taken.unwrap(), [2, 3, 4]);
     expect(list, [1, 2, 3, 4, 5]);
   });
 
@@ -609,13 +609,13 @@ main() {
     var list = [1, 2, 3, 4, 5];
     var slice = Slice(list, 0, 5);
     var taken = slice.takeFirst();
-    expect(taken, 1);
+    expect(taken.unwrap(), 1);
     expect(slice, [2, 3, 4, 5]);
 
     list = [1, 2, 3, 4, 5];
     slice = Slice(list, 1, 4);
     taken = slice.takeFirst();
-    expect(taken, 2);
+    expect(taken.unwrap(), 2);
     expect(slice, [3, 4]);
   });
 
@@ -623,14 +623,14 @@ main() {
     var list = [1, 2, 3, 4, 5];
     var slice = Slice(list, 0, 5);
     var taken = slice.takeLast();
-    expect(taken, 5);
+    expect(taken.unwrap(), 5);
     expect(slice, [1, 2, 3, 4]);
 
     list = [1, 2, 3, 4, 5];
     slice = Slice(list, 1, 4);
     expect(slice, [2, 3, 4]);
     taken = slice.takeLast();
-    expect(taken, 4);
+    expect(taken.unwrap(), 4);
     expect(slice, [2, 3]);
 
     slice[1] = 10;

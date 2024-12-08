@@ -20,10 +20,11 @@ extension type WindowsPath._(String _string) implements Object {
   /// {@macro path.Path.ancestors}
   Iterable<WindowsPath> ancestors() sync* {
     yield this;
-    WindowsPath? current = parent().v;
-    while (current != null) {
+    Option<WindowsPath> currentOpt = parent();
+    while (currentOpt.isSome()) {
+      final current = currentOpt.unwrap();
       yield current;
-      current = current.parent().v;
+      currentOpt = current.parent();
     }
   }
 
@@ -268,9 +269,9 @@ extension type WindowsPath._(String _string) implements Object {
   WindowsPath withFileName(String fileName) {
     final parentOption = parent();
     return switch (parentOption) {
-      None => WindowsPath(fileName),
       // ignore: pattern_never_matches_value_type
       Some(:final v) => v.join(WindowsPath(fileName)),
+      _ => WindowsPath(fileName),
     };
   }
 }

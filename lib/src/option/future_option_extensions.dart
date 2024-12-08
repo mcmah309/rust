@@ -3,7 +3,7 @@ part of 'option.dart';
 extension Option$FutureNullableExtension<T> on Future<T?> {
   /// Converts a Future<T?> to Future<Option<T>>.
   Future<Option<T>> toFutureOption() {
-    return this as Future<Option<T>>;
+    return then((e) => Option.of(e));
   }
 }
 
@@ -17,7 +17,7 @@ extension Option$ToFutureOptionExtension<T> on Option<T> {
 extension Option$FutureOptionOptionExtension<T> on FutureOption<Option<T>> {
   /// Converts from FutureOption<Option<T>> to FutureOption<T>.
   Future<Option<T>> flatten() {
-    return this as Future<Option<T>>;
+    return then((option) => option.flatten());
   }
 }
 

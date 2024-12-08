@@ -23,10 +23,11 @@ extension type UnixPath._(String _string) implements Object {
   /// {@endtemplate}
   Iterable<UnixPath> ancestors() sync* {
     yield this;
-    UnixPath? current = parent().v;
-    while (current != null) {
+    Option<UnixPath> currentOpt = parent();
+    while (currentOpt.isSome()) {
+      final current = currentOpt.unwrap();
       yield current;
-      current = current.parent().v;
+      currentOpt = current.parent();
     }
   }
 
@@ -356,9 +357,9 @@ extension type UnixPath._(String _string) implements Object {
   UnixPath withFileName(String fileName) {
     final parentOption = parent();
     return switch (parentOption) {
-      None => UnixPath(fileName),
       // ignore: pattern_never_matches_value_type
       Some(:final v) => v.join(UnixPath(fileName)),
+      _ => UnixPath(fileName),
     };
   }
 }

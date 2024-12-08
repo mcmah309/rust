@@ -6,27 +6,28 @@ typedef FutureOption<T> = Future<Option<T>>;
 /// {@template futureOption}
 /// [FutureOption] represents an asynchronous [Option]. And as such, inherits all of [Option]'s methods.
 /// {@endtemplate}
-extension Option$FutureOptionExtension<T extends Object> on FutureOption<T> {
+extension Option$FutureOptionExtension<T> on FutureOption<T> {
   @pragma("vm:prefer-inline")
   Future<T?> get v {
-    return this as Future<T?>;
+    return then((option) => option.v);
   }
 
   @pragma("vm:prefer-inline")
   Future<T?> get value {
-    return this as Future<T?>;
+    return then((option) => option.value);
   }
 
   @pragma("vm:prefer-inline")
-  Future<Option<U>> and<U extends Object>(Option<U> other) {
+  Future<Option<U>> and<U>(Option<U> other) {
     return then((option) => option.and(other));
   }
 
   @pragma("vm:prefer-inline")
-  Future<Option<U>> andThen<U extends Object>(
-      FutureOr<Option<U>> Function(T) f) {
-    return then(
-        (option) => option.isSome() ? f(option.v as T) : Future.value(None));
+  Future<Option<U>> andThen<U>(FutureOr<Option<U>> Function(T) f) {
+    return then((option) => switch (option) {
+          Some(:final v) => f(v),
+          _ => Future.value(None),
+        });
   }
 
   @pragma("vm:prefer-inline")
@@ -36,8 +37,14 @@ extension Option$FutureOptionExtension<T extends Object> on FutureOption<T> {
 
   @pragma("vm:prefer-inline")
   Future<Option<T>> filter(FutureOr<bool> Function(T) predicate) {
-    return then((option) async =>
-        option.isSome() && (await predicate(option.v as T)) ? option : None);
+    return then((option) async {
+      switch (option) {
+        case Some(:final v):
+          return (await predicate(v)) ? option : None;
+        default:
+          return None;
+      }
+    });
   }
 
   @pragma("vm:prefer-inline")
@@ -57,7 +64,10 @@ extension Option$FutureOptionExtension<T extends Object> on FutureOption<T> {
 
   @pragma("vm:prefer-inline")
   Future<bool> isSomeAnd(FutureOr<bool> Function(T) f) {
-    return then((option) async => option.isSome() && await f(option.v as T));
+    return then((option) => switch (option) {
+          Some(:final value) => f(value),
+          _ => false,
+        });
   }
 
   @pragma("vm:prefer-inline")
@@ -66,18 +76,25 @@ extension Option$FutureOptionExtension<T extends Object> on FutureOption<T> {
   }
 
   @pragma("vm:prefer-inline")
-  Future<Option<U>> map<U extends Object>(U Function(T) f) {
+  Future<Option<U>> map<U>(U Function(T) f) {
     return then((option) => option.map(f));
   }
 
   @pragma("vm:prefer-inline")
   Future<U> mapOr<U>(U defaultValue, U Function(T) f) {
-    return then((option) => option.isSome() ? f(option as T) : defaultValue);
+    return then((option) => switch(option) {
+      Some(:final value) => f(value),
+      _ => defaultValue,
+    });
+    // return then((option) => option.isSome() ? f(option) : defaultValue);
   }
 
   @pragma("vm:prefer-inline")
   Future<U> mapOrElse<U>(U Function() defaultFn, U Function(T) f) {
-    return then((option) => option.isSome() ? f(option as T) : defaultFn());
+    return then((option) => switch (option) {
+      Some(:final value) => f(value),
+      _ => defaultFn(),
+    });
   }
 
   @pragma("vm:prefer-inline")
@@ -121,13 +138,12 @@ extension Option$FutureOptionExtension<T extends Object> on FutureOption<T> {
   }
 
   @pragma("vm:prefer-inline")
-  Future<Option<(T, U)>> zip<U extends Object>(Option<U> other) {
+  Future<Option<(T, U)>> zip<U>(Option<U> other) {
     return then((option) => option.zip(other));
   }
 
   @pragma("vm:prefer-inline")
-  Future<Option<R>> zipWith<U extends Object, R extends Object>(
-      Option<U> other, R Function(T, U) f) {
+  Future<Option<R>> zipWith<U, R>(Option<U> other, R Function(T, U) f) {
     return then((option) => option.zipWith(other, f));
   }
 
