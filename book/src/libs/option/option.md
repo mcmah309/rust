@@ -88,12 +88,12 @@ of an iterable or null if the iterable does not have an nth index.
 If the iterable is `Iterable<T?>`, then a null value from calling `nth` means the nth element is 
 either null or the iterable does not have n elements. While if `nth` rather returned `Option`,
 if the nth index is null it returns `Some(null)` and if it does not have n elements it returns `None`.
-One might accidentally mishandle the first case and assume the `nth` index does not actually exist,
+One might accidentally mishandle the nullable case and assume the `nth` index does not actually exist,
 when it is rather just null. While the second case with `Option` one is force to handle both cases.
 This holds true for a lot of operations that might have unintended effects 
 e.g. `filterMap` - since null can be a valid state that should not be filtered.
 
-These issues are not insurmountable, and if fact, most of the time nullable types are probably more concise
+These issues are not insurmountable, and in fact, most of the time nullable types are probably more concise
 and easier to deal with. Therefore, for every method in this library that uses `T?` there is also an `Option`
 version, usually suffixed with `..Opt`.
 
@@ -127,7 +127,7 @@ if(x == null){
 }
 // use `int` x
 ```
-Fortunately, since `Option` is an extension type of `T?`.
+Fortunately, it can be converted back and forth.
 ```dart
 int? x = optionFunc().toNullable();
 if(x == null){
