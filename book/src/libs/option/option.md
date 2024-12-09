@@ -2,38 +2,7 @@
 ***
 `Option` represents the union of two types - `Some<T>` and `None`.
 
-## If Dart Has Nullable Types Why Ever Use `Option`?
-
-`Option` is wrapper around a value that may or may be set. A nullable type is a type that may or may not be set.
-This small distinction leads to some useful differences:
-
-- Any extension method on `T?` also exists for `T`. So null specific extensions cannot be added.
-Also since `T` is all types, there would be a lot of clashes with existing types if you tried to
-do so - e.g. `map` on `Iterable`.
-
-- `Option` can be passed around like a reference and values can be taken in and 
-  out of. Thus visible to all with reference to the `Option`, unlike null.
-
-- `T??` is not possible, while Option<Option<T>> or Option<T?> is. This may be useful,
-  e.g.
-
-  State 1 (`None`): The configuration value isn't defined at all.
-
-  State 2 (`Some(None)`): The configuration value is explicitly disabled.
-
-  State 3 (`Some(Some(value))`): The configuration value is explicitly set to value.
-
-  With nullable types a separate field would be needed to keep track of this.
-
-- Certain operations should not be used without it e.g. `flatmap` - since null can be a valid state.
-
-These issues are not insurmountable, and if fact, most of the time nullable types are probably more concise
-and easier to deal with. Therefore, `Option` is only used where needed in the library, like `flatmap`, where it is not,
-nullable types are used.
-
-## The Option Type
-
-Easy to declare and translate back and forth between nullable types.
+`Option` is easy to declare and translate back and forth between nullable types.
 ```dart
 Option<int> option = None;
 Option<int> option = Some(1);
@@ -92,10 +61,44 @@ FutureOption<double> earlyReturn() => Option.async(($) async {
   ...
 });
 ```
+### Discussion
 
-#### Drawbacks
+#### If Dart Has Nullable Types Why Ever Use `Option`?
 
-Currently in Dart, one cannot rebind variables and `Option` does not support type promotion like nullable types. 
+`Option` is wrapper around a value that may or may be set. A nullable type is a type that may or may not be set.
+This small distinction leads to some useful differences:
+
+- Any extension method on `T?` also exists for `T`. So null specific extensions cannot be added.
+Also since `T` is all types, there would be a lot of clashes with existing types if you tried to
+do so - e.g. `map` on `Iterable`. While `Option` plays well for a pipeline style of programming.
+
+- `T??` is not possible, while Option<Option<T>> or Option<T?> is. This may be useful,
+  e.g.
+
+  **No value at all** (`None`): The configuration value isn't defined at all.
+
+  **A known absence of a value** (`Some(None)`): The configuration value is explicitly disabled.
+
+  **A present value** (`Some(Some(value))`): The configuration value is explicitly set to value.
+
+  With nullable types a separate field or enum/sealed class would be needed to keep track of this.
+
+- Certain operations may have some unintended effects e.g. `flatmap` - since null can be a valid state that should not be filtered.
+
+These issues are not insurmountable, and if fact, most of the time nullable types are probably more concise
+and easier to deal with. Therefore, `Option` is only used where needed in the library, like `flatmap`, where it is not,
+nullable types are used.
+
+> In some languages (like Rust, not Dart) `Option` can be passed around like a reference 
+> and values can be taken in and out of (transmutation). Thus visible to all with reference 
+> to the `Option`, unlike null. Implementing such an equivalence in Dart would remove pattern
+> matching and const-ness.
+
+#### Why Not To Use Option
+
+- Null chaining operations with `?` is not possible with `Option`
+
+- Currently in Dart, one cannot rebind variables and `Option` does not support type promotion like nullable types. 
 This makes using `Option` less ergonomic in some scenarios.
 ```dart
 Option<int> xOpt = optionFunc();
