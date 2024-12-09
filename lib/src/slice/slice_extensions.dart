@@ -29,8 +29,30 @@ extension Slice$SliceNumExtension<T extends num> on Slice<T> {
   }
 }
 
-extension Slice$SliceComparableSelfExtension<T extends Comparable<T>>
-    on Slice<T> {
+/// {@macro null_option_correctness}
+extension Slice$SliceConcreteExtension<T extends Object> on Slice<T> {
+// Returns the first element of this slice, and removes it from this slice. Returns null if empty.
+  T? takeFirst() {
+    if (isEmpty) {
+      return null;
+    }
+    var element = _list[_start];
+    _start++;
+    return element;
+  }
+
+  // Returns the last element of this slice, and removes it from this slice. Returns null if empty.
+  T? takeLast() {
+    if (isEmpty) {
+      return null;
+    }
+    var element = _list[_end - 1];
+    _end--;
+    return element;
+  }
+}
+
+extension Slice$SliceComparableSelfExtension<T extends Comparable<T>> on Slice<T> {
   /// Sorts the slice, but might not preserve the order of equal elements.
   @pragma("vm:prefer-inline")
   void sortUnstable() {
@@ -115,8 +137,7 @@ void _swap<T extends Comparable<T>>(List<T> list, int i, int j) {
 
 //************************************************************************//
 
-void _quickSortBy<T>(
-    Slice<T> slice, int low, int high, int Function(T a, T b) compare) {
+void _quickSortBy<T>(Slice<T> slice, int low, int high, int Function(T a, T b) compare) {
   if (low < high) {
     int pivotIndex = _partitionBy(slice, low, high, compare);
     _quickSortBy(slice, low, pivotIndex - 1, compare);
@@ -124,8 +145,7 @@ void _quickSortBy<T>(
   }
 }
 
-int _partitionBy<T>(
-    Slice<T> slice, int low, int high, int Function(T a, T b) compare) {
+int _partitionBy<T>(Slice<T> slice, int low, int high, int Function(T a, T b) compare) {
   T pivot = slice._list[high];
   int i = low - 1;
 

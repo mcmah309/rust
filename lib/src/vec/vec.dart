@@ -116,9 +116,8 @@ extension Vec$ListExtension<T> on List<T> {
 // new: will not not implement, already has a constructor
 // new_in: will not implement, not possible
 
-  /// Removes the last element from the Vec and returns it, or None if it is empty.
-  @pragma('vm:prefer-inline')
-  Option<T> pop() {
+  /// {@macro Vec.pop}
+  Option<T> popOpt() {
     if (isEmpty) {
       return None;
     }

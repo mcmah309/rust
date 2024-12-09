@@ -74,7 +74,7 @@ main() {
 
   test("pop", () {
     Vec<int> vec = [1, 2, 3];
-    var popped = vec.pop();
+    var popped = vec.popOpt();
     expect(popped, Some(3));
     expect(vec, [1, 2]);
   });

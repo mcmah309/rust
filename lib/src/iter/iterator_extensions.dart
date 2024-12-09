@@ -30,6 +30,34 @@ extension Iter$IterIterableExtension<T> on Iter<Iterable<T>> {
   }
 }
 
+extension Iter$IterNullable<T> on Iter<T?> {
+  @pragma("vm:prefer-inline")
+  Iter<Option<T>> toOptions() {
+    return map((nullable) => Option.of(nullable));
+  }
+}
+
+extension Iter$IterableNullable<T> on Iterable<T?> {
+  @pragma("vm:prefer-inline")
+  Iterable<Option<T>> toOptions() {
+    return map((nullable) => Option.of(nullable));
+  }
+}
+
+extension Iter$IterOption<T> on Iter<Option<T>> {
+  @pragma("vm:prefer-inline")
+  Iter<T?> toNullables() {
+    return map((opt) => opt.toNullable());
+  }
+}
+
+extension Iter$IterableOption<T> on Iterable<Option<T>> {
+  @pragma("vm:prefer-inline")
+  Iterable<T?> toNullables() {
+    return map((opt) => opt.toNullable());
+  }
+}
+
 extension Iter$IterComparableOtherExtension<U, T extends Comparable<U>> on Iter<T> {
   /// Lexicographically compares the elements of this Iterator with those of another.
   /// Less = -1
@@ -163,6 +191,13 @@ extension Iter$IterComparableSelfExtension<T extends Comparable<T>> on Iter<T> {
   }
 }
 
+/// {@template null_option_correctness}
+/// Methods only implemented when [T] is a concrete type (non-nullable).
+/// Why: Correctness of code and reduces bugs.
+/// e.g. if `nth` returns null on a nullable iterable, the nth element is 
+/// either null or the iterable does not have n elements. While if it returns Option, if the element
+/// is null it returns `Some(null)` and if it does not have n elements it returns `None`
+/// {@endtemplate}
 extension Iter$IterConcreteExtension<T extends Object> on Iter<T> {
   /// If the iterator is empty, returns null. Otherwise, returns the next value.
   @pragma("vm:prefer-inline")
@@ -186,7 +221,7 @@ extension Iter$IterConcreteExtension<T extends Object> on Iter<T> {
   }
 
   /// {@template Iter.findMap}
-  /// Applies the function to the elements of iterator and returns the first non-none result.
+  /// Applies the function to the elements of iterator and returns the first non-(none/null) result.
   /// {@endtemplate}
   U? findMap<U>(U? Function(T) f) {
     for (final element in this) {

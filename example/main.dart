@@ -79,7 +79,7 @@ void iteratorExample() {
 void sliceExample() {
   var list = [1, 2, 3, 4, 5];
   var slice = Slice(list, 1, 4);
-  var taken = slice.takeLast();
+  var taken = slice.takeLastOpt();
   slice[1] = 10;
   assert(list[2] == 10);
 }
