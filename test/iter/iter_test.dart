@@ -1160,19 +1160,20 @@ main() {
 
   test("Use case example 6", () {
     /// Get the index of every "!" in a string not followed by a "?"
-    List<int> answer = [];
-    String string = "kl!sd!?!";
+    final string = "kl!sd!?!";
+    Vec<int> answer = [];
     Peekable<(int, Arr<String>)> iter =
         string.chars().mapWindows(2, identity).enumerate().peekable();
+
     while (iter.moveNext()) {
       final (index, window) = iter.current;
       switch (window) {
         case ["!", "?"]:
           break;
         case ["!", _]:
-          answer.add(index);
-        case [_, "!"] when iter.peekOpt().isNone():
-          answer.add(index + 1);
+          answer.push(index);
+        case [_, "!"] when iter.peek() == null:
+          answer.push(index + 1);
       }
     }
     expect(answer, [2, 7]);

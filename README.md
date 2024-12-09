@@ -59,7 +59,7 @@ void main() {
         break;
       case ["!", _]:
         answer.push(index);
-      case [_, "!"] when iter.peek().isNone():
+      case [_, "!"] when iter.peek() == null: // or `iter.peekOpt().isNone()`
         answer.push(index + 1);
     }
   }
