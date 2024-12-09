@@ -28,8 +28,8 @@ void main() {
   print('Is absolute: ${path.isAbsolute()}'); // Output: true
 
   var parent = path.parent();
-  if (parent.isSome()) {
-    print('Parent: ${parent.unwrap()}'); // Output: /foo/bar
+  if (parent != null) {
+    print('Parent: $parent'); // Output: /foo/bar
   }
 
   var newPath = path.withExtension('md');

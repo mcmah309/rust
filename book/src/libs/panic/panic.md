@@ -35,4 +35,9 @@ throw Unreachable();
 unreachable();
 ```
 
+### Handling Panic
+
+For the most part, a panic is meant to abort your program. Thus one should only try to handle panics 
+sparingly, likely only at the root. Use `panicHandler` or `panicHandlerAsync` if this is desired.
+
 [How to Never Unwrap Incorrectly]:https://github.com/mcmah309/rust/tree/master/lib/src/result#how-to-never-unwrap-incorrectly

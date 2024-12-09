@@ -14,7 +14,7 @@ void main() {
     expect(errResult.transpose(), Some(Err("Error")));
 
     Result<Option<int?>, String> okNullResult = Ok(None);
-    Option<Result<int, String>> res = okNullResult.transpose();
+    Option<Result<int?, String>> res = okNullResult.transpose();
     expect(res, None);
   });
 
@@ -29,7 +29,7 @@ void main() {
     expect(await errResult.transpose(), Some(Err("Error")));
 
     FutureResult<Option<int?>, String> okNullResult = Future.value(Ok(None));
-    Option<Result<int, String>> res = await okNullResult.transpose();
+    Option<Result<int?, String>> res = await okNullResult.transpose();
     expect(res, None);
   });
 }

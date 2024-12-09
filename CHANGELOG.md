@@ -1,3 +1,11 @@
+## 3.0.0
+
+- New sealed type `Option` implementation
+- Nullable methods added for every `Option` method and vice versa
+- Add `Fs` library
+- Add `Env` library
+- Rename/refactor
+
 ## 2.0.2
 
 - Add `Option.of`

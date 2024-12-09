@@ -12,9 +12,23 @@ final class Peekable<T> extends Iter<T> {
     _wIterator = this;
   }
 
+  /// {@template Peekable.peek}
   /// Returns the next element of the iterator without consuming it.
-  Option<T> peek() {
-    // print("peek");
+  /// {@endtemplate}
+  T? peek() {
+    if (_hasPeaked) {
+      return _peeked;
+    }
+    if (_iterator.moveNext()) {
+      _peeked = _iterator.current;
+      _hasPeaked = true;
+      return _peeked;
+    }
+    return null;
+  }
+
+  /// {@macro Peekable.peek}
+  Option<T> peekOpt() {
     if (_hasPeaked) {
       return Some(_peeked);
     }

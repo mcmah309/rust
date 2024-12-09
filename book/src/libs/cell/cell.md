@@ -50,7 +50,7 @@ expect(result, const Ok(()));
 result = cell.set(20);
 expect(result, const Err(20));
 ```
-The base type for all `OnceCell`s is `NullableOnceCell`.
+The base type for all `OnceCell`s is `OnceCellNullable`.
 
 ## LazyCell
 A value which is initialized on the first access.
@@ -68,7 +68,7 @@ int secondCall = lazyCell();
 expect(callCount, equals(1));
 expect(secondCall, equals(20));
 ```
-The base type for all `LazyCell`s is `NullableLazyCell`.
+The base type for all `LazyCell`s is `LazyCellNullable`.
 
 ## LazyCellAsync
 A value which is asynchronously initialized on the first access.
@@ -86,4 +86,4 @@ int secondCall = lazyCell(); // Could also call `await lazyCell.force()` again.
 expect(callCount, equals(1));
 expect(secondCall, equals(20));
 ```
-The base type for all `LazyCellAsync`s is `NullableLazyCellAsync`.
+The base type for all `LazyCellAsync`s is `LazyCellNullableAsync`.

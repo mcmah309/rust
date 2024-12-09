@@ -33,61 +33,61 @@ void main() {
   });
 
   test("filePrefix", () {
-    expect(UnixPath("foo.rs").filePrefix().unwrap(), "foo");
-    expect(UnixPath("foo/").filePrefix().unwrap(), "foo");
-    expect(UnixPath(".foo").filePrefix().unwrap(), ".foo");
-    expect(UnixPath(".foo.rs").filePrefix().unwrap(), "foo");
-    expect(UnixPath("foo").filePrefix().unwrap(), "foo");
-    expect(UnixPath("foo.tar.gz").filePrefix().unwrap(), "foo");
-    expect(UnixPath("temp/foo.tar.gz").filePrefix().unwrap(), "foo");
-    expect(UnixPath("/foo/.tmp.bar.tar").filePrefix().unwrap(), "tmp");
-    expect(UnixPath("").filePrefix().isNone(), true);
+    expect(UnixPath("foo.rs").filePrefixOpt().unwrap(), "foo");
+    expect(UnixPath("foo/").filePrefixOpt().unwrap(), "foo");
+    expect(UnixPath(".foo").filePrefixOpt().unwrap(), ".foo");
+    expect(UnixPath(".foo.rs").filePrefixOpt().unwrap(), "foo");
+    expect(UnixPath("foo").filePrefixOpt().unwrap(), "foo");
+    expect(UnixPath("foo.tar.gz").filePrefixOpt().unwrap(), "foo");
+    expect(UnixPath("temp/foo.tar.gz").filePrefixOpt().unwrap(), "foo");
+    expect(UnixPath("/foo/.tmp.bar.tar").filePrefixOpt().unwrap(), "tmp");
+    expect(UnixPath("").filePrefixOpt().isNone(), true);
 
     expect(
         UnixPath(
                 "/Downloads/The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
-            .filePrefix()
+            .filePrefixOpt()
             .unwrap(),
         "The Annual Report on the Health of the Parish of St");
   });
 
   test("fileStem", () {
-    expect(UnixPath("foo.rs").fileStem().unwrap(), "foo");
-    expect(UnixPath("foo/").filePrefix().unwrap(), "foo");
-    expect(UnixPath(".foo").fileStem().unwrap(), ".foo");
-    expect(UnixPath(".foo.rs").fileStem().unwrap(), ".foo");
-    expect(UnixPath("foo").fileStem().unwrap(), "foo");
-    expect(UnixPath("foo.tar.gz").fileStem().unwrap(), "foo.tar");
-    expect(UnixPath("temp/foo.tar.gz").fileStem().unwrap(), "foo.tar");
-    expect(UnixPath("").fileStem().isNone(), true);
+    expect(UnixPath("foo.rs").fileStemOpt().unwrap(), "foo");
+    expect(UnixPath("foo/").filePrefixOpt().unwrap(), "foo");
+    expect(UnixPath(".foo").fileStemOpt().unwrap(), ".foo");
+    expect(UnixPath(".foo.rs").fileStemOpt().unwrap(), ".foo");
+    expect(UnixPath("foo").fileStemOpt().unwrap(), "foo");
+    expect(UnixPath("foo.tar.gz").fileStemOpt().unwrap(), "foo.tar");
+    expect(UnixPath("temp/foo.tar.gz").fileStemOpt().unwrap(), "foo.tar");
+    expect(UnixPath("").fileStemOpt().isNone(), true);
 
     expect(
         UnixPath(
                 "/Downloads/The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
-            .fileStem()
+            .fileStemOpt()
             .unwrap(),
         "The Annual Report on the Health of the Parish of St");
   });
 
   test("parent", () {
-    expect(UnixPath("temp/foo.rs").parent().unwrap(), UnixPath("temp"));
-    expect(UnixPath("foo/").parent().unwrap(), UnixPath(""));
-    expect(UnixPath("/foo/").parent().unwrap(), UnixPath("/"));
-    expect(UnixPath(".foo").parent().unwrap(), UnixPath(""));
-    expect(UnixPath(".foo.rs").parent().unwrap(), UnixPath(""));
-    expect(UnixPath("foo").parent().unwrap(), UnixPath(""));
-    expect(UnixPath("foo.tar.gz").parent().unwrap(), UnixPath(""));
-    expect(UnixPath("temp/foo.tar.gz").parent().unwrap(), UnixPath("temp"));
-    expect(UnixPath("temp1/temp2/foo.tar.gz").parent().unwrap(),
+    expect(UnixPath("temp/foo.rs").parentOpt().unwrap(), UnixPath("temp"));
+    expect(UnixPath("foo/").parentOpt().unwrap(), UnixPath(""));
+    expect(UnixPath("/foo/").parentOpt().unwrap(), UnixPath("/"));
+    expect(UnixPath(".foo").parentOpt().unwrap(), UnixPath(""));
+    expect(UnixPath(".foo.rs").parentOpt().unwrap(), UnixPath(""));
+    expect(UnixPath("foo").parentOpt().unwrap(), UnixPath(""));
+    expect(UnixPath("foo.tar.gz").parentOpt().unwrap(), UnixPath(""));
+    expect(UnixPath("temp/foo.tar.gz").parentOpt().unwrap(), UnixPath("temp"));
+    expect(UnixPath("temp1/temp2/foo.tar.gz").parentOpt().unwrap(),
         UnixPath("temp1/temp2"));
-    expect(UnixPath("temp1/temp2//foo.tar.gz").parent().unwrap(),
+    expect(UnixPath("temp1/temp2//foo.tar.gz").parentOpt().unwrap(),
         UnixPath("temp1/temp2"));
-    expect(UnixPath("").parent().isNone(), true);
+    expect(UnixPath("").parentOpt().isNone(), true);
 
     expect(
         UnixPath(
                 "/Downloads/The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
-            .parent()
+            .parentOpt()
             .unwrap(),
         UnixPath("/Downloads"));
   });

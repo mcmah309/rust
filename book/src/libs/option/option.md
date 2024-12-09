@@ -1,19 +1,14 @@
 # Option
 ***
-Option represents the union of two types - `Some<T>` and `None`. An `Option<T>` is an extension type of `T?`. Therefore, `Option`
-has zero runtime cost.
+`Option` represents the union of two types - `Some<T>` and `None`.
 
-rust support nullable and `Option` implementations of classes and methods for ergonomic convenience where possible, but you
-can easily switch between the two with no runtime cost.
-
+`Option` is easy to declare and translate back and forth between nullable types.
 ```dart
 Option<int> option = None;
+Option<int> option = Some(1);
 
-int? nullable = option.v; // or `.value`
+int? nullable = option.toNullable();
 option = Option.of(nullable);
-
-nullable = option as int?; // or
-option = nullable as Option<int>; // or
 ```
 
 ### Usage
@@ -34,7 +29,7 @@ You can also use Option in pattern matching
 switch(Some(2)){
   case Some(:final v):
     // do something
-  default:
+  case _:
     // do something
 }
 ```
@@ -66,65 +61,60 @@ FutureOption<double> earlyReturn() => Option.async(($) async {
   ...
 });
 ```
+### Discussion
 
-### To Option or Not To Option
-If Dart already supports nullable types, why use an option type? Nullable types may required an
-uncomfortable level of null checking and nesting. Even so, one may also still need to write a null
-assertion `!` for some edge cases where the compiler is not smart enough.
-The `Option` type provides an alternative solution with methods and early return.
+#### If Dart Has Nullable Types Why Ever Use `Option`?
 
-Methods:
-```dart
-final profile;
-final preferences;
+`Option` is wrapper around a value that may or may be set. A nullable type is a type that may or may not be set.
+This small distinction leads to some useful differences:
 
-switch (fetchUserProfile()
-    .map((e) => "${e.name} - profile")
-    .andThen((e) => Some(e).zip(fetchUserPreferences()))) {
-  case Some(:final value):
-    (profile, preferences) = value;
-  default:
-    return;
-}
+- Any extension method on `T?` also exists for `T`. So null specific extensions cannot be added.
+Also since `T` is all types, there would be a lot of clashes with existing types if you tried to
+do so - e.g. `map` on `Iterable`. While `Option` plays well for a pipeline style of programming.
 
-print('Profile: $profile, Preferences: $preferences');
+- `T??` is not possible, while Option<Option<T>> or Option<T?> is. This may be useful,
+  e.g.
 
-```
-Early Return Notation:
-```dart
-final (profile, preferences) = fetchUserProfile()
-      .map((e) => "${e.name} - profile")
-      .andThen((e) => Some(e).zip(fetchUserPreferences()))[$];
+  **No value at all** (`None`): The configuration value isn't defined at all.
 
-print('Profile: $profile, Preferences: $preferences');
-```
-Traditional Null-Based Approach:
-```dart
-final profile = fetchUserProfile();
-if (profile == null) {
-  return;
-} else {
-  profile = profile.name + " - profile";
-}
+  **A known absence of a value** (`Some(None)`): The configuration value is explicitly disabled.
 
-final preferences = fetchUserPreferences();
-if (preferences == null) {
-  return;
-}
+  **A present value** (`Some(Some(value))`): The configuration value is explicitly set to value.
 
-print('Profile: $profile, Preferences: $preferences');
-```
+  With nullable types, a separate field or enum/sealed class would be needed to keep track of this.
 
-#### Drawbacks
-Currently in Dart, one cannot rebind variables and `Option` does not support type promotion like nullable types. 
+- Correctness of code and reducing bugs. As to why, e.g. consider `nth` which returns the nth index
+of an iterable or null if the iterable does not have an nth index. 
+If the iterable is `Iterable<T?>`, then a null value from calling `nth` means the nth element is 
+either null or the iterable does not have n elements. While if `nth` rather returned `Option`,
+if the nth index is null it returns `Some(null)` and if it does not have n elements it returns `None`.
+One might accidentally mishandle the nullable case and assume the `nth` index does not actually exist,
+when it is rather just null. While the second case with `Option` one is force to handle both cases.
+This holds true for a lot of operations that might have unintended effects 
+e.g. `filterMap` - since null can be a valid state that should not be filtered.
+
+These issues are not insurmountable, and in fact, most of the time nullable types are probably more concise
+and easier to deal with. Therefore, for every method in this library that uses `T?` there is also an `Option`
+version, usually suffixed with `..Opt`.
+
+> In some languages (like Rust, not Dart) `Option` can be passed around like a reference 
+> and values can be taken in and out of (transmutation). Thus visible to all with reference 
+> to the `Option`, unlike null. Implementing such an equivalence in Dart would remove pattern
+> matching and const-ness.
+
+#### Why Not To Use Option
+
+- Null chaining operations with `?` is not possible with `Option`
+
+- Currently in Dart, one cannot rebind variables and `Option` does not support type promotion like nullable types. 
 This makes using `Option` less ergonomic in some scenarios.
 ```dart
 Option<int> xOpt = optionFunc();
 int x;
 switch(xOpt) {
-  Some(:final v):
+  case Some(:final v):
     x = v;
-  default:
+  case _:
     return;
 }
 // use `int` x
@@ -137,9 +127,9 @@ if(x == null){
 }
 // use `int` x
 ```
-Fortunately, since `Option` is an extension type of `T?`. This can be overcome with no runtime cost.
+Fortunately, it can be converted back and forth.
 ```dart
-int? x = optionFunc().value;
+int? x = optionFunc().toNullable();
 if(x == null){
   return;
 }
@@ -147,6 +137,5 @@ if(x == null){
 ```
 
 #### Conclusion
-If you can't decide between the two, it is recommended to use the `Option` type as the return type, since it allows 
-early return, chaining operations, and easy conversion to a nullable type with `.v`/`.value`. But the choice is up to the developer.
-You can easily use this package and never use `Option`.
+
+The choice to use `Option` is up to the developer. You can easily use this package and never use `Option`.

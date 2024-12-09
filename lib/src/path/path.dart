@@ -1,21 +1,21 @@
 import 'package:rust/rust.dart';
 import 'package:path/path.dart' as p;
-import 'is_windows/is_windows.dart';
 
 import 'io/io.dart' as io;
 import 'utils.dart';
-
-export 'io_error.dart';
 
 part 'platform_path.dart';
 part 'unix_path.dart';
 part 'windows_path.dart';
 
 extension Path$StringExtension on String {
+  @pragma("vm:prefer-inline")
   Path asPath() => Path(this);
 
+  @pragma("vm:prefer-inline")
   WindowsPath asWindowsPath() => WindowsPath(this);
 
+  @pragma("vm:prefer-inline")
   UnixPath asUnixPath() => UnixPath(this);
 }
 

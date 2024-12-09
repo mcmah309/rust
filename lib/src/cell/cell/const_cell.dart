@@ -23,7 +23,7 @@ class ConstCell<T> {
 
   @override
   bool operator ==(covariant Object other) {
-    return other is ConstCell && other._val == _val;
+    return other is ConstCell<T> && other._val == _val;
   }
 
   @override

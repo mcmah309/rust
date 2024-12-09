@@ -3,9 +3,9 @@ import 'package:test/test.dart';
 
 void main() {
   test('Infallible', () {
-    Result<int, Infallible> x = Ok(1);
+    Result<int, Never> x = Ok(1);
     expect(x.intoOk(), 1);
-    Result<Infallible, int> w = Err(1);
+    Result<Never, int> w = Err(1);
     expect(w.intoErr(), 1);
   });
 
