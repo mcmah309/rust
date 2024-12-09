@@ -375,9 +375,11 @@ void main() {
   test('const cell', () {
     const constCell = ConstCell(1);
     var cell = Cell(1);
-    expect(constCell, equals(cell));
+    expect(cell, equals(constCell));
+    expect(constCell, isNot(equals(cell)));
     expect(constCell.hashCode, equals(cell.hashCode));
     cell = Cell(2);
+    expect(cell, isNot(equals(constCell)));
     expect(constCell, isNot(equals(cell)));
     expect(constCell.hashCode, isNot(equals(cell.hashCode)));
   });
