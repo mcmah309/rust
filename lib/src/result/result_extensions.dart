@@ -229,28 +229,28 @@ extension Result$ToErrExtension<E extends Object> on E {
   }
 }
 
-extension Result$InfallibleOkExtension<S> on Result<S, Infallible> {
+extension Result$InfallibleOkExtension<S> on Result<S, Never> {
   @pragma("vm:prefer-inline")
   S intoOk() {
     return unwrap();
   }
 }
 
-extension Result$InfallibleErrExtension<F extends Object> on Result<Infallible, F> {
+extension Result$InfallibleErrExtension<F extends Object> on Result<Never, F> {
   @pragma("vm:prefer-inline")
   F intoErr() {
     return unwrapErr();
   }
 }
 
-extension Result$InfallibleFutureOkExtension<S> on FutureResult<S, Infallible> {
+extension Result$InfallibleFutureOkExtension<S> on FutureResult<S, Never> {
   @pragma("vm:prefer-inline")
   Future<S> intoOk() {
     return then((result) => result.intoOk());
   }
 }
 
-extension Result$InfallibleFutureErrExtension<F extends Object> on FutureResult<Infallible, F> {
+extension Result$InfallibleFutureErrExtension<F extends Object> on FutureResult<Never, F> {
   @pragma("vm:prefer-inline")
   Future<F> intoErr() {
     return then((result) => result.intoErr());

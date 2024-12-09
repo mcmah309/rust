@@ -666,7 +666,7 @@ final class _ResultEarlyReturnKey<F extends Object> {
 
 /// Thrown from a do notation context
 final class _ResultEarlyReturnNotification<F extends Object> {
-  final Err<Infallible, F> value;
+  final Err<Never, F> value;
 
   const _ResultEarlyReturnNotification(this.value);
 }
