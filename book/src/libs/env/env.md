@@ -9,7 +9,7 @@ void main(){
         print("On web, doing nothing.");
     }
     else if(Env.isLinux || Env.isMacOs) {
-        Env.setCurrentDirectory = "/";
+        Env.currentDirectory = "/";
         print("Moved current directory to root");
     }
     ...

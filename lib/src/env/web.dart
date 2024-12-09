@@ -5,7 +5,7 @@ class Env {
   static Path get currentDirectory => throw UnsupportedError(
       "'currentDirectory' is not supported on on this platform");
 
-  static set setCurrentDirectory(Path path) => throw UnsupportedError(
+  static set currentDirectory(Path path) => throw UnsupportedError(
       "'setCurrentDirectory' is not supported on on this platform");
 
   static String joinPaths(Iterable<String> paths) => throw UnsupportedError(
