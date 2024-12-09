@@ -1,6 +1,6 @@
 import 'package:rust/rust.dart';
 
-/// A value which is asynchronously initialized on the first access. Non-nullable implementation of [LazyCellAsync]
+/// A value which is asynchronously initialized on the first access. Non-nullable implementation of [LazyCellNullableAsync]
 ///
 /// Equality: Cells are equal if they have the same evaluated value or are unevaluated.
 ///

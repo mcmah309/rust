@@ -21,7 +21,7 @@ class Fs {
   Fs._();
 
   /// Returns whether io operations are supported. If false, is currently running on the web.
-  static final bool isIoSupported = true;
+  static const bool isIoSupported = true;
 
   static FutureResult<T, IoError> ioGuard<T>(Future<T> Function() fn) async {
     try {

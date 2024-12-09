@@ -1,6 +1,6 @@
 import 'package:rust/rust.dart';
 
-/// OnceCell, A cell which can be written to only once. OnceCell implementation based off [Option]
+/// OnceCell, A cell which can be written to only once. Non-nullable implementation of [OnceCellNullable].
 ///
 /// Equality: Cells are equal if they have the same value or are not set.
 ///

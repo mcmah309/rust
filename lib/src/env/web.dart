@@ -25,7 +25,7 @@ class Env {
 
   //************************************************************************//
 
-  static final bool isWeb = true;
+  static const bool isWeb = true;
 
   // From `Platform`
   //************************************************************************//
@@ -51,17 +51,17 @@ class Env {
   static String get localeName => throw UnsupportedError(
       "'localeName' is not supported on on this platform");
 
-  static final bool isLinux = false;
+  static const bool isLinux = false;
 
-  static final bool isMacOS = false;
+  static const bool isMacOS = false;
 
-  static final bool isWindows = false;
+  static const bool isWindows = false;
 
-  static final bool isAndroid = false;
+  static const bool isAndroid = false;
 
-  static final bool isIOS = false;
+  static const bool isIOS = false;
 
-  static final bool isFuchsia = false;
+  static const bool isFuchsia = false;
 
   static Map<String, String> get environment => throw UnsupportedError(
       "'environment' is not supported on on this platform");

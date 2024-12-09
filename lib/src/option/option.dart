@@ -16,10 +16,10 @@ sealed class Option<T> {
   /// "Early Return Operator". Here "$" is used as the "Early Return Key". when "$" is used on a type [None],
   /// immediately the context that "$" belongs to is returned with None. e.g.
   /// ```
-  ///   Option<int> intNone => None;
+  ///   Option<int> intNone() => None;
   ///
   ///   Option<int> earlyReturn(int val) => Option(($){
-  ///     int x = intNone[$]; // returns [None] immediately
+  ///     int x = intNone()[$]; // returns [None] immediately
   ///     return Some(val + 3);
   ///   });
   ///   expect(earlyReturn(2), None);
@@ -39,10 +39,10 @@ sealed class Option<T> {
   /// "Early Return Operator". Here "$" is used as the "Early Return Key". when "$" is used on a type [None],
   /// immediately the context that "$" belongs to is returned with None. e.g.
   /// ```
-  /// FutureOption<int> intNone async => None;
+  /// FutureOption<int> intNone() async => None;
   ///
   /// FutureOption<int> earlyReturn(int val) => Option.async(($) async {
-  ///  int x = await intNone[$]; // returns [None] immediately
+  ///  int x = await intNone()[$]; // returns [None] immediately
   ///  return Some(x + 3);
   /// });
   /// expect(await earlyReturn(2), None);

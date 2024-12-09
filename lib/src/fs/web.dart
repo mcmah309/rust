@@ -16,8 +16,10 @@ class RandomAccessFile {}
 class FileMode {}
 
 class Fs {
+  Fs._();
+
   /// Returns whether io operations are supported. If false, is currently running on the web.
-  static final bool isIoSupported = false;
+  static const bool isIoSupported = false;
 
   static FutureResult<T, IoError> ioGuard<T>(Future<T> Function() fn) async =>
       throw UnsupportedError("'ioGuard' is not supported on this platform");
