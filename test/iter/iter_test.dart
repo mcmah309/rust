@@ -66,7 +66,7 @@ main() {
 
     var chunksIterator = list.iter().arrayChunks(3);
     while (chunksIterator.moveNext()) {}
-    var remainder = chunksIterator.intoRemainder();
+    var remainder = chunksIterator.intoRemainderOpt();
     expect(remainder.isNone(), true);
 
     var chunks2 = list.iter().arrayChunks(4);
@@ -77,7 +77,7 @@ main() {
 
     var chunksIterator2 = list.iter().arrayChunks(4);
     while (chunksIterator2.moveNext()) {}
-    var remainder2 = chunksIterator2.intoRemainder();
+    var remainder2 = chunksIterator2.intoRemainderOpt();
     expect(remainder2.unwrap(), [9]);
   });
 
@@ -203,7 +203,7 @@ main() {
 
   test("filterMap", () {
     var list = [1, 2, 3, 4, 5];
-    final Iter<int> filtered = list.iter().filterMap((e) {
+    final Iter<int> filtered = list.iter().filterMapOpt((e) {
       if (e % 2 == 0) {
         return Some<int>(e * 2);
       }
@@ -220,13 +220,13 @@ main() {
 
   test("find", () {
     var list = [1, 2, 3, 4, 5];
-    var found = list.iter().find((e) => e == 3);
+    var found = list.iter().findOpt((e) => e == 3);
     expect(found, Some(3));
   });
 
   test("findMap", () {
     var list = [1, 2, 3, 4, 5];
-    Option<int> found = list.iter().findMap((e) {
+    Option<int> found = list.iter().findMapOpt((e) {
       if (e % 2 == 0) {
         return Some(e * 2);
       }
@@ -416,43 +416,43 @@ main() {
 
   test("max", () {
     var list = <num>[1, 2, 3, 4, 5];
-    var max = list.iter().max();
+    var max = list.iter().maxOpt();
     expect(max, Some(5));
   });
 
   test("maxBy", () {
     var list = [1, 2, 3, 4, 5];
-    var max = list.iter().maxBy((int a, int b) => a.compareTo(b));
+    var max = list.iter().maxByOpt((int a, int b) => a.compareTo(b));
     expect(max, Some(5));
   });
 
   test("maxByKey", () {
     var list = [1, 2, 3, 4, 5];
-    var max = list.iter().maxByKey<num>((int a) => a);
+    var max = list.iter().maxByKeyOpt<num>((int a) => a);
     expect(max, Some(5));
   });
 
   test("min", () {
     var list = <num>[1, 2, 3, 4, 5];
-    var min = list.iter().min();
+    var min = list.iter().minOpt();
     expect(min, Some(1));
   });
 
   test("minBy", () {
     var list = [1, 2, 3, 4, 5];
-    var min = list.iter().minBy((int a, int b) => a.compareTo(b));
+    var min = list.iter().minByOpt((int a, int b) => a.compareTo(b));
     expect(min, Some(1));
   });
 
   test("minByKey", () {
     var list = [1, 2, 3, 4, 5];
-    var min = list.iter().minByKey<num>((int a) => a);
+    var min = list.iter().minByKeyOpt<num>((int a) => a);
     expect(min, Some(1));
   });
 
   test("mapWhile", () {
     var list = [1, 2, 3, 4, 5];
-    Iter<int> mapped = list.iter().mapWhile((e) {
+    Iter<int> mapped = list.iter().mapWhileOpt((e) {
       if (e < 4) {
         return Some(e);
       }
@@ -508,10 +508,10 @@ main() {
 
   test("nth", () {
     var list = [1, 2, 3, 4, 5];
-    var nth = list.iter().nth(2);
+    var nth = list.iter().nthOpt(2);
     expect(nth, Some(3));
 
-    var nth2 = list.iter().nth(5);
+    var nth2 = list.iter().nthOpt(5);
     expect(nth2, None);
   });
 
@@ -536,30 +536,30 @@ main() {
   test("peekable", () {
     var list = [1, 2, 3, 4, 5];
     Peekable<int> peekable = list.iter().peekable();
-    expect(peekable.peek(), Some(1));
-    expect(peekable.next(), Some(1));
-    expect(peekable.peek(), Some(2));
-    expect(peekable.peek(), Some(2));
-    expect(peekable.next(), Some(2));
-    expect(peekable.peek(), Some(3));
-    expect(peekable.next(), Some(3));
-    expect(peekable.peek(), Some(4));
-    expect(peekable.next(), Some(4));
-    expect(peekable.peek(), Some(5));
-    expect(peekable.next(), Some(5));
-    expect(peekable.peek(), None);
-    expect(peekable.next(), None);
+    expect(peekable.peekOpt(), Some(1));
+    expect(peekable.nextOpt(), Some(1));
+    expect(peekable.peekOpt(), Some(2));
+    expect(peekable.peekOpt(), Some(2));
+    expect(peekable.nextOpt(), Some(2));
+    expect(peekable.peekOpt(), Some(3));
+    expect(peekable.nextOpt(), Some(3));
+    expect(peekable.peekOpt(), Some(4));
+    expect(peekable.nextOpt(), Some(4));
+    expect(peekable.peekOpt(), Some(5));
+    expect(peekable.nextOpt(), Some(5));
+    expect(peekable.peekOpt(), None);
+    expect(peekable.nextOpt(), None);
   });
 
   test("position", () {
     var list = [1, 2, 3, 4, 5];
-    var pos = list.iter().position((e) => e == 2);
+    var pos = list.iter().positionOpt((e) => e == 2);
     expect(pos, Some(1));
   });
 
   test("rposition", () {
     var list = [1, 2, 3, 4, 5];
-    var rpos = list.iter().rposition((e) => e == 2);
+    var rpos = list.iter().rpositionOpt((e) => e == 2);
     expect(rpos, Some(1));
   });
 
@@ -721,7 +721,7 @@ main() {
 
   test("tryReduce Result", () {
     final list = <Result<int, String>>[Ok(1), Ok(2), Ok(3), Ok(4), Ok(5)];
-    final reduced = list.iter().tryReduce((acc, e) => acc + e);
+    final reduced = list.iter().tryReduceOpt((acc, e) => acc + e);
     expect(reduced, Ok(Some(15)));
 
     final list2 = <Result<int, String>>[
@@ -731,17 +731,17 @@ main() {
       Err("error"),
       Ok(5)
     ];
-    final reduced2 = list2.iter().tryReduce((acc, e) => acc + e);
+    final reduced2 = list2.iter().tryReduceOpt((acc, e) => acc + e);
     expect(reduced2, Err("error"));
   });
 
   test("tryReduce", () {
     final list = [1, 2, 3, 4, 5];
-    final reduced = list.iter().tryReduce((acc, e) => Ok<int, String>(acc + e));
+    final reduced = list.iter().tryReduceOpt((acc, e) => Ok<int, String>(acc + e));
     expect(reduced, Ok<Option<int>, String>(Some(15)));
 
     final list2 = [1, 2, 3, 4, 5];
-    final reduced2 = list2.iter().tryReduce((acc, e) {
+    final reduced2 = list2.iter().tryReduceOpt((acc, e) {
       if (e < 4) {
         return Ok<int, String>(acc + e);
       }
@@ -841,10 +841,10 @@ main() {
       }
     }
     expect(collect, [4, 16]);
-    Option<int> next = iter.next();
+    Option<int> next = iter.nextOpt();
     expect(next, Some(6));
     collect.add(next.unwrap());
-    next = iter.next();
+    next = iter.nextOpt();
     collect.add(next.unwrap());
     expect(next, Some(7));
     while (iter.moveNext()) {
@@ -859,34 +859,34 @@ main() {
     var iter = list.iter();
     final cloned = iter.clone().peekable();
     var peekable = iter.peekable();
-    expect(peekable.peek(), Some(1));
-    expect(cloned.peek(), Some(1));
-    expect(peekable.next(), Some(1));
-    expect(cloned.next(), Some(1));
-    expect(peekable.peek(), Some(2));
-    expect(cloned.peek(), Some(2));
-    expect(peekable.next(), Some(2));
-    expect(cloned.next(), Some(2));
+    expect(peekable.peekOpt(), Some(1));
+    expect(cloned.peekOpt(), Some(1));
+    expect(peekable.nextOpt(), Some(1));
+    expect(cloned.nextOpt(), Some(1));
+    expect(peekable.peekOpt(), Some(2));
+    expect(cloned.peekOpt(), Some(2));
+    expect(peekable.nextOpt(), Some(2));
+    expect(cloned.nextOpt(), Some(2));
 
-    expect(peekable.peek(), Some(3));
-    expect(peekable.next(), Some(3));
-    expect(peekable.peek(), Some(4));
-    expect(peekable.next(), Some(4));
+    expect(peekable.peekOpt(), Some(3));
+    expect(peekable.nextOpt(), Some(3));
+    expect(peekable.peekOpt(), Some(4));
+    expect(peekable.nextOpt(), Some(4));
 
-    expect(cloned.peek(), Some(3));
-    expect(cloned.next(), Some(3));
-    expect(cloned.peek(), Some(4));
-    expect(cloned.next(), Some(4));
+    expect(cloned.peekOpt(), Some(3));
+    expect(cloned.nextOpt(), Some(3));
+    expect(cloned.peekOpt(), Some(4));
+    expect(cloned.nextOpt(), Some(4));
 
-    expect(cloned.peek(), Some(5));
-    expect(cloned.next(), Some(5));
-    expect(cloned.peek(), None);
-    expect(cloned.next(), None);
+    expect(cloned.peekOpt(), Some(5));
+    expect(cloned.nextOpt(), Some(5));
+    expect(cloned.peekOpt(), None);
+    expect(cloned.nextOpt(), None);
 
-    expect(peekable.peek(), Some(5));
-    expect(peekable.next(), Some(5));
-    expect(peekable.peek(), None);
-    expect(peekable.next(), None);
+    expect(peekable.peekOpt(), Some(5));
+    expect(peekable.nextOpt(), Some(5));
+    expect(peekable.peekOpt(), None);
+    expect(peekable.nextOpt(), None);
   });
 
   test("peek with clone", () {
@@ -895,30 +895,30 @@ main() {
     var peekable = iter.peekable();
     final cloned = peekable.clone();
     // print("1");
-    expect(peekable.peek(), Some(1));
+    expect(peekable.peekOpt(), Some(1));
     // print("2");
-    expect(peekable.peek(), Some(1));
+    expect(peekable.peekOpt(), Some(1));
     // print("3");
-    expect(cloned.next(), Some(1));
+    expect(cloned.nextOpt(), Some(1));
     // print("4");
-    expect(peekable.peek(), Some(1)); // cloned should not effect the peek
+    expect(peekable.peekOpt(), Some(1)); // cloned should not effect the peek
     // print("5");
-    expect(cloned.next(), Some(2));
-    expect(peekable.next(), Some(1));
-    expect(cloned.next(), Some(3));
-    expect(peekable.peek(), Some(2));
+    expect(cloned.nextOpt(), Some(2));
+    expect(peekable.nextOpt(), Some(1));
+    expect(cloned.nextOpt(), Some(3));
+    expect(peekable.peekOpt(), Some(2));
 
     // peek before clone
     peekable = list.iter().peekable();
-    peekable.peek();
+    peekable.peekOpt();
     final cloned2 = peekable.clone();
-    expect(cloned2.peek(), Some(1)); // the peeking should not effect the clone
-    expect(cloned2.next(), Some(1));
-    expect(peekable.peek(), Some(1));
-    expect(cloned2.peek(), Some(2));
+    expect(cloned2.peekOpt(), Some(1)); // the peeking should not effect the clone
+    expect(cloned2.nextOpt(), Some(1));
+    expect(peekable.peekOpt(), Some(1));
+    expect(cloned2.peekOpt(), Some(2));
     // print("here");
-    expect(peekable.next(), Some(1));
-    expect(cloned2.next(), Some(2));
+    expect(peekable.nextOpt(), Some(1));
+    expect(cloned2.nextOpt(), Some(2));
   });
 
   test("array chunks with clone", () {
@@ -935,7 +935,7 @@ main() {
       [4, 5, 6],
       [7, 8, 9]
     ]);
-    expect(cloned.next().unwrap(), [1, 2, 3]);
+    expect(cloned.nextOpt().unwrap(), [1, 2, 3]);
 
     list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     iter = list.iter();
@@ -950,9 +950,9 @@ main() {
       [7, 8, 9],
     ]);
     cloned = chunks.clone();
-    expect(chunks.intoRemainder().unwrap(), [10]);
+    expect(chunks.intoRemainderOpt().unwrap(), [10]);
     expect(chunks.collectList(), []);
-    expect(cloned.intoRemainder().unwrap(), [10]);
+    expect(cloned.intoRemainderOpt().unwrap(), [10]);
     expect(cloned.collectList(), []);
   });
 
@@ -961,7 +961,7 @@ main() {
     var iter = list.iter();
     var casted = iter.cast<num>();
     var cloned = casted.clone();
-    casted.next();
+    casted.nextOpt();
     expect(casted, [2.0, 3.0, 4.0, 5.0]);
     expect(cloned, [1.0, 2.0, 3.0, 4.0, 5.0]);
   });
@@ -970,9 +970,9 @@ main() {
     var list = [1, 2, 3, 4, 5];
     var iter = list.iter();
     var chained = iter.chain([6, 7, 8, 9, 10].iterator);
-    chained.next();
+    chained.nextOpt();
     var cloned = chained.clone();
-    chained.next();
+    chained.nextOpt();
     expect(chained, [3, 4, 5, 6, 7, 8, 9, 10]);
     expect(cloned, [2, 3, 4, 5, 6, 7, 8, 9, 10]);
   });
@@ -981,9 +981,9 @@ main() {
     var list = [1, 2, 3, 4, 5];
     var iter = list.iter();
     var cycled = iter.cycle();
-    cycled.next();
+    cycled.nextOpt();
     var cloned = cycled.clone();
-    cycled.next();
+    cycled.nextOpt();
     expect(cycled.take(8), [3, 4, 5, 1, 2, 3, 4, 5]);
     expect(cloned.take(9), [2, 3, 4, 5, 1, 2, 3, 4, 5]);
   });
@@ -992,9 +992,9 @@ main() {
     var list = [1, 2, 3, 4, 5];
     var iter = list.iter();
     var flatMapped = iter.flatMap((e) => [e, e].iterator);
-    flatMapped.next();
+    flatMapped.nextOpt();
     var cloned = flatMapped.clone();
-    flatMapped.next();
+    flatMapped.nextOpt();
     expect(flatMapped, [2, 2, 3, 3, 4, 4, 5, 5]);
     expect(cloned, [1, 2, 2, 3, 3, 4, 4, 5, 5]);
   });
@@ -1003,9 +1003,9 @@ main() {
     var list = [1, 2, 3, 4, 5];
     var iter = list.iter();
     var mapped = iter.map((e) => e * e);
-    mapped.next();
+    mapped.nextOpt();
     var cloned = mapped.clone();
-    mapped.next();
+    mapped.nextOpt();
     expect(mapped, [9, 16, 25]);
     expect(cloned, [4, 9, 16, 25]);
   });
@@ -1013,9 +1013,9 @@ main() {
   test("zip with clone", () {
     var list = [1, 2, 3, 4, 5];
     var zipped = list.iter().zip([6, 7, 8, 9, 10].iterator);
-    zipped.next();
+    zipped.nextOpt();
     var cloned = zipped.clone();
-    zipped.next();
+    zipped.nextOpt();
     expect(zipped, [
       (3, 8),
       (4, 9),
@@ -1051,8 +1051,8 @@ main() {
     Peekable<(int, int)> iter = string.runes.iter().enumerate().peekable();
     while (iter.moveNext()) {
       if (iter.current.$2 == "!".codeUnitAt(0) &&
-          (iter.peek().isNone() ||
-              iter.peek().isSomeAnd((e) => e.$2 != "?".codeUnitAt(0)))) {
+          (iter.peekOpt().isNone() ||
+              iter.peekOpt().isSomeAnd((e) => e.$2 != "?".codeUnitAt(0)))) {
         answer.add(iter.current.$1);
       }
     }
@@ -1077,7 +1077,7 @@ main() {
         case (int index, ["!", var _]):
           answer.add(index);
       }
-      if (iter.peek().isNone() && iter.current.$2[1] == "!") {
+      if (iter.peekOpt().isNone() && iter.current.$2[1] == "!") {
         answer.add(iter.current.$1 + 1);
       }
     }
@@ -1096,14 +1096,14 @@ main() {
         .peekable();
     out:
     do {
-      final current = iter.next();
+      final current = iter.nextOpt();
       switch (current) {
         // ignore: unused_local_variable
         case Some(v: (int index, ["!", "?"])):
           break;
         case Some(v: (int index, ["!", _])):
           answer.add(index);
-        case Some(v: (int index, [_, "!"])) when iter.peek().isNone():
+        case Some(v: (int index, [_, "!"])) when iter.peekOpt().isNone():
           answer.add(index + 1);
         case Some(v: (int _, [_, _])):
           continue;
@@ -1139,14 +1139,14 @@ main() {
         .peekable();
     out:
     do {
-      switch (iter.next()) {
+      switch (iter.nextOpt()) {
         case Some(v: (int index, var l)):
           switch (l) {
             case ["!", "?"]:
               break;
             case ["!", _]:
               answer.add(index);
-            case [_, "!"] when iter.peek().isNone():
+            case [_, "!"] when iter.peekOpt().isNone():
               answer.add(index + 1);
           }
         case _:
@@ -1169,7 +1169,7 @@ main() {
           break;
         case ["!", _]:
           answer.add(index);
-        case [_, "!"] when iter.peek().isNone():
+        case [_, "!"] when iter.peekOpt().isNone():
           answer.add(index + 1);
       }
     }

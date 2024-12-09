@@ -49,7 +49,7 @@ class Iter<T> extends Iterable<T> implements Iterator<T>, _Iter<T> {
 
   @override
   @pragma("vm:prefer-inline")
-  Option<T> next() {
+  Option<T> nextOpt() {
     if (moveNext()) {
       return Some(current);
     }
@@ -194,11 +194,11 @@ class Iter<T> extends Iterable<T> implements Iterator<T>, _Iter<T> {
 
   @override
   @pragma("vm:prefer-inline")
-  Iter<U> filterMap<U>(Option<U> Function(T) f) {
-    return Iter.fromIterable(_filterMapHelper(f));
+  Iter<U> filterMapOpt<U>(Option<U> Function(T) f) {
+    return Iter.fromIterable(_filterMapHelperOpt(f));
   }
 
-  Iterable<U> _filterMapHelper<U>(Option<U> Function(T) f) sync* {
+  Iterable<U> _filterMapHelperOpt<U>(Option<U> Function(T) f) sync* {
     for (final element in this) {
       final option = f(element);
       switch (option) {
@@ -211,7 +211,7 @@ class Iter<T> extends Iterable<T> implements Iterator<T>, _Iter<T> {
 
   @override
   @pragma("vm:prefer-inline")
-  Option<T> find(bool Function(T) f) {
+  Option<T> findOpt(bool Function(T) f) {
     for (final element in this) {
       if (f(element)) {
         return Some(element);
@@ -221,8 +221,7 @@ class Iter<T> extends Iterable<T> implements Iterator<T>, _Iter<T> {
   }
 
   @override
-  @pragma("vm:prefer-inline")
-  Option<U> findMap<U>(Option<U> Function(T) f) {
+  Option<U> findMapOpt<U>(Option<U> Function(T) f) {
     for (final element in this) {
       final result = f(element);
       if (result.isSome()) {
@@ -367,11 +366,11 @@ class Iter<T> extends Iterable<T> implements Iterator<T>, _Iter<T> {
 
   @override
   @pragma("vm:prefer-inline")
-  Iter<U> mapWhile<U>(Option<U> Function(T) f) {
-    return Iter.fromIterable(_mapWhileHelper(f));
+  Iter<U> mapWhileOpt<U>(Option<U> Function(T) f) {
+    return Iter.fromIterable(_mapWhileHelperOpt(f));
   }
 
-  Iterable<U> _mapWhileHelper<U>(Option<U> Function(T) f) sync* {
+  Iterable<U> _mapWhileHelperOpt<U>(Option<U> Function(T) f) sync* {
     for (final element in this) {
       final option = f(element);
       switch (option) {
@@ -412,7 +411,7 @@ class Iter<T> extends Iterable<T> implements Iterator<T>, _Iter<T> {
   }
 
   @override
-  Option<T> maxBy(int Function(T, T) f) {
+  Option<T> maxByOpt(int Function(T, T) f) {
     T max;
     if (moveNext()) {
       max = current;
@@ -428,7 +427,7 @@ class Iter<T> extends Iterable<T> implements Iterator<T>, _Iter<T> {
   }
 
   @override
-  Option<T> maxByKey<U extends Comparable<U>>(U Function(T) f) {
+  Option<T> maxByKeyOpt<U extends Comparable<U>>(U Function(T) f) {
     T max;
     U maxVal;
     if (moveNext()) {
@@ -448,7 +447,7 @@ class Iter<T> extends Iterable<T> implements Iterator<T>, _Iter<T> {
   }
 
   @override
-  Option<T> minBy(int Function(T, T) f) {
+  Option<T> minByOpt(int Function(T, T) f) {
     T min;
     if (moveNext()) {
       min = current;
@@ -464,7 +463,7 @@ class Iter<T> extends Iterable<T> implements Iterator<T>, _Iter<T> {
   }
 
   @override
-  Option<T> minByKey<U extends Comparable<U>>(U Function(T) f) {
+  Option<T> minByKeyOpt<U extends Comparable<U>>(U Function(T) f) {
     T min;
     U minVal;
     if (moveNext()) {
@@ -496,7 +495,7 @@ class Iter<T> extends Iterable<T> implements Iterator<T>, _Iter<T> {
   }
 
   @override
-  Option<T> nth(int n) {
+  Option<T> nthOpt(int n) {
     if (n < 0) {
       return None;
     }
@@ -548,7 +547,7 @@ class Iter<T> extends Iterable<T> implements Iterator<T>, _Iter<T> {
   Peekable<T> peekable() => Peekable(this);
 
   @override
-  Option<int> position(bool Function(T) f) {
+  Option<int> positionOpt(bool Function(T) f) {
     var index = 0;
     for (final element in this) {
       if (f(element)) {
@@ -564,7 +563,7 @@ class Iter<T> extends Iterable<T> implements Iterator<T>, _Iter<T> {
   Iter<T> rev() => Iter.fromIterable(toList(growable: false).reversed);
 
   @override
-  Option<int> rposition(bool Function(T) f) {
+  Option<int> rpositionOpt(bool Function(T) f) {
     final list = toList(growable: false).reversed;
     var index = list.length - 1;
     for (final element in list) {

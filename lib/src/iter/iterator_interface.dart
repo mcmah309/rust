@@ -2,8 +2,11 @@ part of 'iterator.dart';
 
 /// Interface for Rust only methods. Not included is some methods that are already implemented by Dart's Iterable.
 abstract interface class _Iter<T> implements Iterator<T>, Iterable<T> {
+
+  // next: Added as an extension
+
   /// If the iterator is empty, returns None. Otherwise, returns the next value wrapped in Some.
-  Option<T> next();
+  Option<T> nextOpt();
 
   //************************************************************************//
 
@@ -68,15 +71,21 @@ abstract interface class _Iter<T> implements Iterator<T>, Iterable<T> {
   /// Creates an iterator which uses a closure to determine if an element should be yielded.
   Iter<T> filter(bool Function(T) f);
 
-  /// Creates an iterator that both filters and maps.
+  // filterMap: Added as an extension
+
+  /// {@macro Iter.filterMap}
   /// The returned iterator yields only the values for which the supplied closure returns Some(value).
-  Iter<U> filterMap<U>(Option<U> Function(T) f);
+  Iter<U> filterMapOpt<U>(Option<U> Function(T) f);
 
-  /// Searches for an element of an iterator that satisfies a predicate.
-  Option<T> find(bool Function(T) f);
+  // find: Added as an extension
 
-  /// Applies the function to the elements of iterator and returns the first non-none result.
-  Option<U> findMap<U>(Option<U> Function(T) f);
+  /// {@macro Iter.find}
+  Option<T> findOpt(bool Function(T) f);
+
+  // findMap: Added as an extension
+
+  /// {@macro Iter.findMap}
+  Option<U> findMapOpt<U>(Option<U> Function(T) f);
 
   /// Creates an iterator that works like map, but flattens nested structure.
   FlatMap<T, U> flatMap<U>(Iterator<U> Function(T) f);
@@ -118,16 +127,19 @@ abstract interface class _Iter<T> implements Iterator<T>, Iterable<T> {
   /// positive if a > b
   bool isSortedByKey<U extends Comparable<U>>(U Function(T) f);
 
-  /// Consumes the iterator and returns the last element.
+  // lastOrNull: Added as extension
+
+  /// {@macro Iter.lastOrNull}
   Option<T> lastOrOption();
 
 // le: Implemented in an extension
 // lt: Implemented in an extension
 // map: Implemented by Iterable.map
 
-  /// Creates an iterator that both yields elements based on a predicate and maps.
-  /// It will call this closure on each element of the iterator, and yield elements while it returns Some(_).
-  Iter<U> mapWhile<U>(Option<U> Function(T) f);
+  // mapWhile: Added as an extension
+  
+  /// {@macro Iter.mapWhile}
+  Iter<U> mapWhileOpt<U>(Option<U> Function(T) f);
 
   /// Calls the given function f for each contiguous window of [size] over self and returns an iterator over the outputs of f
   /// e.g. [1, 2, 3, 4] with size 2 will yield windows of [1, 2], [2, 3], [3, 4]
@@ -135,19 +147,27 @@ abstract interface class _Iter<T> implements Iterator<T>, Iterable<T> {
 
 // max: Implemented in extension
 
-  /// Returns the element that gives the maximum value with respect to the specified comparison function.
-  Option<T> maxBy(int Function(T, T) f);
+  // maxBy: Added as an extension
 
-  /// Returns the element that gives the maximum value from the specified function.
-  Option<T> maxByKey<U extends Comparable<U>>(U Function(T) f);
+  /// {@macro Iter.maxBy}
+  Option<T> maxByOpt(int Function(T, T) f);
+
+  // maxByKey: Added added as an extension
+
+  /// {@macro Iter.maxByKey}
+  Option<T> maxByKeyOpt<U extends Comparable<U>>(U Function(T) f);
 
 // min: Implemented in extension
 
-  /// Returns the element that gives the minimum value with respect to the specified comparison function.
-  Option<T> minBy(int Function(T, T) f);
+  // minBy: Added as and extension
 
-  /// Returns the element that gives the minimum value from the specified function.
-  Option<T> minByKey<U extends Comparable<U>>(U Function(T) f);
+  /// {@macro Iter.minBy}
+  Option<T> minByOpt(int Function(T, T) f);
+
+  // minByKey: Added as an extension
+
+  /// {@macro Iter.minByKey}
+  Option<T> minByKeyOpt<U extends Comparable<U>>(U Function(T) f);
 
 // ne: Implemented in extension
 
@@ -155,10 +175,10 @@ abstract interface class _Iter<T> implements Iterator<T>, Iterable<T> {
   /// If there are not enough elements to fill the array then Err is returned containing an iterator over the remaining elements.
   Result<Arr<T>, Iter<T>> nextChunk(int size);
 
-  /// Returns the nth element of the iterator.
-  /// Like most indexing operations, the count starts from zero, so nth(0) returns the first value, nth(1) the second, and so on.
-  /// nth() will return None if n is greater than or equal to the length of the iterator.
-  Option<T> nth(int n);
+  // nth: Added as an extension
+
+  /// {@macro Iter.nth}
+  Option<T> nthOpt(int n);
 
 // partial_cmp: Will not implement, Dart does not have partial comparison
 // partial_cmp_by: Will not implement, Dart does not have partial comparison
@@ -176,8 +196,10 @@ abstract interface class _Iter<T> implements Iterator<T>, Iterable<T> {
   /// Creates an iterator which can use the "peek" to look at the next element of the iterator without consuming it.
   Peekable<T> peekable();
 
-  /// Searches for an element in an iterator, returning its index.
-  Option<int> position(bool Function(T) f);
+  // position added in an extension
+
+  /// {@macro Iter.position}
+  Option<int> positionOpt(bool Function(T) f);
 
 // product: Will not implement, not possible in Dart
 // reduce: Implemented by Iterable.reduce
@@ -185,9 +207,10 @@ abstract interface class _Iter<T> implements Iterator<T>, Iterable<T> {
   /// Reverses the iterable
   Iter<T> rev();
 
-  /// Searches for an element in an iterator from the right, returning its index.
-  /// Recommended to use with a list, as it is more efficient, otherwise use [position].
-  Option<int> rposition(bool Function(T) f);
+  // rposition: Added as an extension
+  
+  /// {@macro Iter.rposition}
+  Option<int> rpositionOpt(bool Function(T) f);
 
   /// An iterator which, like fold, holds internal state, but unlike fold, produces a new iterator.
   /// On iteration, the closure will be applied to each element of the iterator and the return value from the closure.

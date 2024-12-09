@@ -83,7 +83,7 @@ do so - e.g. `map` on `Iterable`. While `Option` plays well for a pipeline style
 
   With nullable types a separate field or enum/sealed class would be needed to keep track of this.
 
-- Certain operations may have some unintended effects e.g. `flatmap` - since null can be a valid state that should not be filtered.
+- Certain operations may have some unintended effects e.g. `filterMap` - since null can be a valid state that should not be filtered. Or `nth` since null could also be a valid index.
 
 These issues are not insurmountable, and if fact, most of the time nullable types are probably more concise
 and easier to deal with. Therefore, `Option` is only used where needed in the library, like `flatmap`, where it is not,

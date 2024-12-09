@@ -29,7 +29,7 @@ void readmeExample() {
         break;
       case ["!", _]:
         answer.push(index);
-      case [_, "!"] when iter.peek().isNone():
+      case [_, "!"] when iter.peekOpt().isNone():
         answer.push(index + 1);
     }
   }
@@ -67,9 +67,9 @@ void iteratorExample() {
       collect.add(e);
     }
   }
-  Option<int> next = iter.next();
+  Option<int> next = iter.nextOpt();
   collect.add(next.unwrap());
-  next = iter.next();
+  next = iter.nextOpt();
   collect.add(next.unwrap());
   while (iter.moveNext()) {
     collect.add(iter.current * iter.current);

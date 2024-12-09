@@ -214,10 +214,10 @@ main() {
     var list = [1, 1, 1, 3, 3, 2, 2, 2];
     var slice = list.asSlice();
     var iter = slice.chunkBy((num1, num2) => num1 == num2);
-    expect(iter.next().unwrap(), [1, 1, 1]);
-    expect(iter.next().unwrap(), [3, 3]);
-    expect(iter.next().unwrap(), [2, 2, 2]);
-    expect(iter.next().isNone(), true);
+    expect(iter.nextOpt().unwrap(), [1, 1, 1]);
+    expect(iter.nextOpt().unwrap(), [3, 3]);
+    expect(iter.nextOpt().unwrap(), [2, 2, 2]);
+    expect(iter.nextOpt().isNone(), true);
   });
 
   test("chunks", () {
@@ -641,8 +641,8 @@ main() {
     var list = [11, 22, 33, 0, 44, 55];
     var slice = Slice(list, 0, 6);
     var iter = slice.rsplit((num) => num == 0);
-    expect(iter.next().unwrap(), [44, 55]);
-    expect(iter.next().unwrap(), [11, 22, 33]);
+    expect(iter.nextOpt().unwrap(), [44, 55]);
+    expect(iter.nextOpt().unwrap(), [11, 22, 33]);
   });
 
   test("rsplitAt", () {
@@ -687,36 +687,36 @@ main() {
   test("rsplitn", () {
     var list = [10, 40, 33, 20];
     var iter = Slice(list, 0, 4).rsplitn(2, (num) => num % 3 == 0);
-    expect(iter.next().unwrap(), [20]);
-    expect(iter.next().unwrap(), [10, 40]);
-    expect(iter.next().isNone(), true);
+    expect(iter.nextOpt().unwrap(), [20]);
+    expect(iter.nextOpt().unwrap(), [10, 40]);
+    expect(iter.nextOpt().isNone(), true);
 
     iter = Slice(list, 0, 4).rsplitn(1, (num) => num % 3 == 0);
-    expect(iter.next().unwrap(), [10, 40, 33, 20]);
+    expect(iter.nextOpt().unwrap(), [10, 40, 33, 20]);
 
     iter = Slice(list, 0, 4).rsplitn(2, (num) => num % 5 == 0);
-    expect(iter.next().unwrap(), []);
-    expect(iter.next().unwrap(), [10, 40, 33]);
+    expect(iter.nextOpt().unwrap(), []);
+    expect(iter.nextOpt().unwrap(), [10, 40, 33]);
 
     iter = Slice(list, 0, 4).rsplitn(5, (num) => num % 5 == 0);
-    expect(iter.next().unwrap(), []);
-    expect(iter.next().unwrap(), [33]);
-    expect(iter.next().unwrap(), []);
-    expect(iter.next().unwrap(), []);
-    expect(iter.next().isNone(), true);
+    expect(iter.nextOpt().unwrap(), []);
+    expect(iter.nextOpt().unwrap(), [33]);
+    expect(iter.nextOpt().unwrap(), []);
+    expect(iter.nextOpt().unwrap(), []);
+    expect(iter.nextOpt().isNone(), true);
 
     list = [10, 40, 30, 20, 60, 50];
     iter = Slice(list, 0, 6).rsplitn(2, (num) => num % 3 == 0);
-    expect(iter.next().unwrap(), [50]);
-    expect(iter.next().unwrap(), [10, 40, 30, 20]);
+    expect(iter.nextOpt().unwrap(), [50]);
+    expect(iter.nextOpt().unwrap(), [10, 40, 30, 20]);
 
     list = [];
     iter = Slice(list, 0, 0).rsplitn(2, (p0) => true);
-    expect(iter.next().unwrap(), []);
+    expect(iter.nextOpt().unwrap(), []);
 
     list = [1, 2, 3];
     iter = Slice(list, 0, 0).rsplitn(0, (p0) => true);
-    expect(iter.next().isNone(), true);
+    expect(iter.nextOpt().isNone(), true);
     expect(() => Slice(list, 0, 3).rsplitn(-1, (p0) => true),
         throwsA(isA<Panic>()));
   });
@@ -787,9 +787,9 @@ main() {
   test("split", () {
     var list = [10, 40, 33, 20];
     var iter = Slice(list, 0, 4).split((num) => num % 3 == 0);
-    expect(iter.next().unwrap(), [10, 40]);
-    expect(iter.next().unwrap(), [20]);
-    expect(iter.next().isNone(), true);
+    expect(iter.nextOpt().unwrap(), [10, 40]);
+    expect(iter.nextOpt().unwrap(), [20]);
+    expect(iter.nextOpt().isNone(), true);
   });
 
   test("splitAt", () {
@@ -832,9 +832,9 @@ main() {
   test("splitInclusive", () {
     var list = [10, 40, 33, 20];
     var iter = Slice(list, 0, 4).splitInclusive((num) => num % 3 == 0);
-    expect(iter.next().unwrap(), [10, 40, 33]);
-    expect(iter.next().unwrap(), [20]);
-    expect(iter.next().isNone(), true);
+    expect(iter.nextOpt().unwrap(), [10, 40, 33]);
+    expect(iter.nextOpt().unwrap(), [20]);
+    expect(iter.nextOpt().isNone(), true);
   });
 
   test("splitLast", () {
@@ -864,36 +864,36 @@ main() {
   test("splitn", () {
     var list = [10, 40, 33, 20];
     var iter = Slice(list, 0, 4).splitn(2, (num) => num % 3 == 0);
-    expect(iter.next().unwrap(), [10, 40]);
-    expect(iter.next().unwrap(), [20]);
-    expect(iter.next().isNone(), true);
+    expect(iter.nextOpt().unwrap(), [10, 40]);
+    expect(iter.nextOpt().unwrap(), [20]);
+    expect(iter.nextOpt().isNone(), true);
 
     iter = Slice(list, 0, 4).splitn(1, (num) => num % 3 == 0);
-    expect(iter.next().unwrap(), [10, 40, 33, 20]);
+    expect(iter.nextOpt().unwrap(), [10, 40, 33, 20]);
 
     iter = Slice(list, 0, 4).splitn(2, (num) => num % 5 == 0);
-    expect(iter.next().unwrap(), []);
-    expect(iter.next().unwrap(), [40, 33, 20]);
+    expect(iter.nextOpt().unwrap(), []);
+    expect(iter.nextOpt().unwrap(), [40, 33, 20]);
 
     iter = Slice(list, 0, 4).splitn(5, (num) => num % 5 == 0);
-    expect(iter.next().unwrap(), []);
-    expect(iter.next().unwrap(), []);
-    expect(iter.next().unwrap(), [33]);
-    expect(iter.next().unwrap(), []);
-    expect(iter.next().isNone(), true);
+    expect(iter.nextOpt().unwrap(), []);
+    expect(iter.nextOpt().unwrap(), []);
+    expect(iter.nextOpt().unwrap(), [33]);
+    expect(iter.nextOpt().unwrap(), []);
+    expect(iter.nextOpt().isNone(), true);
 
     list = [10, 40, 30, 20, 60, 50];
     iter = Slice(list, 0, 6).splitn(2, (num) => num % 3 == 0);
-    expect(iter.next().unwrap(), [10, 40]);
-    expect(iter.next().unwrap(), [20, 60, 50]);
+    expect(iter.nextOpt().unwrap(), [10, 40]);
+    expect(iter.nextOpt().unwrap(), [20, 60, 50]);
 
     list = [];
     iter = Slice(list, 0, 0).splitn(2, (p0) => true);
-    expect(iter.next().unwrap(), []);
+    expect(iter.nextOpt().unwrap(), []);
 
     list = [1, 2, 3];
     iter = Slice(list, 0, 0).splitn(0, (p0) => true);
-    expect(iter.next().isNone(), true);
+    expect(iter.nextOpt().isNone(), true);
     expect(
         () => list.asSlice().splitn(-1, (p0) => true), throwsA(isA<Panic>()));
   });
