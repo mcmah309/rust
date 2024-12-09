@@ -19,7 +19,7 @@ void main() {
     });
 
     test('Value is lazily initialized', () {
-      var lazyCell = NonNullableLazyCell<int>(initFunc);
+      var lazyCell = LazyCell<int>(initFunc);
       expect(callCount, equals(0));
       var value = lazyCell();
       expect(value, equals(10));
@@ -27,7 +27,7 @@ void main() {
     });
 
     test('Subsequent calls return the same value without reinitializing', () {
-      var lazyCell = NonNullableLazyCell<int>(initFunc);
+      var lazyCell = LazyCell<int>(initFunc);
       var firstCall = lazyCell();
       expect(callCount, equals(1));
 
@@ -37,8 +37,8 @@ void main() {
     });
 
     test('Equality and hashCode', () {
-      var lazyCell1 = NonNullableLazyCell<int>(initFunc);
-      var lazyCell2 = NonNullableLazyCell<int>(initFunc);
+      var lazyCell1 = LazyCell<int>(initFunc);
+      var lazyCell2 = LazyCell<int>(initFunc);
 
       expect(lazyCell1, equals(lazyCell2));
       expect(lazyCell2.hashCode, equals(lazyCell2.hashCode));

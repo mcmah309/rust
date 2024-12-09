@@ -5,12 +5,12 @@ import 'package:rust/rust.dart';
 /// Equality: Cells are equal if they have the same evaluated value or are unevaluated.
 ///
 /// Hash: Cells hash to their evaluated value or hash the same if unevaluated.
-class NullableLazyCell<T> {
+class LazyCellNullable<T> {
   late final T _val;
   final T Function() _func;
   bool _isSet = false;
 
-  NullableLazyCell(this._func);
+  LazyCellNullable(this._func);
 
   /// Lazily evaluates the function passed into the constructor.
   @pragma("vm:prefer-inline")
@@ -40,7 +40,7 @@ class NullableLazyCell<T> {
 
   @override
   bool operator ==(Object other) {
-    return other is NullableLazyCell &&
+    return other is LazyCellNullable<T> &&
         ((isEvaluated() && other.isEvaluated() && this() == other()) ||
             (!isEvaluated() && !other.isEvaluated()));
   }

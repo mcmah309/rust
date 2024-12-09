@@ -1,22 +1,107 @@
 import 'package:rust/rust.dart';
 
-/// OnceCell, A cell which can be written to only once.
+/// OnceCell, A cell which can be written to only once. OnceCell implementation based off [Option]
 ///
 /// Equality: Cells are equal if they have the same value or are not set.
 ///
 /// Hash: Cells hash to their existing or the same if not set.
-abstract interface class OnceCell<T extends Object>
-    implements NullableOnceCell<T> {
-  factory OnceCell() = NonNullableOnceCell;
+class OnceCell<T extends Object> implements OnceCellNullable<T> {
+  T? _val;
 
-  factory OnceCell.withValue(T val) = NonNullableOnceCell.withValue;
+  OnceCell([this._val]);
 
-  /// Gets the reference to the underlying value.
-  Option<T> get();
+  @override
+  Option<T> getOrOption() {
+    if (_val == null) {
+      return None;
+    }
+    return Some(_val!);
+  }
 
-  /// Sets the contents of the cell to value.
-  Result<(), T> set(T value);
+  @override
+  T? getOrNull() {
+    return _val;
+  }
 
-  /// Takes the value out of this OnceCell, moving it back to an uninitialized state.
-  Option<T> take();
+  @override
+  T getOrInit(T Function() func) {
+    if (_val != null) {
+      return _val!;
+    }
+    _val = func();
+    return _val!;
+  }
+
+  @override
+  Result<T, E> getOrTryInit<E extends Object>(Result<T, E> Function() f) {
+    if (_val != null) {
+      return Ok(_val!);
+    }
+    final result = f();
+    if (result.isOk()) {
+      _val = result.unwrap();
+      return Ok(_val!);
+    }
+    return result;
+  }
+
+  @override
+  T? setOrNull(T value) {
+    if (_val != null) {
+      return null;
+    }
+    _val = value;
+    return value;
+  }
+
+  @override
+  Option<T> setOrOption(T value) {
+    if (_val != null) {
+      return None;
+    }
+    _val = value;
+    return Some(value);
+  }
+
+  @override
+  T? takeOrNull() {
+    final val = _val;
+    _val = null;
+    return val;
+  }
+
+  @override
+  Option<T> takeOrOption() {
+    if (_val == null) {
+      return None;
+    }
+    final val = _val;
+    _val = null;
+    return Some(val!);
+  }
+
+  @override
+  bool isSet() {
+    return _val == null ? false : true;
+  }
+
+  @override
+  int get hashCode {
+    final valueHash = _val?.hashCode ?? 0;
+    return valueHash;
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is OnceCellNullable<T> &&
+        ((isSet() && other.isSet() && getOrNull() == other.getOrNull()) ||
+            (!isSet() && !other.isSet()));
+  }
+
+  @override
+  String toString() {
+    return (_val == null
+        ? "Uninitialized $runtimeType"
+        : "Initialized $runtimeType($_val)");
+  }
 }
