@@ -32,7 +32,6 @@ extension Vec$ArrExtension<T> on Arr<T> {
 
 /// {@macro null_option_correctness}
 extension Vec$VecConcreteExtension<T extends Object> on Vec<T> {
-
   /// {@template Vec.pop}
   /// Removes the last element from the Vec and returns it, or None if it is empty.
   /// {@endtemplate}

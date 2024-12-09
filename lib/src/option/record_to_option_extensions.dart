@@ -22,7 +22,11 @@ extension Option$RecordOption2Extension<A, B> on (Option<A>, Option<B>) {
   }
 }
 
-extension Option$RecordOption3Extension<A, B, C> on (Option<A>, Option<B>, Option<C>) {
+extension Option$RecordOption3Extension<A, B, C> on (
+  Option<A>,
+  Option<B>,
+  Option<C>
+) {
   Option<(A, B, C)> toOption() {
     final aOpt = $1;
     final A a;
@@ -996,7 +1000,8 @@ extension Option$RecordOptionFunction9Extension<A, B, C, D, E, F, G, H, I> on (
   }
 }
 
-extension Option$RecordOptionFunction10Extension<A, B, C, D, E, F, G, H, I, J> on (
+extension Option$RecordOptionFunction10Extension<A, B, C, D, E, F, G, H, I, J>
+    on (
   Option<A> Function(),
   Option<B> Function(),
   Option<C> Function(),

@@ -7,7 +7,6 @@ typedef FutureOption<T> = Future<Option<T>>;
 /// [FutureOption] represents an asynchronous [Option]. And as such, inherits all of [Option]'s methods.
 /// {@endtemplate}
 extension Option$FutureOptionExtension<T> on FutureOption<T> {
-
   @pragma("vm:prefer-inline")
   Future<Option<U>> and<U>(Option<U> other) {
     return then((option) => option.and(other));
@@ -73,19 +72,19 @@ extension Option$FutureOptionExtension<T> on FutureOption<T> {
 
   @pragma("vm:prefer-inline")
   Future<U> mapOr<U>(U defaultValue, U Function(T) f) {
-    return then((option) => switch(option) {
-      Some(:final value) => f(value),
-      _ => defaultValue,
-    });
+    return then((option) => switch (option) {
+          Some(:final value) => f(value),
+          _ => defaultValue,
+        });
     // return then((option) => option.isSome() ? f(option) : defaultValue);
   }
 
   @pragma("vm:prefer-inline")
   Future<U> mapOrElse<U>(U Function() defaultFn, U Function(T) f) {
     return then((option) => switch (option) {
-      Some(:final value) => f(value),
-      _ => defaultFn(),
-    });
+          Some(:final value) => f(value),
+          _ => defaultFn(),
+        });
   }
 
   @pragma("vm:prefer-inline")

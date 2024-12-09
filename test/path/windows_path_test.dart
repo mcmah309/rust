@@ -50,7 +50,8 @@ void main() {
     expect(WindowsPath("foo").filePrefixOpt().unwrap(), "foo");
     expect(WindowsPath("foo.tar.gz").filePrefixOpt().unwrap(), "foo");
     expect(WindowsPath("temp\\foo.tar.gz").filePrefixOpt().unwrap(), "foo");
-    expect(WindowsPath("C:\\foo\\.tmp.bar.tar").filePrefixOpt().unwrap(), "tmp");
+    expect(
+        WindowsPath("C:\\foo\\.tmp.bar.tar").filePrefixOpt().unwrap(), "tmp");
     expect(WindowsPath("").filePrefixOpt().isNone(), true);
 
     expect(
@@ -80,15 +81,16 @@ void main() {
   });
 
   test("parent", () {
-    expect(WindowsPath("temp\\foo.rs").parentOpt().unwrap(), WindowsPath("temp"));
+    expect(
+        WindowsPath("temp\\foo.rs").parentOpt().unwrap(), WindowsPath("temp"));
     expect(WindowsPath("foo\\").parentOpt().unwrap(), WindowsPath(""));
     expect(WindowsPath("C:\\foo\\").parentOpt().unwrap(), WindowsPath("C:\\"));
     expect(WindowsPath(".foo").parentOpt().unwrap(), WindowsPath(""));
     expect(WindowsPath(".foo.rs").parentOpt().unwrap(), WindowsPath(""));
     expect(WindowsPath("foo").parentOpt().unwrap(), WindowsPath(""));
     expect(WindowsPath("foo.tar.gz").parentOpt().unwrap(), WindowsPath(""));
-    expect(
-        WindowsPath("temp\\foo.tar.gz").parentOpt().unwrap(), WindowsPath("temp"));
+    expect(WindowsPath("temp\\foo.tar.gz").parentOpt().unwrap(),
+        WindowsPath("temp"));
     expect(WindowsPath("temp1\\temp2\\foo.tar.gz").parentOpt().unwrap(),
         WindowsPath("temp1\\temp2"));
     expect(WindowsPath("temp1\\temp2\\\\foo.tar.gz").parentOpt().unwrap(),

@@ -58,7 +58,8 @@ extension Iter$IterableOption<T> on Iterable<Option<T>> {
   }
 }
 
-extension Iter$IterComparableOtherExtension<U, T extends Comparable<U>> on Iter<T> {
+extension Iter$IterComparableOtherExtension<U, T extends Comparable<U>>
+    on Iter<T> {
   /// Lexicographically compares the elements of this Iterator with those of another.
   /// Less = -1
   /// Equal = 0
@@ -194,7 +195,7 @@ extension Iter$IterComparableSelfExtension<T extends Comparable<T>> on Iter<T> {
 /// {@template null_option_correctness}
 /// Methods only implemented when [T] is a concrete type (non-nullable).
 /// Why: Correctness of code and reduces bugs.
-/// e.g. if `nth` returns null on a nullable iterable, the nth element is 
+/// e.g. if `nth` returns null on a nullable iterable, the nth element is
 /// either null or the iterable does not have n elements. While if it returns Option, if the element
 /// is null it returns `Some(null)` and if it does not have n elements it returns `None`
 /// {@endtemplate}
@@ -269,7 +270,7 @@ extension Iter$IterConcreteExtension<T extends Object> on Iter<T> {
   /// Creates an iterator that both yields elements based on a predicate and maps.
   /// It will call this closure on each element of the iterator, and yield elements while it returns Some(_).
   /// {@endtemplate}
-  Iter<U> mapWhile<U>(U? Function(T) f){
+  Iter<U> mapWhile<U>(U? Function(T) f) {
     return Iter.fromIterable(_mapWhileHelper(f));
   }
 
@@ -569,7 +570,8 @@ extension Iter$IterExtension<T> on Iter<T> {
   }
 
   /// {@macro Iter$IterExtension.all}
-  Result<Option<T>, E> tryFindOpt<E extends Object>(Result<bool, E> Function(T) f) {
+  Result<Option<T>, E> tryFindOpt<E extends Object>(
+      Result<bool, E> Function(T) f) {
     for (final res in this) {
       final found = f(res);
       if (found.isErr()) {
@@ -583,7 +585,8 @@ extension Iter$IterExtension<T> on Iter<T> {
   }
 
   /// An iterator method that applies a function as long as it returns successfully, producing a single, final value.
-  Result<U, E> tryFold<U, E extends Object>(U initial, Result<U, E> Function(U, T) f) {
+  Result<U, E> tryFold<U, E extends Object>(
+      U initial, Result<U, E> Function(U, T) f) {
     var accum = initial;
     for (final res in this) {
       final folded = f(accum, res);
@@ -626,7 +629,8 @@ extension Iter$IterExtension<T> on Iter<T> {
   }
 
   /// {@macro Iter$IterExtension.tryReduce}
-  Result<Option<T>, E> tryReduceOpt<E extends Object>(Result<T, E> Function(T, T) f) {
+  Result<Option<T>, E> tryReduceOpt<E extends Object>(
+      Result<T, E> Function(T, T) f) {
     if (!moveNext()) {
       return Ok(None);
     }
@@ -661,13 +665,15 @@ extension Iter$IterRecord2Extension<T, U> on Iter<(T, U)> {
 /// Overrides built in extension Iter$methods on nullable [Iterable].
 extension Iter$IterNullableExtensionOverride<T extends Object> on Iter<T?> {
   /// Returns an Iter over the non-null elements of this iterator.
-  Iter<T> nonNulls() => Iter.fromIterable(NullableIterableExtensions(this).nonNulls);
+  Iter<T> nonNulls() =>
+      Iter.fromIterable(NullableIterableExtensions(this).nonNulls);
 }
 
 /// Overrides built in extension Iter$methods on [Iterable].
 extension Iter$IterExtensionOverride<T> on Iter<T> {
   /// Returns an Iter over the elements of this iterable, paired with their index.
-  Iter<(int, T)> get indexed => Iter.fromIterable(IterableExtensions(this).indexed);
+  Iter<(int, T)> get indexed =>
+      Iter.fromIterable(IterableExtensions(this).indexed);
 
   @Deprecated(
       "FirstOrNull is not supported as it would require consuming part of the iterator, which is likely not the users intent. Use next() instead.")

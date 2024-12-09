@@ -20,6 +20,6 @@ main() {
 
     metadata = await Fs.metadata("test/fs/vm_test.dart".asPath());
     expect(metadata.isOk(), true);
-    expect(metadata.unwrap().type,  FileSystemEntityType.file);
+    expect(metadata.unwrap().type, FileSystemEntityType.file);
   });
 }

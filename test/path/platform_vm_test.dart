@@ -52,7 +52,8 @@ void main() {
       final _ = await Path("test\\path\\fixtures\\file").metadata().unwrap();
     } else {
       // ignore: unused_local_variable
-      final metadata = await Path("test/path/fixtures/file").metadata().unwrap();
+      final metadata =
+          await Path("test/path/fixtures/file").metadata().unwrap();
       DateTime _ = metadata.accessed;
     }
   });

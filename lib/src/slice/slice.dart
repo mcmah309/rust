@@ -39,14 +39,16 @@ final class Slice<T> implements List<T> {
   @pragma("vm:prefer-inline")
   Slice(this._list, [this._start = 0, int? end])
       : _end = end ?? _list.length,
-        assert(_start >= 0 && (end == null || end <= _list.length), "Index out of bounds");
+        assert(_start >= 0 && (end == null || end <= _list.length),
+            "Index out of bounds");
 
   @pragma("vm:prefer-inline")
   Slice.fromList(List<T> list) : this(list, 0, list.length);
 
   @pragma("vm:prefer-inline")
   Slice.fromSlice(Slice<T> slice, [int start = 0, int? end])
-      : this(slice._list, slice._start + start, end == null ? slice._end : slice._start + end);
+      : this(slice._list, slice._start + start,
+            end == null ? slice._end : slice._start + end);
 
   @override
   bool operator ==(Object other) {
@@ -54,7 +56,10 @@ final class Slice<T> implements List<T> {
             other._start == _start &&
             other._end == _end &&
             other._list == _list) ||
-        (other is List<T> && other.length == _end && _start == 0 && _list == other);
+        (other is List<T> &&
+            other.length == _end &&
+            _start == 0 &&
+            _list == other);
   }
 
   @pragma("vm:prefer-inline")
@@ -114,8 +119,8 @@ final class Slice<T> implements List<T> {
       return Arr.generate(chunkSize, (j) => getUnchecked(i * chunkSize + j));
     });
     final remainderLength = length % chunkSize;
-    var remainder =
-        Arr<T>.generate(remainderLength, (i) => getUnchecked(i + chunks.len() * chunkSize));
+    var remainder = Arr<T>.generate(
+        remainderLength, (i) => getUnchecked(i + chunks.len() * chunkSize));
     return (chunks, remainder);
   }
 
@@ -139,7 +144,8 @@ final class Slice<T> implements List<T> {
     var remainder = Arr<T>.generate(remainderLength, (i) => getUnchecked(i));
     final numOfChunks = length ~/ chunkSize;
     final Arr<Arr<T>> chunks = Arr.generate(numOfChunks, (i) {
-      return Arr.generate(chunkSize, (j) => getUnchecked(remainderLength + i * chunkSize + j));
+      return Arr.generate(
+          chunkSize, (j) => getUnchecked(remainderLength + i * chunkSize + j));
     });
     return (remainder, chunks);
   }
@@ -173,7 +179,8 @@ final class Slice<T> implements List<T> {
   }
 
   /// Binary searches this slice with a key extraction function. See [SliceOnComparableSliceExtension.binarySearch] for more.
-  Result<int, int> binarySearchByKey<K extends Comparable>(K key, K Function(T) keyExtractor) {
+  Result<int, int> binarySearchByKey<K extends Comparable>(
+      K key, K Function(T) keyExtractor) {
     int left = 0;
     int right = length - 1;
 
@@ -255,7 +262,8 @@ final class Slice<T> implements List<T> {
     final length = len();
     final srcLength = src.len();
     if (length != srcLength) {
-      panic("Slices must be the same length, this is `$length` and src is `$src");
+      panic(
+          "Slices must be the same length, this is `$length` and src is `$src");
     }
     for (var i = src._start, j = _start; i < src._end; i++, j++) {
       _list[j] = src._list[i];
@@ -265,11 +273,17 @@ final class Slice<T> implements List<T> {
   /// Copies elements from one part of the slice to another part of itself
   /// The edge conditions can be changes with [sInc] and [eInc].
   /// [sInc] is whether the start is inclusive and [eInc] is whether the end is inclusive.
-  void copyWithin(int start, int end, int dst, {bool sInc = true, bool enInc = false}) {
+  void copyWithin(int start, int end, int dst,
+      {bool sInc = true, bool enInc = false}) {
     if (!sInc) start += 1;
     if (enInc) end += 1;
     final length = len();
-    if (start < 0 || start >= length || end < 0 || end > length || dst < 0 || dst >= length) {
+    if (start < 0 ||
+        start >= length ||
+        end < 0 ||
+        end > length ||
+        dst < 0 ||
+        dst >= length) {
       panic("Index out of bounds");
     }
     if (dst < start) {
@@ -450,7 +464,8 @@ final class Slice<T> implements List<T> {
   /// The [sameBucket] function is passed the to two elements from the slice and must determine if the elements compare equal.
   /// The elements are passed in opposite order from their order in the slice, so if same_bucket(a, b) returns true, a is moved at the end of the slice.
   /// If the slice is sorted, the first returned slice contains no duplicates.
-  (Slice<T> dedup, Slice<T> duplicates) partitionDedupBy(bool Function(T, T) sameBucket) {
+  (Slice<T> dedup, Slice<T> duplicates) partitionDedupBy(
+      bool Function(T, T) sameBucket) {
     final length = len();
     if (length <= 1) {
       return (slice(0, length), slice(0, 0));
@@ -478,8 +493,8 @@ final class Slice<T> implements List<T> {
   /// Returns two slices. The first contains no consecutive repeated elements. The second contains all the duplicates in no specified order.
   /// If the list is sorted, the first returned list contains no duplicates.
   @pragma("vm:prefer-inline")
-  (Slice<T> dedup, Slice<T> duplicates) partitionDedupByKey<K extends Comparable<K>>(
-      K Function(T) key) {
+  (Slice<T> dedup, Slice<T> duplicates)
+      partitionDedupByKey<K extends Comparable<K>>(K Function(T) key) {
     return partitionDedupBy((e0, e1) => key(e0) == key(e1));
   }
 
@@ -612,7 +627,10 @@ final class Slice<T> implements List<T> {
   /// indices from [len - N, len) (excluding the index len itself).
   (Slice<T>, Slice<T>) rsplitAt(int index) {
     assert(index >= 0 && index <= _end - _start, "Index out of bounds");
-    return (Slice(_list, _start, _end - index), Slice(_list, _end - index, _end));
+    return (
+      Slice(_list, _start, _end - index),
+      Slice(_list, _end - index, _end)
+    );
   }
 
 // rsplit_array: Will not implement, would need to allocate another list for the Dart version
@@ -643,7 +661,8 @@ final class Slice<T> implements List<T> {
     var index = _end - 1;
     while (index >= _start) {
       if (pred(_list[index])) {
-        return Some((Slice(_list, _start, index), Slice(_list, index + 1, _end)));
+        return Some(
+            (Slice(_list, _start, index), Slice(_list, index + 1, _end)));
       }
       index--;
     }
@@ -726,7 +745,10 @@ final class Slice<T> implements List<T> {
   /// and the second slice will contain all indices from [N, len) (excluding the index len itself).
   (Slice<T>, Slice<T>) splitAt(int index) {
     assert(index >= 0 && index <= _end - _start, "Index out of bounds");
-    return (Slice(_list, _start, _start + index), Slice(_list, _start + index, _end));
+    return (
+      Slice(_list, _start, _start + index),
+      Slice(_list, _start + index, _end)
+    );
   }
 
 // split_at_mut: Implemented by splitAt
@@ -826,7 +848,8 @@ final class Slice<T> implements List<T> {
     var index = _start;
     while (index < _end) {
       if (pred(_list[index])) {
-        return Some((Slice(_list, _start, index), Slice(_list, index + 1, _end)));
+        return Some(
+            (Slice(_list, _start, index), Slice(_list, index + 1, _end)));
       }
       index++;
     }
@@ -926,7 +949,8 @@ final class Slice<T> implements List<T> {
     final length = len();
     final otherLength = other.len();
     if (length != otherLength) {
-      panic("Slices must be the same length, this is `$length` and other is `$otherLength");
+      panic(
+          "Slices must be the same length, this is `$length` and other is `$otherLength");
     }
     for (var i = 0; i < length; i++) {
       var temp = _list[i + _start];
@@ -1068,7 +1092,8 @@ final class Slice<T> implements List<T> {
 
   @override
   @pragma("vm:prefer-inline")
-  bool contains(Object? element) => _list.getRange(_start, _end).contains(element);
+  bool contains(Object? element) =>
+      _list.getRange(_start, _end).contains(element);
 
   @override
   @pragma("vm:prefer-inline")
@@ -1104,7 +1129,8 @@ final class Slice<T> implements List<T> {
 
   @override
   @pragma("vm:prefer-inline")
-  String join([String separator = '']) => _list.getRange(_start, _end).join(separator);
+  String join([String separator = '']) =>
+      _list.getRange(_start, _end).join(separator);
 
   @override
   @pragma("vm:prefer-inline")
@@ -1117,7 +1143,8 @@ final class Slice<T> implements List<T> {
 
   @override
   @pragma("vm:prefer-inline")
-  Iter<U> map<U>(U Function(T) f) => Iter(_list.getRange(_start, _end).map(f).iterator);
+  Iter<U> map<U>(U Function(T) f) =>
+      Iter(_list.getRange(_start, _end).map(f).iterator);
 
   @override
   @pragma("vm:prefer-inline")
@@ -1134,19 +1161,23 @@ final class Slice<T> implements List<T> {
 
   @override
   @pragma("vm:prefer-inline")
-  Iter<T> skip(int count) => Iter(_list.getRange(_start, _end).skip(count).iterator);
+  Iter<T> skip(int count) =>
+      Iter(_list.getRange(_start, _end).skip(count).iterator);
 
   @override
   @pragma("vm:prefer-inline")
-  Iter<T> skipWhile(bool Function(T) f) => Iter(_list.getRange(_start, _end).skipWhile(f).iterator);
+  Iter<T> skipWhile(bool Function(T) f) =>
+      Iter(_list.getRange(_start, _end).skipWhile(f).iterator);
 
   @override
   @pragma("vm:prefer-inline")
-  Iter<T> take(int count) => Iter(_list.getRange(_start, _end).take(count).iterator);
+  Iter<T> take(int count) =>
+      Iter(_list.getRange(_start, _end).take(count).iterator);
 
   @override
   @pragma("vm:prefer-inline")
-  Iter<T> takeWhile(bool Function(T) f) => Iter(_list.getRange(_start, _end).takeWhile(f).iterator);
+  Iter<T> takeWhile(bool Function(T) f) =>
+      Iter(_list.getRange(_start, _end).takeWhile(f).iterator);
 
   /// [growable] is ignore, always returns a growable list.
   @override
@@ -1159,11 +1190,13 @@ final class Slice<T> implements List<T> {
 
   @override
   @pragma("vm:prefer-inline")
-  Iter<T> where(bool Function(T) f) => Iter(_list.getRange(_start, _end).where(f).iterator);
+  Iter<T> where(bool Function(T) f) =>
+      Iter(_list.getRange(_start, _end).where(f).iterator);
 
   @override
   @pragma("vm:prefer-inline")
-  Iter<U> whereType<U>() => Iter(_list.getRange(_start, _end).whereType<U>().iterator);
+  Iter<U> whereType<U>() =>
+      Iter(_list.getRange(_start, _end).whereType<U>().iterator);
 
   // List<T> implementations
   //************************************************************************//
@@ -1236,7 +1269,8 @@ final class Slice<T> implements List<T> {
     // Hoist the case to fail eagerly if the user provides an invalid `null`
     // value (or omits it) when T is a non-nullable type.
     T value = fillValue as T;
-    final (normalizedStart, normalizedEnd) = _validateAndNormalizeRange(start, end);
+    final (normalizedStart, normalizedEnd) =
+        _validateAndNormalizeRange(start, end);
     for (int i = normalizedStart; i < normalizedEnd; i++) {
       _list[i] = value;
     }
@@ -1254,11 +1288,13 @@ final class Slice<T> implements List<T> {
   Iterable<T> getRange(int start, int end) sync* {
     final startStart = _start;
     final startEnd = _end;
-    final (normalizedStart, normalizedEnd) = _validateAndNormalizeRange(start, end);
+    final (normalizedStart, normalizedEnd) =
+        _validateAndNormalizeRange(start, end);
     for (int i = normalizedStart; i < normalizedEnd; i++) {
       yield _list[i];
       if (_start != startStart || _end != startEnd) {
-        throw ConcurrentModificationError("This slice was modified while yielding entries.");
+        throw ConcurrentModificationError(
+            "This slice was modified while yielding entries.");
       }
     }
   }
@@ -1393,7 +1429,8 @@ final class Slice<T> implements List<T> {
   /// {@macro slice_underlying_manipulation_warning}
   @override
   void removeRange(int start, int end) {
-    final (normalizedStart, normalizedEnd) = _validateAndNormalizeRange(start, end);
+    final (normalizedStart, normalizedEnd) =
+        _validateAndNormalizeRange(start, end);
     _list.removeRange(normalizedStart, normalizedEnd);
     _end -= normalizedEnd - normalizedStart;
   }
@@ -1427,7 +1464,8 @@ final class Slice<T> implements List<T> {
   /// {@macro slice_underlying_manipulation_warning}
   @override
   void replaceRange(int start, int end, Iterable<T> replacements) {
-    final (normalizedStart, normalizedEnd) = _validateAndNormalizeRange(start, end);
+    final (normalizedStart, normalizedEnd) =
+        _validateAndNormalizeRange(start, end);
     final replacementsList = replacements.toList(growable: false);
     _list.replaceRange(normalizedStart, normalizedEnd, replacementsList);
     final replacementsLength = replacementsList.length;
@@ -1459,7 +1497,8 @@ final class Slice<T> implements List<T> {
   }
 
   @override
-  Iterable<T> get reversed => _list.getRange(_start, _end).toList(growable: false).reversed;
+  Iterable<T> get reversed =>
+      _list.getRange(_start, _end).toList(growable: false).reversed;
 
   /// Overwrites elements with the objects of [iterable].
   /// The elements of [iterable] are written into this list, starting at position [index].
@@ -1485,7 +1524,8 @@ final class Slice<T> implements List<T> {
   /// inclusive, to [end], exclusive, of this slice.
   @override
   void setRange(int start, int end, Iterable<T> iterable, [int skipCount = 0]) {
-    final (normalizedStart, normalizedEnd) = _validateAndNormalizeRange(start, end);
+    final (normalizedStart, normalizedEnd) =
+        _validateAndNormalizeRange(start, end);
     final iterator = iterable.skip(skipCount).iterator;
     for (int i = normalizedStart; i < normalizedEnd; i++) {
       if (!iterator.moveNext()) {
@@ -1510,18 +1550,21 @@ final class Slice<T> implements List<T> {
   /// Sorts this slice according to the order specified by the [compare] function.
   @override
   void sort([int Function(T a, T b)? compare]) {
-    sortUnstableBy(compare ?? (a, b) => Comparable.compare(a as Comparable, b as Comparable));
+    sortUnstableBy(compare ??
+        (a, b) => Comparable.compare(a as Comparable, b as Comparable));
   }
 
   @override
   List<T> sublist(int start, [int? end]) {
-    final (normalizedStart, normalizedEnd) = _validateAndNormalizeRange(start, end ?? len());
+    final (normalizedStart, normalizedEnd) =
+        _validateAndNormalizeRange(start, end ?? len());
     return _list.sublist(normalizedStart, normalizedEnd);
   }
 
   //************************************************************************//
 
-  (int normalizedStart, int normalizedEnd) _validateAndNormalizeRange(int start, int end) {
+  (int normalizedStart, int normalizedEnd) _validateAndNormalizeRange(
+      int start, int end) {
     if (start < 0 || end < 0) {
       panic("'start' and 'end' must be positive.");
     }

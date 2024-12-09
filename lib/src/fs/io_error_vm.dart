@@ -4,6 +4,7 @@ part of 'vm.dart';
 sealed class IoError {
   /// {@macro IoError$IOException}
   factory IoError.ioException(IOException error) = IoError$IOException._;
+
   /// {@macro FsIoError$Unknown}
   factory IoError.unknown(Object error) = IoError$Unknown._;
 }

@@ -737,7 +737,8 @@ main() {
 
   test("tryReduce", () {
     final list = [1, 2, 3, 4, 5];
-    final reduced = list.iter().tryReduceOpt((acc, e) => Ok<int, String>(acc + e));
+    final reduced =
+        list.iter().tryReduceOpt((acc, e) => Ok<int, String>(acc + e));
     expect(reduced, Ok<Option<int>, String>(Some(15)));
 
     final list2 = [1, 2, 3, 4, 5];
@@ -912,7 +913,8 @@ main() {
     peekable = list.iter().peekable();
     peekable.peekOpt();
     final cloned2 = peekable.clone();
-    expect(cloned2.peekOpt(), Some(1)); // the peeking should not effect the clone
+    expect(
+        cloned2.peekOpt(), Some(1)); // the peeking should not effect the clone
     expect(cloned2.nextOpt(), Some(1));
     expect(peekable.peekOpt(), Some(1));
     expect(cloned2.peekOpt(), Some(2));

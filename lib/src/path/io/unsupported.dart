@@ -1,11 +1,11 @@
 import 'package:rust/rust.dart';
 
 @pragma('vm:prefer-inline')
-FutureResult<Metadata, IoError>  metadata(String path) =>
+FutureResult<Metadata, IoError> metadata(String path) =>
     throw UnsupportedError("'metadata' is not supported on on this platform.");
 
 @pragma('vm:prefer-inline')
-Result<Metadata, IoError>  metadataSync(String path) => throw UnsupportedError(
+Result<Metadata, IoError> metadataSync(String path) => throw UnsupportedError(
     "'metadataSync' is not supported on on this platform.");
 
 @pragma('vm:prefer-inline')
@@ -54,9 +54,8 @@ Future<Result<String, IoError>> readLink(String path) =>
         "'readLink' is not supported on on this platform.");
 
 @pragma('vm:prefer-inline')
-Result<String, IoError> readLinkSync(String path) =>
-    throw UnimplementedError(
-        "'readLinkSync' is not supported on on this platform.");
+Result<String, IoError> readLinkSync(String path) => throw UnimplementedError(
+    "'readLinkSync' is not supported on on this platform.");
 
 @pragma('vm:prefer-inline')
 Future<Result<Metadata, IoError>> symlinkMetadata(String path) =>

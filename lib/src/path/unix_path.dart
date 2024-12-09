@@ -100,7 +100,7 @@ extension type UnixPath._(String _string) implements Object {
   /// {@macro path.Path.fileName}
   String fileName() => _posix.basename(_string);
 
-   /// {@macro path.Path.filePrefix}
+  /// {@macro path.Path.filePrefix}
   String? filePrefix() {
     final value = _posix.basename(_string);
     if (value.isEmpty) {
@@ -175,10 +175,10 @@ extension type UnixPath._(String _string) implements Object {
       UnixPath(_posix.join(_string, other._string));
 
   /// {@macro path.Path.metadataSync}
-  Result<Metadata, IoError>  metadataSync() => io.metadataSync(_string);
+  Result<Metadata, IoError> metadataSync() => io.metadataSync(_string);
 
   /// {@macro path.Path.metadata}
-  FutureResult<Metadata, IoError>  metadata() => io.metadata(_string);
+  FutureResult<Metadata, IoError> metadata() => io.metadata(_string);
 
 // new : will not be implemented
 
@@ -237,7 +237,8 @@ extension type UnixPath._(String _string) implements Object {
 
   /// {@macro path.Path.stripPrefix}
   @pragma('vm:prefer-inline')
-  Option<UnixPath> stripPrefixOpt(UnixPath prefix) => Option.of(stripPrefix(prefix));
+  Option<UnixPath> stripPrefixOpt(UnixPath prefix) =>
+      Option.of(stripPrefix(prefix));
 
   /// {@macro path.Path.symlinkMetadataSync}
   Result<Metadata, IoError> symlinkMetadataSync() =>

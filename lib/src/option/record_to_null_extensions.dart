@@ -345,7 +345,10 @@ extension Option$RecordNullable10Extension<A, B, C, D, E, F, G, H, I, J> on (
 
 //************************************************************************//
 
-extension Option$RecordNullableFunction2Extension<A, B> on (A Function(), B Function()) {
+extension Option$RecordNullableFunction2Extension<A, B> on (
+  A Function(),
+  B Function()
+) {
   (A, B)? toNullable() {
     final a = $1();
     if (a == null) {
@@ -573,7 +576,8 @@ extension Option$RecordNullableFunction8Extension<A, B, C, D, E, F, G, H> on (
   }
 }
 
-extension Option$RecordNullableFunction9Extension<A, B, C, D, E, F, G, H, I> on (
+extension Option$RecordNullableFunction9Extension<A, B, C, D, E, F, G, H, I>
+    on (
   A Function(),
   B Function(),
   C Function(),
@@ -626,7 +630,8 @@ extension Option$RecordNullableFunction9Extension<A, B, C, D, E, F, G, H, I> on 
   }
 }
 
-extension Option$RecordNullableFunction10Extension<A, B, C, D, E, F, G, H, I, J> on (
+extension Option$RecordNullableFunction10Extension<A, B, C, D, E, F, G, H, I, J>
+    on (
   A Function(),
   B Function(),
   C Function(),

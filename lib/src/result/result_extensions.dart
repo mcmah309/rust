@@ -1,6 +1,7 @@
 part of 'result.dart';
 
-extension Result$ResultResultExtension<S, F extends Object> on Result<Result<S, F>, F> {
+extension Result$ResultResultExtension<S, F extends Object>
+    on Result<Result<S, F>, F> {
   /// Converts a [Result] of a [Result] into a single [Result]
   @pragma("vm:prefer-inline")
   Result<S, F> flatten() {
@@ -11,14 +12,16 @@ extension Result$ResultResultExtension<S, F extends Object> on Result<Result<S, 
   }
 }
 
-extension Result$FutureResultResultExtension<S, F extends Object> on FutureResult<Result<S, F>, F> {
+extension Result$FutureResultResultExtension<S, F extends Object>
+    on FutureResult<Result<S, F>, F> {
   @pragma("vm:prefer-inline")
   FutureResult<S, F> flatten() {
     return then((result) => result.flatten());
   }
 }
 
-extension Result$ResultNullableSExtension<S extends Object, F extends Object> on Result<S?, F> {
+extension Result$ResultNullableSExtension<S extends Object, F extends Object>
+    on Result<S?, F> {
   /// transposes a [Result] of a nullable type into a nullable [Result].
   Result<S, F>? transpose() {
     if (isOk()) {
@@ -34,15 +37,16 @@ extension Result$ResultNullableSExtension<S extends Object, F extends Object> on
   }
 }
 
-extension Result$FutureResultNullableSExtension<S extends Object, F extends Object>
-    on Future<Result<S?, F>> {
+extension Result$FutureResultNullableSExtension<S extends Object,
+    F extends Object> on Future<Result<S?, F>> {
   @pragma("vm:prefer-inline")
   Future<Result<S, F>?> transpose() {
     return then((result) => result.transpose());
   }
 }
 
-extension Result$NullableResultExtension<S extends Object, F extends Object> on Result<S, F>? {
+extension Result$NullableResultExtension<S extends Object, F extends Object>
+    on Result<S, F>? {
   /// transposes a nullable [Result] into a non-nullable [Result].
   Result<S?, F> transpose() {
     if (this != null) {
@@ -56,14 +60,16 @@ extension Result$NullableResultExtension<S extends Object, F extends Object> on 
   }
 }
 
-extension Result$FutureNullableResultExtension<S extends Object, F extends Object> on Future<Result<S, F>?> {
+extension Result$FutureNullableResultExtension<S extends Object,
+    F extends Object> on Future<Result<S, F>?> {
   @pragma("vm:prefer-inline")
   Future<Result<S?, F>> transpose() {
     return then((result) => result.transpose());
   }
 }
 
-extension Result$ResultOptionExtension<S, F extends Object> on Result<Option<S>, F> {
+extension Result$ResultOptionExtension<S, F extends Object>
+    on Result<Option<S>, F> {
   /// Transposes a Result of an Option into an Option of a Result.
   Option<Result<S, F>> transpose() {
     if (isOk()) {
@@ -79,7 +85,8 @@ extension Result$ResultOptionExtension<S, F extends Object> on Result<Option<S>,
   }
 }
 
-extension Result$FutureResultOptionExtension<S, F extends Object> on Future<Result<Option<S>, F>> {
+extension Result$FutureResultOptionExtension<S, F extends Object>
+    on Future<Result<Option<S>, F>> {
   /// Transposes a FutureResult of an Option into an Option of a Result.
   @pragma("vm:prefer-inline")
   Future<Option<Result<S, F>>> transpose() async {
@@ -89,7 +96,8 @@ extension Result$FutureResultOptionExtension<S, F extends Object> on Future<Resu
 
 //************************************************************************//
 
-extension Result$IterableResultExtension<S, F extends Object> on Iterable<Result<S, F>> {
+extension Result$IterableResultExtension<S, F extends Object>
+    on Iterable<Result<S, F>> {
   /// Transforms an Iterable of results into a single result where the ok value is the list of all successes. If any
   /// error is encountered, the first error is used as the error result.
   Result<List<S>, F> toResultEager() {
@@ -193,7 +201,8 @@ extension Result$FutureIterableFutureResultExtension<S, F extends Object>
   }
 }
 
-extension Result$ResultToFutureResultExtension<S, F extends Object> on Result<S, F> {
+extension Result$ResultToFutureResultExtension<S, F extends Object>
+    on Result<S, F> {
   /// Turns a [Result] into a [FutureResult].
   @pragma("vm:prefer-inline")
   FutureResult<S, F> toFutureResult() async {
@@ -201,10 +210,11 @@ extension Result$ResultToFutureResultExtension<S, F extends Object> on Result<S,
   }
 }
 
-extension Result$ResultFutureToFutureResultExtension<S, F extends Object> on Result<Future<S>, F> {
+extension Result$ResultFutureToFutureResultExtension<S, F extends Object>
+    on Result<Future<S>, F> {
   /// Turns a [Result] of a [Future] into a [FutureResult].
   FutureResult<S, F> toFutureResult() async {
-    return switch(this) {
+    return switch (this) {
       Ok(:final okay) => Ok(await okay),
       Err(:final error) => Err(error),
     };
@@ -215,7 +225,8 @@ extension Result$ToOkExtension<S> on S {
   /// Convert the object to a [Result] type [Ok].
   @pragma("vm:prefer-inline")
   Ok<S, E> toOk<E extends Object>() {
-    assert(this is! Result, 'Don\'t use the "toOk()" method on instances of Result.');
+    assert(this is! Result,
+        'Don\'t use the "toOk()" method on instances of Result.');
     return Ok(this);
   }
 }
@@ -224,7 +235,8 @@ extension Result$ToErrExtension<E extends Object> on E {
   /// Convert the object to a [Result] type [Err].
   @pragma("vm:prefer-inline")
   Err<S, E> toErr<S>() {
-    assert(this is! Result, 'Don\'t use the "toErr()" method on instances of Result.');
+    assert(this is! Result,
+        'Don\'t use the "toErr()" method on instances of Result.');
     return Err(this);
   }
 }
@@ -250,7 +262,8 @@ extension Result$InfallibleFutureOkExtension<S> on FutureResult<S, Never> {
   }
 }
 
-extension Result$InfallibleFutureErrExtension<F extends Object> on FutureResult<Never, F> {
+extension Result$InfallibleFutureErrExtension<F extends Object>
+    on FutureResult<Never, F> {
   @pragma("vm:prefer-inline")
   Future<F> intoErr() {
     return then((result) => result.intoErr());

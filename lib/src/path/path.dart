@@ -9,7 +9,6 @@ part 'unix_path.dart';
 part 'windows_path.dart';
 
 extension Path$StringExtension on String {
-
   @pragma("vm:prefer-inline")
   Path asPath() => Path(this);
 

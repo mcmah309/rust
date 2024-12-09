@@ -50,7 +50,8 @@ sealed class Option<T> {
   /// This should be used at the top level of a function as above. Passing "$" to any other functions, nesting, or
   /// attempting to bring "$" out of the original scope should be avoided.
   @pragma("vm:prefer-inline")
-  static Future<Option<T>> async<T>(_OptionAsyncEarlyReturnFunction<T> fn) async {
+  static Future<Option<T>> async<T>(
+      _OptionAsyncEarlyReturnFunction<T> fn) async {
     try {
       return await fn(const _OptionEarlyReturnKey._());
     } on _OptionEarlyReturnNotification catch (_) {
@@ -153,7 +154,6 @@ sealed class Option<T> {
 }
 
 final class Some<T> implements Option<T> {
-
   final T v;
 
   @pragma("vm:prefer-inline")
@@ -315,7 +315,6 @@ final class Some<T> implements Option<T> {
 
 // ignore: constant_identifier_names
 const None = _None();
-
 
 final class _None implements Option<Never> {
   //@literal
@@ -496,6 +495,8 @@ final class _OptionEarlyReturnNotification {
   const _OptionEarlyReturnNotification();
 }
 
-typedef _OptionEarlyReturnFunction<T> = Option<T> Function(_OptionEarlyReturnKey);
+typedef _OptionEarlyReturnFunction<T> = Option<T> Function(
+    _OptionEarlyReturnKey);
 
-typedef _OptionAsyncEarlyReturnFunction<T> = Future<Option<T>> Function(_OptionEarlyReturnKey);
+typedef _OptionAsyncEarlyReturnFunction<T> = Future<Option<T>> Function(
+    _OptionEarlyReturnKey);

@@ -56,8 +56,9 @@ extension type Path._(String _string) implements Object {
   /// {@template path.Path.exists}
   /// Determines whether file exists on disk.
   /// {@endtemplate}
-  Future<bool> exists() =>
-      Env.isWindows ? WindowsPath(_string).exists() : UnixPath(_string).exists();
+  Future<bool> exists() => Env.isWindows
+      ? WindowsPath(_string).exists()
+      : UnixPath(_string).exists();
 
   /// {@template path.Path.extension}
   /// Extracts the extension (without the leading dot) of self.file_name, if possible.
@@ -111,8 +112,9 @@ extension type Path._(String _string) implements Object {
   /// {@template path.Path.hasRoot}
   /// Returns true if the Path has a root.
   /// {@endtemplate}
-  bool hasRoot() =>
-      Env.isWindows ? WindowsPath(_string).hasRoot() : UnixPath(_string).hasRoot();
+  bool hasRoot() => Env.isWindows
+      ? WindowsPath(_string).hasRoot()
+      : UnixPath(_string).hasRoot();
 
   // into_path_buf : will not be implemented
 
@@ -146,8 +148,9 @@ extension type Path._(String _string) implements Object {
   /// {@template path.Path.isFile}
   /// Returns true if the path exists on disk and is pointing at a regular file. Does not follow links.
   /// {@endtemplate}
-  Future<bool> isFile() =>
-      Env.isWindows ? WindowsPath(_string).isFile() : UnixPath(_string).isFile();
+  Future<bool> isFile() => Env.isWindows
+      ? WindowsPath(_string).isFile()
+      : UnixPath(_string).isFile();
 
   /// {@template path.Path.isRelative}
   /// Returns true if the Path is relative, i.e., not absolute.
@@ -187,7 +190,7 @@ extension type Path._(String _string) implements Object {
   /// Queries the file system to get information about a file, directory, etc.
   /// Note: using this method means that the program can no longer compile for the web.
   /// {@endtemplate}
-  Result<Metadata, IoError>  metadataSync() => Env.isWindows
+  Result<Metadata, IoError> metadataSync() => Env.isWindows
       ? WindowsPath(_string).metadataSync()
       : UnixPath(_string).metadataSync();
 
@@ -195,7 +198,7 @@ extension type Path._(String _string) implements Object {
   /// Queries the file system to get information about a file, directory, etc.
   /// Note: using this method means that the program can no longer compile for the web.
   /// {@endtemplate}
-  FutureResult<Metadata, IoError>  metadata() => Env.isWindows
+  FutureResult<Metadata, IoError> metadata() => Env.isWindows
       ? WindowsPath(_string).metadata()
       : UnixPath(_string).metadata();
 
@@ -227,8 +230,9 @@ extension type Path._(String _string) implements Object {
   /// Returns an iterator over the entries within a directory.
   /// Note: using this method results in the program no longer being able to compile to web.
   /// {@endtemplate}
-  Future<Result<ReadDir, IoError>> readDir() =>
-      Env.isWindows ? WindowsPath(_string).readDir() : UnixPath(_string).readDir();
+  Future<Result<ReadDir, IoError>> readDir() => Env.isWindows
+      ? WindowsPath(_string).readDir()
+      : UnixPath(_string).readDir();
 
   /// {@template path.Path.readLinkSync}
   /// Reads a symbolic link, returning the file that the link points to.
@@ -256,9 +260,13 @@ extension type Path._(String _string) implements Object {
   /// {@endtemplate}
   Path? stripPrefix(Path prefix) => Env.isWindows
       ? WindowsPath(_string)
-          .stripPrefix(WindowsPath(prefix._string))?._string.asPath()
+          .stripPrefix(WindowsPath(prefix._string))
+          ?._string
+          .asPath()
       : UnixPath(_string)
-          .stripPrefix(UnixPath(prefix._string))?._string.asPath();
+          .stripPrefix(UnixPath(prefix._string))
+          ?._string
+          .asPath();
 
   /// {@macro path.Path.stripPrefix}
   Option<Path> stripPrefixOpt(Path prefix) => Env.isWindows

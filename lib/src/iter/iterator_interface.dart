@@ -2,7 +2,6 @@ part of 'iterator.dart';
 
 /// Interface for Rust only methods. Not included is some methods that are already implemented by Dart's Iterable.
 abstract interface class _Iter<T> implements Iterator<T>, Iterable<T> {
-
   // next: Added as an extension
 
   /// If the iterator is empty, returns None. Otherwise, returns the next value wrapped in Some.
@@ -137,7 +136,7 @@ abstract interface class _Iter<T> implements Iterator<T>, Iterable<T> {
 // map: Implemented by Iterable.map
 
   // mapWhile: Added as an extension
-  
+
   /// {@macro Iter.mapWhile}
   Iter<U> mapWhileOpt<U>(Option<U> Function(T) f);
 
@@ -208,7 +207,7 @@ abstract interface class _Iter<T> implements Iterator<T>, Iterable<T> {
   Iter<T> rev();
 
   // rposition: Added as an extension
-  
+
   /// {@macro Iter.rposition}
   Option<int> rpositionOpt(bool Function(T) f);
 

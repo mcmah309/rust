@@ -11,9 +11,9 @@ class OnceCellNullable<T> {
   bool _isSet = false;
 
   OnceCellNullable([Option<T>? value]) {
-    if(value != null) {
+    if (value != null) {
       _isSet = true;
-      switch(value) {
+      switch (value) {
         case Some<T>(:final v):
           _val = v;
         case _:

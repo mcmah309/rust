@@ -45,8 +45,6 @@ class LazyCell<T extends Object> implements LazyCellNullable<T> {
 
   @override
   String toString() {
-    return (_val == null
-        ? "$runtimeType"
-        : "$runtimeType($_val)");
+    return (_val == null ? "$runtimeType" : "$runtimeType($_val)");
   }
 }

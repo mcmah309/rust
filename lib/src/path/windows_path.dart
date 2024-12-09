@@ -178,10 +178,10 @@ extension type WindowsPath._(String _string) implements Object {
       WindowsPath(_windows.join(_string, other._string));
 
   /// {@macro path.Path.metadataSync}
-  Result<Metadata, IoError>  metadataSync() => io.metadataSync(_string);
+  Result<Metadata, IoError> metadataSync() => io.metadataSync(_string);
 
   /// {@macro path.Path.metadata}
-  FutureResult<Metadata, IoError>  metadata() => io.metadata(_string);
+  FutureResult<Metadata, IoError> metadata() => io.metadata(_string);
 
   /// {@macro path.Path.normalize}
   WindowsPath? parent() {
@@ -242,7 +242,8 @@ extension type WindowsPath._(String _string) implements Object {
 
   /// {@macro path.Path.stripPrefix}
   @pragma('vm:prefer-inline')
-  Option<WindowsPath> stripPrefixOpt(WindowsPath prefix) => Option.of(stripPrefix(prefix));
+  Option<WindowsPath> stripPrefixOpt(WindowsPath prefix) =>
+      Option.of(stripPrefix(prefix));
 
   /// {@macro path.Path.symlinkMetadataSync}
   Result<Metadata, IoError> symlinkMetadataSync() =>

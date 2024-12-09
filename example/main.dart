@@ -16,11 +16,8 @@ void main() {
 void readmeExample() {
   final string = "kl!sd!?!";
   Vec<int> answer = [];
-  Peekable<(int, Arr<String>)> iter = string
-      .chars()
-      .mapWindows(2, identity)
-      .enumerate()
-      .peekable();
+  Peekable<(int, Arr<String>)> iter =
+      string.chars().mapWindows(2, identity).enumerate().peekable();
 
   while (iter.moveNext()) {
     final (index, window) = iter.current;
@@ -37,7 +34,6 @@ void readmeExample() {
   assert(answer[0] == 2);
   assert(answer[1] == 7);
 }
-
 
 Result<int, String> usingTheEarlyReturnKeyExample() => Result(($) {
       // Early Return Key

@@ -50,8 +50,6 @@ class LazyCellAsync<T extends Object> implements LazyCellNullableAsync<T> {
 
   @override
   String toString() {
-    return (_val == null
-        ? "$runtimeType"
-        : "$runtimeType($_val)");
+    return (_val == null ? "$runtimeType" : "$runtimeType($_val)");
   }
 }

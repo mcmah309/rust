@@ -43,7 +43,8 @@ class Fs {
     }
   }
 
-  static FutureResult<T, IoError> ioGuardResult<T>(FutureResult<T, IoError> Function() fn) async {
+  static FutureResult<T, IoError> ioGuardResult<T>(
+      FutureResult<T, IoError> Function() fn) async {
     try {
       return await fn();
     } on IOException catch (e) {
@@ -53,7 +54,8 @@ class Fs {
     }
   }
 
-  static Result<T, IoError> ioGuardResultSync<T>(Result<T, IoError> Function() fn) {
+  static Result<T, IoError> ioGuardResultSync<T>(
+      Result<T, IoError> Function() fn) {
     try {
       return fn();
     } on IOException catch (e) {
@@ -77,12 +79,14 @@ class Fs {
   /// operation fails and the future completes with an [IoError].
   /// {@endtemplate}
   static FutureResult<(), IoError> copy(Path from, Path to) async {
-    return await Fs.ioGuard(() async => File(from.asString()).copy(to.asString())).map((_) => ());
+    return await Fs.ioGuard(
+        () async => File(from.asString()).copy(to.asString())).map((_) => ());
   }
 
   /// {@macro Fs.copy}
   static Result<(), IoError> copySync(Path from, Path to) {
-    return Fs.ioGuardSync(() => File(from.asString()).copySync(to.asString())).map((_) => ());
+    return Fs.ioGuardSync(() => File(from.asString()).copySync(to.asString()))
+        .map((_) => ());
   }
 
   /// {@template Fs.createDir}
@@ -93,12 +97,14 @@ class Fs {
   /// created the future completes with an [Err] of [IoError].
   /// {@endtemplate}
   static FutureResult<(), IoError> createDir(Path path) async {
-    return await Fs.ioGuard(() async => Directory(path.asString()).create()).map((_) => ());
+    return await Fs.ioGuard(() async => Directory(path.asString()).create())
+        .map((_) => ());
   }
 
   /// {@macro Fs.createDir}
   static Result<(), IoError> createDirSync(Path path) {
-    return Fs.ioGuardSync(() => Directory(path.asString()).create()).map((_) => ());
+    return Fs.ioGuardSync(() => Directory(path.asString()).create())
+        .map((_) => ());
   }
 
   /// {@template Fs.createDirAll}
@@ -108,13 +114,15 @@ class Fs {
   /// created the future completes with an [Err] of [IoError].
   /// {@endtemplate}
   static FutureResult<(), IoError> createDirAll(Path path) async {
-    return await Fs.ioGuard(() async => Directory(path.asString()).create(recursive: true))
+    return await Fs.ioGuard(
+            () async => Directory(path.asString()).create(recursive: true))
         .map((_) => ());
   }
 
   /// {@macro Fs.createDirAll}
   static Result<(), IoError> createDirAllSync(Path path) {
-    return Fs.ioGuardSync(() => Directory(path.asString()).createSync(recursive: true))
+    return Fs.ioGuardSync(
+            () => Directory(path.asString()).createSync(recursive: true))
         .map((_) => ());
   }
 
@@ -124,7 +132,10 @@ class Fs {
   static FutureResult<bool, IoError> exists(Path path) async {
     return Fs.ioGuard(() async {
       final fsEntity = await FileSystemEntity.type(path.asString());
-      return switch (fsEntity) { FileSystemEntityType.notFound => false, _ => true };
+      return switch (fsEntity) {
+        FileSystemEntityType.notFound => false,
+        _ => true
+      };
     });
   }
 
@@ -132,7 +143,10 @@ class Fs {
   static Result<bool, IoError> existsSync(Path path) {
     return Fs.ioGuardSync(() {
       final fsEntity = FileSystemEntity.typeSync(path.asString());
-      return switch (fsEntity) { FileSystemEntityType.notFound => false, _ => true };
+      return switch (fsEntity) {
+        FileSystemEntityType.notFound => false,
+        _ => true
+      };
     });
   }
 
@@ -141,17 +155,17 @@ class Fs {
   /// {@template Fs.createSymlink}
   /// Creates a symbolic link at [link] pointing to [original].
   /// {@endtemplate}
-  static FutureResult<(), IoError> createSymlink(Path original, Path link) async {
-    return await Fs.ioGuard(
-            () async => Link(link.asString()).create(original.asString(), recursive: true))
+  static FutureResult<(), IoError> createSymlink(
+      Path original, Path link) async {
+    return await Fs.ioGuard(() async =>
+            Link(link.asString()).create(original.asString(), recursive: true))
         .map((_) => ());
   }
 
   /// {@macro Fs.createSymlink}
   static Result<(), IoError> createSymlinkSync(Path original, Path link) {
-    return Fs.ioGuardSync(
-            () => Link(link.asString()).createSync(original.asString(), recursive: true))
-        .map((_) => ());
+    return Fs.ioGuardSync(() => Link(link.asString())
+        .createSync(original.asString(), recursive: true)).map((_) => ());
   }
 
   /// {@template Fs.metadata}
@@ -191,14 +205,17 @@ class Fs {
   /// {@endtemplate}
   static FutureResult<ReadDir, IoError> readDir(Path path) async {
     return await Fs.ioGuard(() async {
-      return await Directory(path.asString()).list(recursive: false, followLinks: false).toList();
+      return await Directory(path.asString())
+          .list(recursive: false, followLinks: false)
+          .toList();
     });
   }
 
   /// {@macro Fs.readDr}
   static Result<ReadDir, IoError> readDirSync(Path path) {
     return Fs.ioGuardSync(() {
-      return Directory(path.asString()).listSync(recursive: false, followLinks: false);
+      return Directory(path.asString())
+          .listSync(recursive: false, followLinks: false);
     });
   }
 
@@ -241,7 +258,8 @@ class Fs {
 
   /// {@macro Fs.removeDir}
   static Result<(), IoError> removeDirSync(Path path) {
-    return Fs.ioGuardSync(() => Directory(path.asString()).deleteSync(recursive: false))
+    return Fs.ioGuardSync(
+            () => Directory(path.asString()).deleteSync(recursive: false))
         .map((_) => ());
   }
 
@@ -256,7 +274,8 @@ class Fs {
 
   /// {@macro Fs.removeDirAll}
   static Result<(), IoError> removeDirAllSync(Path path) {
-    return Fs.ioGuardSync(() => Directory(path.asString()).deleteSync(recursive: true))
+    return Fs.ioGuardSync(
+            () => Directory(path.asString()).deleteSync(recursive: true))
         .map((_) => ());
   }
 
@@ -271,7 +290,9 @@ class Fs {
 
   /// {@macro Fs.removeFile}
   static Result<(), IoError> removeFileSync(Path path) {
-    return Fs.ioGuardSync(() => File(path.asString()).deleteSync(recursive: false)).map((_) => ());
+    return Fs.ioGuardSync(
+            () => File(path.asString()).deleteSync(recursive: false))
+        .map((_) => ());
   }
 
   /// {@template Fs.rename}
@@ -312,7 +333,8 @@ class Fs {
       if (await entity.exists()) {
         return Ok(await entity.rename(toStr));
       }
-      return Err(IoError.ioException(PathNotFoundException(fromStr, const OSError())));
+      return Err(
+          IoError.ioException(PathNotFoundException(fromStr, const OSError())));
     }).map((_) => ());
   }
 
@@ -333,7 +355,8 @@ class Fs {
       if (entity.existsSync()) {
         return Ok(entity.renameSync(toStr));
       }
-      return Err(IoError.ioException(PathNotFoundException(fromStr, const OSError())));
+      return Err(
+          IoError.ioException(PathNotFoundException(fromStr, const OSError())));
     }).map((_) => ());
   }
 
@@ -362,7 +385,8 @@ class Fs {
   /// {@template Fs.writeString}
   /// Writes the entire contents of a file as a string.
   /// {@endtemplate}
-  static FutureResult<(), IoError> writeString(Path path, String contents) async {
+  static FutureResult<(), IoError> writeString(
+      Path path, String contents) async {
     return await Fs.ioGuard(() async {
       final file = File(path.asString());
       await file.writeAsString(contents);
@@ -386,7 +410,8 @@ class Fs {
   /// {@template Fs.open}
   /// Opens a file. Must call [RandomAccessFile.close] when done.
   /// {@endtemplate}
-  static FutureResult<RandomAccessFile, IoError> open(Path path, FileMode mode) {
+  static FutureResult<RandomAccessFile, IoError> open(
+      Path path, FileMode mode) {
     return Fs.ioGuard(() async => File(path.asString()).open(mode: mode));
   }
 
