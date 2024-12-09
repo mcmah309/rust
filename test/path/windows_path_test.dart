@@ -43,62 +43,62 @@ void main() {
   });
 
   test("filePrefix", () {
-    expect(WindowsPath("foo.rs").filePrefix().unwrap(), "foo");
-    expect(WindowsPath("foo\\").filePrefix().unwrap(), "foo");
-    expect(WindowsPath(".foo").filePrefix().unwrap(), ".foo");
-    expect(WindowsPath(".foo.rs").filePrefix().unwrap(), "foo");
-    expect(WindowsPath("foo").filePrefix().unwrap(), "foo");
-    expect(WindowsPath("foo.tar.gz").filePrefix().unwrap(), "foo");
-    expect(WindowsPath("temp\\foo.tar.gz").filePrefix().unwrap(), "foo");
-    expect(WindowsPath("C:\\foo\\.tmp.bar.tar").filePrefix().unwrap(), "tmp");
-    expect(WindowsPath("").filePrefix().isNone(), true);
+    expect(WindowsPath("foo.rs").filePrefixOpt().unwrap(), "foo");
+    expect(WindowsPath("foo\\").filePrefixOpt().unwrap(), "foo");
+    expect(WindowsPath(".foo").filePrefixOpt().unwrap(), ".foo");
+    expect(WindowsPath(".foo.rs").filePrefixOpt().unwrap(), "foo");
+    expect(WindowsPath("foo").filePrefixOpt().unwrap(), "foo");
+    expect(WindowsPath("foo.tar.gz").filePrefixOpt().unwrap(), "foo");
+    expect(WindowsPath("temp\\foo.tar.gz").filePrefixOpt().unwrap(), "foo");
+    expect(WindowsPath("C:\\foo\\.tmp.bar.tar").filePrefixOpt().unwrap(), "tmp");
+    expect(WindowsPath("").filePrefixOpt().isNone(), true);
 
     expect(
         WindowsPath(
                 "\\Downloads\\The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
-            .filePrefix()
+            .filePrefixOpt()
             .unwrap(),
         "The Annual Report on the Health of the Parish of St");
   });
 
   test("fileStem", () {
-    expect(WindowsPath("foo.rs").fileStem().unwrap(), "foo");
-    expect(WindowsPath("foo\\").fileStem().unwrap(), "foo");
-    expect(WindowsPath(".foo").fileStem().unwrap(), ".foo");
-    expect(WindowsPath(".foo.rs").fileStem().unwrap(), ".foo");
-    expect(WindowsPath("foo").fileStem().unwrap(), "foo");
-    expect(WindowsPath("foo.tar.gz").fileStem().unwrap(), "foo.tar");
-    expect(WindowsPath("temp\\foo.tar.gz").fileStem().unwrap(), "foo.tar");
-    expect(WindowsPath("").fileStem().isNone(), true);
+    expect(WindowsPath("foo.rs").fileStemOpt().unwrap(), "foo");
+    expect(WindowsPath("foo\\").fileStemOpt().unwrap(), "foo");
+    expect(WindowsPath(".foo").fileStemOpt().unwrap(), ".foo");
+    expect(WindowsPath(".foo.rs").fileStemOpt().unwrap(), ".foo");
+    expect(WindowsPath("foo").fileStemOpt().unwrap(), "foo");
+    expect(WindowsPath("foo.tar.gz").fileStemOpt().unwrap(), "foo.tar");
+    expect(WindowsPath("temp\\foo.tar.gz").fileStemOpt().unwrap(), "foo.tar");
+    expect(WindowsPath("").fileStemOpt().isNone(), true);
 
     expect(
         WindowsPath(
                 "\\Downloads\\The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
-            .fileStem()
+            .fileStemOpt()
             .unwrap(),
         "The Annual Report on the Health of the Parish of St");
   });
 
   test("parent", () {
-    expect(WindowsPath("temp\\foo.rs").parent().unwrap(), WindowsPath("temp"));
-    expect(WindowsPath("foo\\").parent().unwrap(), WindowsPath(""));
-    expect(WindowsPath("C:\\foo\\").parent().unwrap(), WindowsPath("C:\\"));
-    expect(WindowsPath(".foo").parent().unwrap(), WindowsPath(""));
-    expect(WindowsPath(".foo.rs").parent().unwrap(), WindowsPath(""));
-    expect(WindowsPath("foo").parent().unwrap(), WindowsPath(""));
-    expect(WindowsPath("foo.tar.gz").parent().unwrap(), WindowsPath(""));
+    expect(WindowsPath("temp\\foo.rs").parentOpt().unwrap(), WindowsPath("temp"));
+    expect(WindowsPath("foo\\").parentOpt().unwrap(), WindowsPath(""));
+    expect(WindowsPath("C:\\foo\\").parentOpt().unwrap(), WindowsPath("C:\\"));
+    expect(WindowsPath(".foo").parentOpt().unwrap(), WindowsPath(""));
+    expect(WindowsPath(".foo.rs").parentOpt().unwrap(), WindowsPath(""));
+    expect(WindowsPath("foo").parentOpt().unwrap(), WindowsPath(""));
+    expect(WindowsPath("foo.tar.gz").parentOpt().unwrap(), WindowsPath(""));
     expect(
-        WindowsPath("temp\\foo.tar.gz").parent().unwrap(), WindowsPath("temp"));
-    expect(WindowsPath("temp1\\temp2\\foo.tar.gz").parent().unwrap(),
+        WindowsPath("temp\\foo.tar.gz").parentOpt().unwrap(), WindowsPath("temp"));
+    expect(WindowsPath("temp1\\temp2\\foo.tar.gz").parentOpt().unwrap(),
         WindowsPath("temp1\\temp2"));
-    expect(WindowsPath("temp1\\temp2\\\\foo.tar.gz").parent().unwrap(),
+    expect(WindowsPath("temp1\\temp2\\\\foo.tar.gz").parentOpt().unwrap(),
         WindowsPath("temp1\\temp2"));
-    expect(WindowsPath("").parent().isNone(), true);
+    expect(WindowsPath("").parentOpt().isNone(), true);
 
     expect(
         WindowsPath(
                 "\\Downloads\\The Annual Report on the Health of the Parish of St. Mary Abbotts, Kensington, during the year 1874")
-            .parent()
+            .parentOpt()
             .unwrap(),
         WindowsPath("\\Downloads"));
   });

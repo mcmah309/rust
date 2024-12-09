@@ -17,11 +17,10 @@ extension type WindowsPath._(String _string) implements Object {
   /// {@macro path.Path.ancestors}
   Iterable<WindowsPath> ancestors() sync* {
     yield this;
-    Option<WindowsPath> currentOpt = parent();
-    while (currentOpt.isSome()) {
-      final current = currentOpt.unwrap();
+    WindowsPath? current = parent();
+    while (current != null) {
       yield current;
-      currentOpt = current.parent();
+      current = current.parent();
     }
   }
 
@@ -107,34 +106,41 @@ extension type WindowsPath._(String _string) implements Object {
   String fileName() => _windows.basename(_string);
 
   /// {@macro path.Path.filePrefix}
-  Option<String> filePrefix() {
+  String? filePrefix() {
     final value = _windows.basename(_string);
     if (value.isEmpty) {
-      return None;
+      return null;
     }
     if (!value.contains(".")) {
-      return Some(value);
+      return value;
     }
     if (value.startsWith(".")) {
       final splits = value.split(".");
       if (splits.length == 2) {
-        return Some(value);
+        return value;
       } else {
         assert(splits.length > 2);
-        return Some(splits[1]);
+        return splits[1];
       }
     }
-    return Some(value.split(".").first);
+    return value.split(".").first;
+  }
+
+  /// {@macro path.Path.filePrefix}
+  @pragma('vm:prefer-inline')
+  Option<String> filePrefixOpt() => Option.of(filePrefix());
+
+  /// {@macro path.Path.fileStem}
+  String? fileStem() {
+    final fileStem = _windows.basenameWithoutExtension(_string);
+    if (fileStem.isEmpty) {
+      return null;
+    }
+    return fileStem;
   }
 
   /// {@macro path.Path.fileStem}
-  Option<String> fileStem() {
-    final fileStem = _windows.basenameWithoutExtension(_string);
-    if (fileStem.isEmpty) {
-      return None;
-    }
-    return Some(fileStem);
-  }
+  Option<String> fileStemOpt() => Option.of(fileStem());
 
   /// {@macro path.Path.hasRoot}
   bool hasRoot() => _windows.rootPrefix(_string) == separator;
@@ -178,32 +184,35 @@ extension type WindowsPath._(String _string) implements Object {
   FutureResult<Metadata, IoError>  metadata() => io.metadata(_string);
 
   /// {@macro path.Path.normalize}
-  Option<WindowsPath> parent() {
+  WindowsPath? parent() {
     final comps = components().toList();
     if (comps.length == 1) {
       switch (comps.first) {
         case RootDir():
         case Prefix():
-          return None;
+          return null;
         case ParentDir():
         case CurDir():
         case Normal():
-          return Some(WindowsPath(""));
+          return WindowsPath("");
       }
     }
     if (comps.length > 1) {
       comps.removeLast();
     } else {
-      return None;
+      return null;
     }
     if (comps.length == 1) {
       final prefix = comps[0];
       if (prefix case Prefix()) {
-        return None;
+        return null;
       }
     }
-    return Some(_joinWindowsComponents(comps));
+    return _joinWindowsComponents(comps);
   }
+
+  /// {@macro path.Path.parent}
+  Option<WindowsPath> parentOpt() => Option.of(parent());
 
   /// {@macro path.Path.readDirSync}
   Result<ReadDir, IoError> readDirSync() => io.readDirSync(_string);
@@ -223,13 +232,17 @@ extension type WindowsPath._(String _string) implements Object {
   bool startsWith(WindowsPath other) => _string.startsWith(other._string);
 
   /// {@macro path.Path.stripPrefix}
-  Option<WindowsPath> stripPrefix(WindowsPath prefix) {
+  WindowsPath? stripPrefix(WindowsPath prefix) {
     if (!startsWith(prefix)) {
-      return None;
+      return null;
     }
     final newPath = _string.substring(prefix._string.length);
-    return Some(WindowsPath(newPath));
+    return WindowsPath(newPath);
   }
+
+  /// {@macro path.Path.stripPrefix}
+  @pragma('vm:prefer-inline')
+  Option<WindowsPath> stripPrefixOpt(WindowsPath prefix) => Option.of(stripPrefix(prefix));
 
   /// {@macro path.Path.symlinkMetadataSync}
   Result<Metadata, IoError> symlinkMetadataSync() =>
@@ -241,9 +254,9 @@ extension type WindowsPath._(String _string) implements Object {
 
   /// {@macro path.Path.withExtension}
   WindowsPath withExtension(String extension) {
-    final stem = fileStem().unwrapOr("");
-    final parentOption = parent();
-    if (parentOption.isNone()) {
+    final stem = fileStemOpt().unwrapOr("");
+    final parentN = parent();
+    if (parentN == null) {
       if (stem.isEmpty) {
         return WindowsPath(extension);
       } else {
@@ -254,22 +267,21 @@ extension type WindowsPath._(String _string) implements Object {
       }
     }
     if (stem.isEmpty) {
-      return parentOption.unwrap().join(WindowsPath(extension));
+      return parentN.join(WindowsPath(extension));
     }
     if (extension.isEmpty) {
-      return parentOption.unwrap().join(WindowsPath(stem));
+      return parentN.join(WindowsPath(stem));
     }
-    return parentOption.unwrap().join(WindowsPath("$stem.$extension"));
+    return parentN.join(WindowsPath("$stem.$extension"));
   }
 
   /// {@macro path.Path.withFileName}
   WindowsPath withFileName(String fileName) {
-    final parentOption = parent();
-    return switch (parentOption) {
-      // ignore: pattern_never_matches_value_type
-      Some(:final v) => v.join(WindowsPath(fileName)),
-      _ => WindowsPath(fileName),
-    };
+    final parentN = parent();
+    if (parentN == null) {
+      return WindowsPath(fileName);
+    }
+    return parentN.join(WindowsPath(fileName));
   }
 }
 

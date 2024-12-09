@@ -16,7 +16,7 @@ extension type Path._(String _string) implements Object {
   String asString() => _string;
 
   /// {@template path.Path.ancestors}
-  /// Produces an iterator over Path and its ancestors. e.g. `/a/b/c` will produce `/a/b/c`, `/a/b`, `/a`, and `/`.
+  /// Produces an iterator over Path and its ancestors. e.g. with UnixPath, `/a/b/c` will produce `/a/b/c`, `/a/b`, `/a`, and `/`.
   /// {@endtemplate}
   Iterable<Path> ancestors() => Env.isWindows
       ? WindowsPath(_string).ancestors().map((e) => Path(e._string))
@@ -76,27 +76,37 @@ extension type Path._(String _string) implements Object {
   /// {@template path.Path.filePrefix}
   /// Extracts the portion of the file name before the first "." -
   ///
-  /// None, if there is no file name;
+  /// None/null, if there is no file name;
   /// The entire file name if there is no embedded .;
   /// The portion of the file name before the first non-beginning .;
   /// The entire file name if the file name begins with . and has no other .s within;
   /// The portion of the file name before the second . if the file name begins with .
   /// {@endtemplate}
-  Option<String> filePrefix() => Env.isWindows
+  String? filePrefix() => Env.isWindows
       ? WindowsPath(_string).filePrefix()
       : UnixPath(_string).filePrefix();
+
+  /// {@macro path.Path.filePrefix}
+  Option<String> filePrefixOpt() => Env.isWindows
+      ? WindowsPath(_string).filePrefixOpt()
+      : UnixPath(_string).filePrefixOpt();
 
   /// {@template path.Path.fileStem}
   /// Extracts the portion of the file name before the last "." -
   ///
-  /// None, if there is no file name;
+  /// None/null, if there is no file name;
   /// The entire file name if there is no embedded .;
   /// The entire file name if the file name begins with . and has no other .s within;
   /// Otherwise, the portion of the file name before the final .
   /// {@endtemplate}
-  Option<String> fileStem() => Env.isWindows
+  String? fileStem() => Env.isWindows
       ? WindowsPath(_string).fileStem()
       : UnixPath(_string).fileStem();
+
+  /// {@macro path.Path.fileStem}
+  Option<String> fileStemOpt() => Env.isWindows
+      ? WindowsPath(_string).fileStemOpt()
+      : UnixPath(_string).fileStemOpt();
 
   /// {@template path.Path.hasRoot}
   /// Returns true if the Path has a root.
@@ -193,12 +203,17 @@ extension type Path._(String _string) implements Object {
 
   /// {@template path.Path.parent}
   /// Returns the Path without its final component, if there is one.
-  /// This means it returns Some("") for relative paths with one component.
-  /// Returns None if the path terminates in a root or prefix, or if it’s the empty string.
+  /// This means it returns Some("")/"" for relative paths with one component.
+  /// Returns None/null if the path terminates in a root or prefix, or if it’s the empty string.
   /// {@endtemplate}
-  Option<Path> parent() => Env.isWindows
-      ? WindowsPath(_string).parent().map((e) => Path(e._string))
-      : UnixPath(_string).parent().map((e) => Path(e._string));
+  Path? parent() => Env.isWindows
+      ? WindowsPath(_string).parent()?._string.asPath()
+      : UnixPath(_string).parent()?._string.asPath();
+
+  /// {@macro path.Path.parent}
+  Option<Path> parentOpt() => Env.isWindows
+      ? WindowsPath(_string).parentOpt().map((e) => Path(e._string))
+      : UnixPath(_string).parentOpt().map((e) => Path(e._string));
 
   /// {@template path.Path.readDirSync}
   /// Returns an iterator over the entries within a directory.
@@ -237,14 +252,21 @@ extension type Path._(String _string) implements Object {
       : UnixPath(_string).startsWith(UnixPath(other._string));
 
   /// {@template path.Path.stripPrefix}
-  /// Returns a path that, when joined onto base, yields this. Returns None if [prefix] is not a subpath of base.
+  /// Returns a path that, when joined onto base, yields this. Returns None/null if [prefix] is not a subpath of base.
   /// {@endtemplate}
-  Option<Path> stripPrefix(Path prefix) => Env.isWindows
+  Path? stripPrefix(Path prefix) => Env.isWindows
       ? WindowsPath(_string)
-          .stripPrefix(WindowsPath(prefix._string))
+          .stripPrefix(WindowsPath(prefix._string))?._string.asPath()
+      : UnixPath(_string)
+          .stripPrefix(UnixPath(prefix._string))?._string.asPath();
+
+  /// {@macro path.Path.stripPrefix}
+  Option<Path> stripPrefixOpt(Path prefix) => Env.isWindows
+      ? WindowsPath(_string)
+          .stripPrefixOpt(WindowsPath(prefix._string))
           .map((e) => Path(e._string))
       : UnixPath(_string)
-          .stripPrefix(UnixPath(prefix._string))
+          .stripPrefixOpt(UnixPath(prefix._string))
           .map((e) => Path(e._string));
 
   /// {@template path.Path.symlinkMetadataSync}

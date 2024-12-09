@@ -13,30 +13,23 @@ extension type UnixPath._(String _string) implements Object {
   @pragma("vm:prefer-inline")
   String asString() => _string;
 
-  /// {@template path.Path.ancestors}
-  /// Produces an iterator over Path and its ancestors. e.g. `/a/b/c` will produce `/a/b/c`, `/a/b`, `/a`, and `/`.
-  /// {@endtemplate}
+  /// {@macro path.Path.ancestors}
   Iterable<UnixPath> ancestors() sync* {
     yield this;
-    Option<UnixPath> currentOpt = parent();
-    while (currentOpt.isSome()) {
-      final current = currentOpt.unwrap();
+    UnixPath? current = parent();
+    while (current != null) {
       yield current;
-      currentOpt = current.parent();
+      current = current.parent();
     }
   }
 
 // as_mut_os_str : will not be implemented
 // as_os_str : will not be implemented
 
-  /// {@template path.Path.canonicalize}
-  /// Returns the canonical, absolute form of the path with all intermediate components normalized.
-  /// {@endtemplate}
+  /// {@macro path.Path.canonicalize}
   UnixPath canonicalize() => UnixPath(_posix.canonicalize(_string));
 
-  /// {@template path.Path.components}
-  /// Produces an iterator over the Components of the path.
-  /// {@endtemplate}
+  /// {@macro path.Path.components}
   Iterable<Component> components() sync* {
     bool removeLast;
     // trailing slash does not matter
@@ -85,24 +78,16 @@ extension type UnixPath._(String _string) implements Object {
     }
   }
 
-  /// {@template path.Path.endsWith}
-  /// Determines whether other is a suffix of this.
-  /// {@endtemplate}
+  /// {@macro path.Path.endsWith}
   bool endsWith(UnixPath other) => _string.endsWith(other._string);
 
-  /// {@template path.Path.existsSync}
-  /// Determines whether file exists on disk.
-  /// {@endtemplate}
+  /// {@macro path.Path.existsSync}
   bool existsSync() => io.existsSync(_string);
 
-  /// {@template path.Path.exists}
-  /// Determines whether file exists on disk.
-  /// {@endtemplate}
+  /// {@macro path.Path.exists}
   Future<bool> exists() => io.exists(_string);
 
-  /// {@template path.Path.extension}
-  /// Extracts the extension (without the leading dot) of self.file_name, if possible.
-  /// {@endtemplate}
+  /// {@macro path.Path.extension}
   String extension() {
     String extensionWithDot = _posix.extension(_string);
     if (extensionWithDot.isNotEmpty) {
@@ -112,207 +97,153 @@ extension type UnixPath._(String _string) implements Object {
     return extensionWithDot;
   }
 
-  /// {@template path.Path.fileName}
-  /// Returns the final component of the Path, if there is one.
-  /// {@endtemplate}
+  /// {@macro path.Path.fileName}
   String fileName() => _posix.basename(_string);
 
-  /// {@template path.Path.filePrefix}
-  /// Extracts the portion of the file name before the first "." -
-  ///
-  /// None, if there is no file name;
-  /// The entire file name if there is no embedded .;
-  /// The portion of the file name before the first non-beginning .;
-  /// The entire file name if the file name begins with . and has no other .s within;
-  /// The portion of the file name before the second . if the file name begins with .
-  /// {@endtemplate}
-  Option<String> filePrefix() {
+   /// {@macro path.Path.filePrefix}
+  String? filePrefix() {
     final value = _posix.basename(_string);
     if (value.isEmpty) {
-      return None;
+      return null;
     }
     if (!value.contains(".")) {
-      return Some(value);
+      return value;
     }
     if (value.startsWith(".")) {
       final splits = value.split(".");
       if (splits.length == 2) {
-        return Some(value);
+        return value;
       } else {
         assert(splits.length > 2);
-        return Some(splits[1]);
+        return splits[1];
       }
     }
-    return Some(value.split(".").first);
+    return value.split(".").first;
   }
 
-  /// {@template path.Path.fileStem}
-  /// Extracts the portion of the file name before the last "." -
-  ///
-  /// None, if there is no file name;
-  /// The entire file name if there is no embedded .;
-  /// The entire file name if the file name begins with . and has no other .s within;
-  /// Otherwise, the portion of the file name before the final .
-  /// {@endtemplate}
-  Option<String> fileStem() {
+  /// {@macro path.Path.filePrefix}
+  @pragma('vm:prefer-inline')
+  Option<String> filePrefixOpt() => Option.of(filePrefix());
+
+  /// {@macro path.Path.fileStem}
+  String? fileStem() {
     final fileStem = _posix.basenameWithoutExtension(_string);
     if (fileStem.isEmpty) {
-      return None;
+      return null;
     }
-    return Some(fileStem);
+    return fileStem;
   }
 
-  /// {@template path.Path.hasRoot}
-  /// Returns true if the Path has a root.
-  /// {@endtemplate}
+  /// {@macro path.Path.fileStem}
+  Option<String> fileStemOpt() => Option.of(fileStem());
+
+  /// {@macro path.Path.hasRoot}
   bool hasRoot() => _posix.rootPrefix(_string) == separator;
 
   // into_path_buf : will not be implemented
 
-  /// {@template path.Path.isAbsolute}
-  /// Returns true if the Path is absolute, i.e., if it is independent of the current directory.
-  /// {@endtemplate}
+  /// {@macro path.Path.isAbsolute}
   bool isAbsolute() => _posix.isAbsolute(_string);
 
-  /// {@template path.Path.isDirSync}
-  /// Returns true if the path exists on disk and is pointing at a directory. Does not follow links.
-  /// {@endtemplate}
+  /// {@macro path.Path.isDirSync}
   bool isDirSync() => io.isDirSync(_string);
 
-  /// {@template path.Path.isDir}
-  /// Returns true if the path exists on disk and is pointing at a directory. Does not follow links.
-  /// {@endtemplate}
+  /// {@macro path.Path.isDir}
   Future<bool> isDir() => io.isDir(_string);
 
-  /// {@template path.Path.isFileSync}
-  /// Returns true if the path exists on disk and is pointing at a regular file. Does not follow links.
-  /// {@endtemplate}
+  /// {@macro path.Path.isFileSync}
   bool isFileSync() => io.isFileSync(_string);
 
-  /// {@template path.Path.isFile}
-  /// Returns true if the path exists on disk and is pointing at a regular file. Does not follow links.
-  /// {@endtemplate}
+  /// {@macro path.Path.isFile}
   Future<bool> isFile() => io.isFile(_string);
 
-  /// {@template path.Path.isRelative}
-  /// Returns true if the Path is relative, i.e., not absolute.
-  /// {@endtemplate}
+  /// {@macro path.Path.isRelative}
   bool isRelative() => _posix.isRelative(_string);
 
-  /// {@template path.Path.isRoot}
-  /// Returns true if the path exists on disk and is pointing at a symlink. Does not follow links.
-  /// {@endtemplate}
+  /// {@macro path.Path.isRoot}
   bool isSymlinkSync() => io.isSymlinkSync(_string);
 
-  /// {@template path.Path.isSymlink}
-  /// Returns true if the path exists on disk and is pointing at a symlink. Does not follow links.
-  /// {@endtemplate}
+  /// {@macro path.Path.isSymlink}
   Future<bool> isSymlink() => io.isSymlink(_string);
 
-  /// {@template path.Path.iter}
-  /// Produces an iterator over the path’s components viewed as Strings
-  /// {@endtemplate}
+  /// {@macro path.Path.iter}
   Iter<String> iter() =>
       Iter.fromIterable(components().map((e) => e.toString()));
 
-  /// {@template path.Path.join}
-  /// Creates an Path with path adjoined to this.
-  /// {@endtemplate}
+  /// {@macro path.Path.join}
   UnixPath join(UnixPath other) =>
       UnixPath(_posix.join(_string, other._string));
 
-  /// {@template path.Path.metadataSync}
-  /// Queries the file system to get information about a file, directory, etc.
-  /// Note: using this method means that the program can no longer compile for the web.
-  /// {@endtemplate}
+  /// {@macro path.Path.metadataSync}
   Result<Metadata, IoError>  metadataSync() => io.metadataSync(_string);
 
-  /// {@template path.Path.metadata}
-  /// Queries the file system to get information about a file, directory, etc.
-  /// Note: using this method means that the program can no longer compile for the web.
-  /// {@endtemplate}
+  /// {@macro path.Path.metadata}
   FutureResult<Metadata, IoError>  metadata() => io.metadata(_string);
 
 // new : will not be implemented
 
-  /// {@template path.Path.parent}
-  /// Returns the Path without its final component, if there is one.
-  /// This means it returns Some("") for relative paths with one component.
-  /// Returns None if the path terminates in a root or prefix, or if it’s the empty string.
-  /// {@endtemplate}
-  Option<UnixPath> parent() {
+  /// {@macro path.Path.parent}
+  UnixPath? parent() {
     final comps = components().toList();
     if (comps.length == 1) {
       switch (comps.first) {
         case RootDir():
-          return None;
+          return null;
         case Prefix():
           unreachable("Prefixes are not possible for Unix");
         case ParentDir():
         case CurDir():
         case Normal():
-          return Some(UnixPath(""));
+          return UnixPath("");
       }
     }
     if (comps.length > 1) {
       comps.removeLast();
     } else {
-      return None;
+      return null;
     }
-    return Some(_joinUnixComponents(comps));
+    return _joinUnixComponents(comps);
   }
 
-  /// {@template path.Path.readDirSync}
-  /// Returns an iterator over the entries within a directory.
-  /// Note: using this method results in the program no longer being able to compile to web.
-  /// {@endtemplate}
+  /// {@macro path.Path.parentOpt}
+  @pragma('vm:prefer-inline')
+  Option<UnixPath> parentOpt() => Option.of(parent());
+
+  /// {@macro path.Path.readDirSync}
   Result<ReadDir, IoError> readDirSync() => io.readDirSync(_string);
 
-  /// {@template path.Path.readDir}
-  /// Returns an iterator over the entries within a directory.
-  /// Note: using this method results in the program no longer being able to compile to web.
-  /// {@endtemplate}
+  /// {@macro path.Path.readDir}
   Future<Result<ReadDir, IoError>> readDir() => io.readDir(_string);
 
-  /// {@template path.Path.readLinkSync}
-  /// Reads a symbolic link, returning the file that the link points to.
-  /// {@endtemplate}
+  /// {@macro path.Path.readLinkSync}
   Result<UnixPath, IoError> readLinkSync() =>
       io.readLinkSync(_string) as Result<UnixPath, IoError>;
 
-  /// {@template path.Path.readLink}
-  /// Reads a symbolic link, returning the file that the link points to.
-  /// {@endtemplate}
+  /// {@macro path.Path.readLink}
   Future<Result<UnixPath, IoError>> readLink() =>
       io.readLink(_string) as Future<Result<UnixPath, IoError>>;
 
-  /// {@template path.Path.relativeTo}
-  /// Determines whether other is a prefix of this.
-  /// {@endtemplate}
+  /// {@macro path.Path.relativeTo}
   bool startsWith(UnixPath other) => _string.startsWith(other._string);
 
-  /// {@template path.Path.stripPrefix}
-  /// Returns a path that, when joined onto base, yields this. Returns None if [prefix] is not a subpath of base.
-  /// {@endtemplate}
-  Option<UnixPath> stripPrefix(UnixPath prefix) {
+  /// {@macro path.Path.stripPrefix}
+  UnixPath? stripPrefix(UnixPath prefix) {
     if (!startsWith(prefix)) {
-      return None;
+      return null;
     }
     final newPath = _string.substring(prefix._string.length);
-    return Some(UnixPath(newPath));
+    return UnixPath(newPath);
   }
 
-  /// {@template path.Path.symlinkMetadataSync}
-  /// Returns the metadata for the symlink.
-  /// Note: using this method means that the program can no longer compile for the web.
-  /// {@endtemplate}
+  /// {@macro path.Path.stripPrefix}
+  @pragma('vm:prefer-inline')
+  Option<UnixPath> stripPrefixOpt(UnixPath prefix) => Option.of(stripPrefix(prefix));
+
+  /// {@macro path.Path.symlinkMetadataSync}
   Result<Metadata, IoError> symlinkMetadataSync() =>
       io.symlinkMetadataSync(_string);
 
-  /// {@template path.Path.symlinkMetadata}
-  /// Returns the metadata for the symlink.
-  /// Note: using this method means that the program can no longer compile for the web.
-  /// {@endtemplate}
+  /// {@macro path.Path.symlinkMetadata}
   Future<Result<Metadata, IoError>> symlinkMetadata() =>
       io.symlinkMetadata(_string);
 
@@ -321,13 +252,11 @@ extension type UnixPath._(String _string) implements Object {
 // to_string_lossy: Will not be implemented
 // try_exists: Will not implement
 
-  /// {@template path.Path.withExtension}
-  /// Creates an Path like this but with the given extension.
-  /// {@endtemplate}
+  /// {@macro path.Path.withExtension}
   UnixPath withExtension(String extension) {
-    final stem = fileStem().unwrapOr("");
-    final parentOption = parent();
-    if (parentOption.isNone()) {
+    final stem = fileStemOpt().unwrapOr("");
+    final parentN = parent();
+    if (parentN == null) {
       if (stem.isEmpty) {
         return UnixPath(extension);
       } else {
@@ -338,24 +267,21 @@ extension type UnixPath._(String _string) implements Object {
       }
     }
     if (stem.isEmpty) {
-      return parentOption.unwrap().join(UnixPath(extension));
+      return parentN.join(UnixPath(extension));
     }
     if (extension.isEmpty) {
-      return parentOption.unwrap().join(UnixPath(stem));
+      return parentN.join(UnixPath(stem));
     }
-    return parentOption.unwrap().join(UnixPath("$stem.$extension"));
+    return parentN.join(UnixPath("$stem.$extension"));
   }
 
-  /// {@template path.Path.withFileName}
-  /// Creates an PathBuf like this but with the given file name.
-  /// {@endtemplate}
+  /// {@macro path.Path.withFileName}
   UnixPath withFileName(String fileName) {
-    final parentOption = parent();
-    return switch (parentOption) {
-      // ignore: pattern_never_matches_value_type
-      Some(:final v) => v.join(UnixPath(fileName)),
-      _ => UnixPath(fileName),
-    };
+    final parentN = parent();
+    if (parentN == null) {
+      return UnixPath(fileName);
+    }
+    return parentN.join(UnixPath(fileName));
   }
 }
 
