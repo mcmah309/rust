@@ -81,13 +81,21 @@ do so - e.g. `map` on `Iterable`. While `Option` plays well for a pipeline style
 
   **A present value** (`Some(Some(value))`): The configuration value is explicitly set to value.
 
-  With nullable types a separate field or enum/sealed class would be needed to keep track of this.
+  With nullable types, a separate field or enum/sealed class would be needed to keep track of this.
 
-- Certain operations may have some unintended effects e.g. `filterMap` - since null can be a valid state that should not be filtered. Or `nth` since null could also be a valid index.
+- Correctness of code and reducing bugs. As to why, e.g. consider `nth` which returns the nth index
+of an iterable or null if the iterable does not have an nth index. 
+If the iterable is `Iterable<T?>`, then a null value from calling `nth` means the nth element is 
+either null or the iterable does not have n elements. While if `nth` rather returned `Option`,
+if the nth index is null it returns `Some(null)` and if it does not have n elements it returns `None`.
+One might accidentally mishandle the first case and assume the `nth` index does not actually exist,
+when it is rather just null. While the second case with `Option` one is force to handle both cases.
+This holds true for a lot of operations that might have unintended effects 
+e.g. `filterMap` - since null can be a valid state that should not be filtered.
 
 These issues are not insurmountable, and if fact, most of the time nullable types are probably more concise
-and easier to deal with. Therefore, `Option` is only used where needed in the library, like `flatmap`, where it is not,
-nullable types are used.
+and easier to deal with. Therefore, for every method in this library that uses `T?` there is also an `Option`
+version, usually suffixed with `..Opt`.
 
 > In some languages (like Rust, not Dart) `Option` can be passed around like a reference 
 > and values can be taken in and out of (transmutation). Thus visible to all with reference 
