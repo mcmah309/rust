@@ -12,7 +12,6 @@ class LazyCellAsync<T extends Object> implements LazyCellNullableAsync<T> {
   LazyCellAsync(this._func);
 
   @override
-  @pragma("vm:prefer-inline")
   Future<T> force() async {
     if (_val == null) {
       _val = await _func();
@@ -22,7 +21,6 @@ class LazyCellAsync<T extends Object> implements LazyCellNullableAsync<T> {
   }
 
   @override
-  @pragma("vm:prefer-inline")
   T call() {
     if (_val == null) {
       panic(
@@ -53,7 +51,7 @@ class LazyCellAsync<T extends Object> implements LazyCellNullableAsync<T> {
   @override
   String toString() {
     return (_val == null
-        ? "Uninitialized $runtimeType"
-        : "Initialized $runtimeType($_val)");
+        ? "$runtimeType"
+        : "$runtimeType($_val)");
   }
 }

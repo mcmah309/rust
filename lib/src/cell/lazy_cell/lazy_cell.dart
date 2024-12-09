@@ -16,7 +16,6 @@ class LazyCell<T extends Object> implements LazyCellNullable<T> {
   T force() => call();
 
   @override
-  @pragma("vm:prefer-inline")
   T call() {
     if (_val == null) {
       _val = _func();
@@ -47,7 +46,7 @@ class LazyCell<T extends Object> implements LazyCellNullable<T> {
   @override
   String toString() {
     return (_val == null
-        ? "Uninitialized $runtimeType"
-        : "Initialized $runtimeType($_val)");
+        ? "$runtimeType"
+        : "$runtimeType($_val)");
   }
 }

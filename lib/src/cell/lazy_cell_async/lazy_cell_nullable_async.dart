@@ -13,7 +13,6 @@ class LazyCellNullableAsync<T> {
   LazyCellNullableAsync(this._func);
 
   /// Lazily evaluates the function passed into the constructor.
-  @pragma("vm:prefer-inline")
   Future<T> force() async {
     if (_isSet) {
       return _val!;
@@ -25,7 +24,6 @@ class LazyCellNullableAsync<T> {
 
   /// Returns the previously evaluated asynchronous value of the function passed into the constructor. Will panic
   /// if the value has not yet been evaluated. Prefer [force] for safer context.
-  @pragma("vm:prefer-inline")
   T call() {
     if (!_isSet) {
       panic(
@@ -56,7 +54,7 @@ class LazyCellNullableAsync<T> {
   @override
   String toString() {
     return (_isSet
-        ? "Initialized $runtimeType($_val)"
-        : "Uninitialized $runtimeType");
+        ? "$runtimeType($_val)"
+        : "$runtimeType");
   }
 }

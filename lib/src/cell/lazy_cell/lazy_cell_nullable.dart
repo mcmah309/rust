@@ -48,7 +48,7 @@ class LazyCellNullable<T> {
   @override
   String toString() {
     return (_isSet
-        ? "Initialized $runtimeType($_val)"
-        : "Uninitialized $runtimeType");
+        ? "$runtimeType($_val)"
+        : "$runtimeType");
   }
 }
