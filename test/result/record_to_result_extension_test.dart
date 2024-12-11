@@ -19,10 +19,10 @@ void main() {
       final a, b;
       switch ((boolOk(), intOk()).toResult()) {
         case Ok(
-            :final o,
+            v:final o,
           ):
           (a, b) = o;
-        case Err(e: final _):
+        case Err(v: final _):
           throw Exception();
       }
       expect(a, true);
@@ -33,9 +33,9 @@ void main() {
       bool hasErr = false;
       final a, b;
       switch ((boolOk(), intErr()).toResult()) {
-        case Ok(o: final record):
+        case Ok(v: final record):
           (a, b) = record;
-        case Err(e: final _):
+        case Err(v: final _):
           hasErr = true;
       }
       expect(hasErr, true);
@@ -44,7 +44,7 @@ void main() {
     test("3 records to result Ok", () {
       final a, b, c;
       switch ((boolOk(), intOk(), doubleOk()).toResult()) {
-        case Ok(o: final record):
+        case Ok(v: final record):
           (a, b, c) = record;
         case Err():
           throw Exception();
@@ -58,7 +58,7 @@ void main() {
       bool hasErr = false;
       final a, b, c;
       switch ((boolOk(), intErr(), doubleOk()).toResult()) {
-        case Ok(o: final ok):
+        case Ok(v: final ok):
           (a, b, c) = ok;
         case Err():
           hasErr = true;
@@ -69,7 +69,7 @@ void main() {
     test("4 records to result Ok", () {
       final a, b, c, d;
       switch ((boolOk(), intOk(), doubleOk(), stringOk()).toResult()) {
-        case Ok(o: final ok):
+        case Ok(v: final ok):
           (a, b, c, d) = ok;
         case Err():
           throw Exception();
@@ -84,7 +84,7 @@ void main() {
       bool hasErr = false;
       final a, b, c, d;
       switch ((boolOk(), intOk(), doubleErr(), stringOk()).toResult()) {
-        case Ok(o: final ok):
+        case Ok(v: final ok):
           (a, b, c, d) = ok;
         case Err():
           hasErr = true;
@@ -96,7 +96,7 @@ void main() {
     test("5 records to result Ok", () {
       final a, b, c, d, e;
       switch ((boolOk(), intOk(), doubleOk(), stringOk(), intOk()).toResult()) {
-        case Ok(o: final ok):
+        case Ok(v: final ok):
           (a, b, c, d, e) = ok;
         case Err():
           throw Exception();
@@ -113,7 +113,7 @@ void main() {
       final a, b, c, d, e;
       switch (
           (boolOk(), intOk(), doubleOk(), stringErr(), intOk()).toResult()) {
-        case Ok(o: final ok):
+        case Ok(v: final ok):
           (a, b, c, d, e) = ok;
         case Err():
           hasErr = true;
@@ -128,7 +128,7 @@ void main() {
     test("2 records to result Ok", () {
       final a, b;
       switch ((boolOk(), intOk()).toResultEager()) {
-        case Ok(o: final ok):
+        case Ok(v: final ok):
           (a, b) = ok;
         case Err():
           throw Exception();
@@ -141,7 +141,7 @@ void main() {
       bool hasErr = false;
       final a, b;
       switch ((boolOk(), intErr()).toResultEager()) {
-        case Ok(o: final ok):
+        case Ok(v: final ok):
           (a, b) = ok;
         case Err():
           hasErr = true;
@@ -152,7 +152,7 @@ void main() {
     test("3 records to result Ok", () {
       final a, b, c;
       switch ((boolOk(), intOk(), doubleOk()).toResultEager()) {
-        case Ok(o: final ok):
+        case Ok(v: final ok):
           (a, b, c) = ok;
         case Err():
           throw Exception();
@@ -166,7 +166,7 @@ void main() {
       bool hasErr = false;
       final a, b, c;
       switch ((boolOk(), intErr(), doubleOk()).toResultEager()) {
-        case Ok(o: final ok):
+        case Ok(v: final ok):
           (a, b, c) = ok;
         case Err():
           hasErr = true;
@@ -177,7 +177,7 @@ void main() {
     test("4 records to result Ok", () {
       final a, b, c, d;
       switch ((boolOk(), intOk(), doubleOk(), stringOk()).toResultEager()) {
-        case Ok(o: final ok):
+        case Ok(v: final ok):
           (a, b, c, d) = ok;
         case Err():
           throw Exception();
@@ -192,7 +192,7 @@ void main() {
       bool hasErr = false;
       final a, b, c, d;
       switch ((boolOk(), intOk(), doubleErr(), stringOk()).toResultEager()) {
-        case Ok(o: final ok):
+        case Ok(v: final ok):
           (a, b, c, d) = ok;
         case Err():
           hasErr = true;
@@ -205,7 +205,7 @@ void main() {
       final a, b, c, d, e;
       switch ((boolOk(), intOk(), doubleOk(), stringOk(), intOk())
           .toResultEager()) {
-        case Ok(o: final ok):
+        case Ok(v: final ok):
           (a, b, c, d, e) = ok;
         case Err():
           throw Exception();
@@ -222,7 +222,7 @@ void main() {
       final a, b, c, d, e;
       switch ((boolOk(), intOk(), doubleOk(), stringErr(), intOk())
           .toResultEager()) {
-        case Ok(o: final ok):
+        case Ok(v: final ok):
           (a, b, c, d, e) = ok;
         case Err():
           hasErr = true;
@@ -235,7 +235,7 @@ void main() {
     test("2 record functions to result Ok", () {
       final a, b;
       switch ((boolOk, intOk).toResult()) {
-        case Ok(o: final ok):
+        case Ok(v: final ok):
           (a, b) = ok;
         case Err():
           throw Exception();
@@ -248,7 +248,7 @@ void main() {
       bool hasErr = false;
       final a, b;
       switch ((boolOk, intErr).toResult()) {
-        case Ok(o: final ok):
+        case Ok(v: final ok):
           (a, b) = ok;
         case Err():
           hasErr = true;
@@ -259,7 +259,7 @@ void main() {
     test("3 record functions to result Ok", () {
       final a, b, c;
       switch ((boolOk, intOk, doubleOk).toResult()) {
-        case Ok(o: final ok):
+        case Ok(v: final ok):
           (a, b, c) = ok;
         case Err():
           throw Exception();
@@ -273,7 +273,7 @@ void main() {
       bool hasErr = false;
       final a, b, c;
       switch ((boolOk, intErr, doubleOk).toResult()) {
-        case Ok(o: final ok):
+        case Ok(v: final ok):
           (a, b, c) = ok;
         case Err():
           hasErr = true;
@@ -284,7 +284,7 @@ void main() {
     test("4 record functions to result Ok", () {
       final a, b, c, d;
       switch ((boolOk, intOk, doubleOk, stringOk).toResult()) {
-        case Ok(o: final ok):
+        case Ok(v: final ok):
           (a, b, c, d) = ok;
         case Err():
           throw Exception();
@@ -299,7 +299,7 @@ void main() {
       bool hasErr = false;
       final a, b, c, d;
       switch ((boolOk, intOk, doubleErr, stringOk).toResult()) {
-        case Ok(o: final ok):
+        case Ok(v: final ok):
           (a, b, c, d) = ok;
         case Err():
           hasErr = true;
@@ -310,7 +310,7 @@ void main() {
     test("5 record functions to result Ok", () {
       final a, b, c, d, e;
       switch ((boolOk, intOk, doubleOk, stringOk, intOk).toResult()) {
-        case Ok(o: final ok):
+        case Ok(v: final ok):
           (a, b, c, d, e) = ok;
         case Err():
           throw Exception();
@@ -326,7 +326,7 @@ void main() {
       bool hasErr = false;
       final a, b, c, d, e;
       switch ((boolOk, intOk, doubleOk, stringErr, intOk).toResult()) {
-        case Ok(o: final ok):
+        case Ok(v: final ok):
           (a, b, c, d, e) = ok;
         case Err():
           hasErr = true;

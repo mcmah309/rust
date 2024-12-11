@@ -12,13 +12,13 @@ There are four ways to never unwrap incorrectly:
 ### Pattern Matching
 Simple do a type check with `is` or `case` instead of `isErr()`.
 ```dart
-if (x case Err(:final error)){
+if (x case Err(v:final error)){
     return error;
 }
 ```
 and vice versa
 ```dart
-if (x case Ok(:final okay)){
+if (x case Ok(v:final okay)){
     return okay;
 }
 ```
@@ -27,15 +27,15 @@ The type check does an implicit cast, and we now have access to the immutable er
 Similarly, we can mimic Rust's `match` keyword, with Dart's `switch`
 ```dart
 switch(x){
- case Ok(:final o):
-   print(o);
- case Err(:final e):
-   print(e);
+ case Ok(:final v):
+   print(v);
+ case Err(:final v):
+   print(v);
 }
 
 final y = switch(x){
-  Ok(:final o) => o,
-  Err(:final e) => e,
+  Ok(:final v) => v,
+  Err(:final v) => v,
 };
 ```
 ### Declaratively
@@ -103,22 +103,22 @@ like this:
 final a, b, c;
 final boolResult = boolOk();
 switch(boolResult){
-  case Ok(:final o):
-    a = o;
+  case Ok(:final v):
+    a = v;
   case Err():
     return boolResult;
 }
 final intResult = intOk();
 switch(intResult){
-  case Ok(:final o):
-    b = o;
+  case Ok(:final v):
+    b = v;
   case Err():
       return intResult;
 }
 final doubleResult = doubleOk();
 switch(doubleResult){
-    case Ok(:final o):
-        c = o;
+    case Ok(:final v):
+        c = v;
     case Err():
         return doubleResult;
 }
@@ -129,8 +129,8 @@ That is a little verbose. Fortunately, extensions to the recuse, instead do:
 final a, b, c;
 final result = (boolOk, intOk, doubleOk).toResultEager();
 switch(result){
-   case Ok(:final o):
-      (a, b, c) = o;
+   case Ok(:final v):
+      (a, b, c) = v;
    case Err():
       return result;
 }
@@ -155,10 +155,10 @@ Result<int,String> usingTheEarlyReturnKey() => Result(($){ // Early Return Key
 Result<int,String> usingRegularPatternMatching(){
   int x;
   switch(willAlwaysReturnErr()){
-    case Err(:final e):
-      return Err(e);
-    case Ok(:final o):
-      x = o.toInt();
+    case Err(:final v):
+      return Err(v);
+    case Ok(:final v):
+      x = v.toInt();
   }
   return Ok(x);
 }

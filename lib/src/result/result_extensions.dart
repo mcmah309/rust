@@ -215,8 +215,8 @@ extension Result$ResultFutureToFutureResultExtension<S, F extends Object>
   /// Turns a [Result] of a [Future] into a [FutureResult].
   FutureResult<S, F> toFutureResult() async {
     return switch (this) {
-      Ok(:final o) => Ok(await o),
-      Err(:final e) => Err(e),
+      Ok(v:final o) => Ok(await o),
+      Err(v:final e) => Err(e),
     };
   }
 }
