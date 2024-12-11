@@ -20,6 +20,10 @@ void main() {
     x = None;
     y = None;
     expect(x.and(y), None);
+
+    x = Some(1);
+    y = None;
+    expect(x.and(y), None);
   });
 
   test("andThen", () {
@@ -190,8 +194,8 @@ void main() {
 
   test("orElse", () {
     expect(Some("barbarians").orElse(vikings), Some("barbarians"));
-    expect(None.orElse(vikings), Some("vikings"));
-    expect(None.orElse(nobody), None);
+    expect(nobody().orElse(vikings), Some("vikings"));
+    // expect(None.orElse(nobody), None);
   });
 
   test("unwrap", () {
@@ -210,13 +214,14 @@ void main() {
 
   test("unwrapOr", () {
     expect(Some("car").unwrapOr("bike"), "car");
-    expect(None.unwrapOr("bike"), "bike");
+    // Does not compile - expected
+    // expect(None.unwrapOr("bike"), "bike");
   });
 
   test("unwrapOrElse", () {
     int k = 10;
     expect(Some(4).unwrapOrElse(() => 2 * k), 4);
-    expect(None.unwrapOrElse(() => 2 * k), 20);
+    expect((None as Option<int>).unwrapOrElse(() => 2 * k), 20);
   });
 
   test("xor", () {
@@ -244,6 +249,8 @@ void main() {
 
     expect(x.zip(y), Some((1, "hi")));
     expect(x.zip(z), None);
+    expect(z.zip(y), None);
+    expect(z.zip(z), None);
   });
 
   test("zipWith", () {
@@ -261,72 +268,59 @@ void main() {
     Option<int> x = int2Some();
     var y = switch (x) {
       Some(v: final s) => s,
-      None => 4,
+      _ => 4,
     };
     expect(y, 2);
 
     y = switch (x) {
-      Some(value: final _) => 3,
-      None => 4,
+      Some(v: final _) => 3,
+      _ => 4,
     };
     expect(y, 3);
 
     y = switch (x) {
-      None => 4,
       Some(v: final _) => 3,
+      _ => 4,
     };
     expect(y, 3);
 
     switch (x) {
       case Some(v: final _):
         int _ = 1;
-      case None:
+      case _:
         fail('Should not reach here');
     }
 
     x = intNone();
     y = switch (x) {
       Some(v: final _) => 3,
-      None => 4,
+      _ => 4,
     };
     expect(y, 4);
 
     switch (x) {
       case Some(v: final _):
         fail('Should not reach here');
-      case None:
+      case _:
         break;
     }
 
     Option<int> w = Some(1);
     int p;
     switch (w) {
-      case Some(:final value):
-        p = value;
+      case Some(:final v):
+        p = v;
       default:
         fail("Should not reach here");
     }
     int _ = p;
-
-    // fails since: https://github.com/dart-lang/sdk/issues/55104
-    // w = Some(1);
-    // int u;
-    // switch (w) {
-    //   case Some(:final v):
-    //     p = v;
-    //   case None:
-    //     fail("Should not reach here");
-    // }
-    // z = u;
   });
 
   test("Option and nullable conversions", () {
     Option<int> intNone() => None;
     Option<int> option = intNone();
-    int? nullable = option.v;
-    nullable = option as int?; // or
+    int? nullable = option.toNullable();
     option = Option.of(nullable);
-    option = nullable as Option<int>; // or
   });
 
   test("Example", () {

@@ -15,7 +15,7 @@ See the [Documentation Book 📖](https://mcmah309.github.io/rust) for a deeper 
 ---
 > Goal: Get the index of every "!" in a string not followed by a "?"
 
-**[Rust](https://play.rust-lang.org/?version=nightly&mode=debug&edition=2021&gist=6010cc86519e58e4592247403830cde7):**
+**[Rust](https://play.rust-lang.org/?version=nightly&mode=debug&edition=2021&gist=f8a2979808d21a7bfe22a3cfb70ec389):**
 ```rust
 use std::iter::Peekable;
 
@@ -36,7 +36,7 @@ fn main() {
           _ => continue,
       }
   }
-  assert_eq!(answer, [2, 7]);
+  println!("{:?}", answer); // [2, 7]
 }
 ```
 **Dart:**
@@ -59,11 +59,11 @@ void main() {
         break;
       case ["!", _]:
         answer.push(index);
-      case [_, "!"] when iter.peek().isNone():
+      case [_, "!"] when iter.peek() == null: // or `iter.peekOpt().isNone()`
         answer.push(index + 1);
     }
   }
-  expect(answer, [2, 7]);
+  print(answer); // [2, 7]
 }
 ```
 

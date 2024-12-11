@@ -8,19 +8,19 @@ import 'package:test/scaffolding.dart';
 
 void main() {
   test("isIoSupported", () {
-    expect(Path.isIoSupported, isTrue);
+    expect(Fs.isIoSupported, isTrue);
     expect(
         (Platform.isAndroid ||
             Platform.isFuchsia ||
             Platform.isIOS ||
             Platform.isLinux ||
             Platform.isMacOS ||
-            Platform.isWindows),
+            Env.isWindows),
         isTrue);
   });
 
   test("readLinkSync", () {
-    if (Platform.isWindows) {
+    if (Env.isWindows) {
       expect(
         Path("test\\path\\fixtures\\file_symlink").readLinkSync().unwrap(),
         endsWith("test\\path\\fixtures\\file"),
@@ -34,7 +34,7 @@ void main() {
   });
 
   test("readLink", () async {
-    if (Platform.isWindows) {
+    if (Env.isWindows) {
       expect(
         (await Path("test\\path\\fixtures\\file_symlink").readLink()).unwrap(),
         endsWith("test\\path\\fixtures\\file"),
@@ -48,18 +48,18 @@ void main() {
   });
 
   test("metadata", () async {
-    if (Platform.isWindows) {
-      final _ = await Path("test\\path\\fixtures\\file").metadata();
+    if (Env.isWindows) {
+      final _ = await Path("test\\path\\fixtures\\file").metadata().unwrap();
     } else {
       // ignore: unused_local_variable
-      final metadata = await Path("test/path/fixtures/file").metadata();
-      // Dev Note: uncommenting below will cause a compilation error when the target is web.
-      // DateTime accessed = metadata.accessed;
+      final metadata =
+          await Path("test/path/fixtures/file").metadata().unwrap();
+      DateTime _ = metadata.accessed;
     }
   });
 
   test("metadataSync", () {
-    if (Platform.isWindows) {
+    if (Env.isWindows) {
       final _ = Path("test\\path\\fixtures\\file").metadataSync();
     } else {
       final _ = Path("test/path/fixtures/file").metadataSync();

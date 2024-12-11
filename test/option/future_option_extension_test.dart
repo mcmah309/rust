@@ -8,7 +8,7 @@ void main() {
       FutureOption<Option<int>> someSome6 = Future.value(Some(Some(6)));
       expect(await someSome6.flatten(), Some(6));
 
-      FutureOption<Option<int>> someNone = Future.value(const Some(None));
+      FutureOption<Option<int>> someNone = Future.value(Some(None));
       expect(await someNone.flatten(), None);
 
       FutureOption<Option<int>> none = Future.value(None);

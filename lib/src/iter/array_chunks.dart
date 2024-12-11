@@ -41,11 +41,21 @@ final class ArrayChunks<T> extends Iter<Arr<T>> {
   @override
   Iterator<Arr<T>> get iterator => this;
 
+  /// {@template ArrayChunks.intoRemainder}
   /// Returns an iterator over the remaining
   /// elements of the original iterator that are not going to be returned by this iterator.
   /// Therefore, the returned iterator will yield at most N-1 elements.
   /// i.e. Will return None If the iterator has been completely consumed or all the chunks have not yet been cosumed.
-  Option<Iter<T>> intoRemainder() {
+  /// {@endtemplate}
+  Iter<T>? intoRemainder() {
+    if (_count == 0) {
+      return null;
+    }
+    return _currentChunkBeingBuilt!.iter().take(_count).cast<T>();
+  }
+
+  /// {@macro ArrayChunks.intoRemainder}
+  Option<Iter<T>> intoRemainderOpt() {
     if (_count == 0) {
       return None;
     }

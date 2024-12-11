@@ -104,17 +104,52 @@ extension type Arr<T>._(List<T> _list) implements Iterable<T> {
     return Ok(Arr._(result.cast<S>()));
   }
 
-  // Iterable: Overriding iterable methods
-  //************************************************************************//
-
   /// Returns the first element of an iterator, None if empty.
-  Option<T> first() {
+  Option<T> get firstOrOption {
     final first = _list.firstOrNull;
     if (first == null) {
       return None;
     }
     return Some(first);
   }
+
+  /// Returns the last element of an iterator, None if empty.
+  Option<T> get lastOrOption {
+    final last = _list.lastOrNull;
+    if (last == null) {
+      return None;
+    }
+    return Some(last);
+  }
+
+  /// Returns the single element of an iterator, null if this is empty or has more than one element.
+  T? get singleOrNull {
+    final firstTwo = _list.take(2).iterator;
+    if (!firstTwo.moveNext()) {
+      return null;
+    }
+    final first = firstTwo.current;
+    if (!firstTwo.moveNext()) {
+      return first;
+    }
+    return null;
+  }
+
+  /// Returns the single element of an iterator, None if this is empty or has more than one element.
+  Option<T> get singleOrOption {
+    final firstTwo = _list.take(2).iterator;
+    if (!firstTwo.moveNext()) {
+      return None;
+    }
+    final first = firstTwo.current;
+    if (!firstTwo.moveNext()) {
+      return Some(first);
+    }
+    return None;
+  }
+
+  // Iterable: Overriding iterable methods
+  //************************************************************************//
 
   /// Returns true if the iterator is empty, false otherwise.
   @pragma("vm:prefer-inline")
@@ -127,31 +162,9 @@ extension type Arr<T>._(List<T> _list) implements Iterable<T> {
   @pragma("vm:prefer-inline")
   Iterator<T> get iterator => _list.iterator;
 
-  /// Returns the last element of an iterator, None if empty.
-  Option<T> last() {
-    final last = _list.lastOrNull;
-    if (last == null) {
-      return None;
-    }
-    return Some(last);
-  }
-
   /// Returns the length of an iterator.
   @pragma("vm:prefer-inline")
   int len() => _list.length;
-
-  /// Returns the single element of an iterator, None if this is empty or has more than one element.
-  Option<T> single() {
-    final firstTwo = _list.take(2).iterator;
-    if (!firstTwo.moveNext()) {
-      return None;
-    }
-    final first = firstTwo.current;
-    if (!firstTwo.moveNext()) {
-      return Some(first);
-    }
-    return None;
-  }
 
   // bool any(bool Function(T) f) {
   //   return list.any(f);

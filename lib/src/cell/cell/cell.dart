@@ -59,7 +59,7 @@ class Cell<T> implements ConstCell<T> {
 
   @override
   bool operator ==(covariant Object other) {
-    return other is ConstCell && other._val == _val;
+    return other is Cell<T> && other._val == _val;
   }
 
   @override

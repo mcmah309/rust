@@ -432,8 +432,16 @@ final class Slice<T> implements List<T> {
     return Some(_list[_end - 1]);
   }
 
+  /// Return an array with the last N items in the slice. If the slice is not at least N in length, this will return null.
+  Arr<T>? lastChunk(int n) {
+    if (n > len()) {
+      return null;
+    }
+    return Arr.generate(n, (index) => _list[_end - n + index]);
+  }
+
   /// Return an array with the last N items in the slice. If the slice is not at least N in length, this will return None.
-  Option<Arr<T>> lastChunk(int n) {
+  Option<Arr<T>> lastChunkOpt(int n) {
     if (n > len()) {
       return None;
     }
@@ -630,10 +638,26 @@ final class Slice<T> implements List<T> {
 // rsplit_array_ref: Will not implement, see above
 // rsplit_mut: Will not implement, implemented by rsplit
 
+  /// {@template Slice.rsplitOnce}
   /// Splits the slice on the last element that matches the specified predicate.
   /// If any matching elements are resent in the slice, returns the prefix before the match and suffix after.
-  /// The matching element itself is not included. If no elements match, returns None.
-  Option<(Slice<T>, Slice<T>)> rsplitOnce(bool Function(T) pred) {
+  /// The matching element itself is not included.
+  /// {@endtemplate}
+  /// If no elements match, returns null.
+  (Slice<T>, Slice<T>)? rsplitOnce(bool Function(T) pred) {
+    var index = _end - 1;
+    while (index >= _start) {
+      if (pred(_list[index])) {
+        return (Slice(_list, _start, index), Slice(_list, index + 1, _end));
+      }
+      index--;
+    }
+    return null;
+  }
+
+  /// {@macro Slice.rsplitOnce}
+  /// If no elements match, returns None.
+  Option<(Slice<T>, Slice<T>)> rsplitOnceOpt(bool Function(T) pred) {
     var index = _end - 1;
     while (index >= _start) {
       if (pred(_list[index])) {
@@ -731,8 +755,18 @@ final class Slice<T> implements List<T> {
 // split_at_mut_unchecked: Implemented by splitAt
 // split_at_unchecked: Implemented by splitAt
 
+  /// Returns the first and all the rest of the elements of the slice, or null if it is empty.
+  (T, Slice<T>)? splitFirst() {
+    if (isEmpty) {
+      return null;
+    }
+    var element = _list[_start];
+    _start++;
+    return (element, Slice(_list, _start, _end));
+  }
+
   /// Returns the first and all the rest of the elements of the slice, or None if it is empty.
-  Option<(T, Slice<T>)> splitFirst() {
+  Option<(T, Slice<T>)> splitFirstOpt() {
     if (isEmpty) {
       return None;
     }
@@ -766,8 +800,18 @@ final class Slice<T> implements List<T> {
 
 // split_inclusive_mut: Implemented by above
 
+  /// Returns the last and all the rest of the elements of the slice, or null if it is empty.
+  (T, Slice<T>)? splitLast() {
+    if (isEmpty) {
+      return null;
+    }
+    var element = _list[_end - 1];
+    _end--;
+    return (element, Slice(_list, _start, _end));
+  }
+
   /// Returns the last and all the rest of the elements of the slice, or None if it is empty.
-  Option<(T, Slice<T>)> splitLast() {
+  Option<(T, Slice<T>)> splitLastOpt() {
     if (isEmpty) {
       return None;
     }
@@ -781,10 +825,26 @@ final class Slice<T> implements List<T> {
 // split_last_mut: Implemented by `splitLast`
 // split_mut: Implemented by `split`
 
+  /// {@template Slice.splitOnce}
   /// Splits the slice on the first element that matches the specified predicate.
   /// If any matching elements are resent in the slice, returns the prefix before the match and suffix after.
-  ///  The matching element itself is not included. If no elements match, returns None.
-  Option<(Slice<T>, Slice<T>)> splitOnce(bool Function(T) pred) {
+  /// The matching element itself is not included.
+  /// {@endtemplate}
+  /// If no elements match, returns None.
+  (Slice<T>, Slice<T>)? splitOnce(bool Function(T) pred) {
+    var index = _start;
+    while (index < _end) {
+      if (pred(_list[index])) {
+        return (Slice(_list, _start, index), Slice(_list, index + 1, _end));
+      }
+      index++;
+    }
+    return null;
+  }
+
+  /// {@macro Slice.splitOnce}
+  /// If no elements match, returns None.
+  Option<(Slice<T>, Slice<T>)> splitOnceOpt(bool Function(T) pred) {
     var index = _start;
     while (index < _end) {
       if (pred(_list[index])) {
@@ -841,15 +901,32 @@ final class Slice<T> implements List<T> {
     return true;
   }
 
-  /// Returns a subslice with the prefix removed. Returns none if the prefix is not present.
-  Option<Slice<T>> stripPrefix(Slice<T> prefix) {
+  /// Returns a subslice with the prefix removed. Returns null if the prefix is not present.
+  Slice<T>? stripPrefix(Slice<T> prefix) {
+    if (startsWith(prefix)) {
+      return Slice(_list, _start + prefix._end - prefix._start, _end);
+    }
+    return null;
+  }
+
+  /// Returns a subslice with the prefix removed. Returns None if the prefix is not present.
+  Option<Slice<T>> stripPrefixOpt(Slice<T> prefix) {
     if (startsWith(prefix)) {
       return Some(Slice(_list, _start + prefix._end - prefix._start, _end));
     }
     return None;
   }
 
-  Option<Slice<T>> stripSuffix(Slice<T> suffix) {
+  /// Returns a subslice with the suffix removed. Returns null if the suffix is not present.
+  Slice<T>? stripSuffix(Slice<T> suffix) {
+    if (endsWith(suffix)) {
+      return Slice(_list, _start, _end - suffix._end + suffix._start);
+    }
+    return null;
+  }
+
+  /// Returns a subslice with the suffix removed. Returns None if the suffix is not present.
+  Option<Slice<T>> stripSuffixOpt(Slice<T> suffix) {
     if (endsWith(suffix)) {
       return Some(Slice(_list, _start, _end - suffix._end + suffix._start));
     }
@@ -882,9 +959,22 @@ final class Slice<T> implements List<T> {
     }
   }
 
+  /// {@template Slice.takeStart}
   /// Returns a new slice of this slice until to, and removes those elements from this slice.
+  /// {@endtemplate}
   /// Returns None and does not modify the slice if the given range is out of bounds.
-  Option<Slice<T>> takeStart(int to) {
+  Slice<T>? takeStart(int to) {
+    if (to < 0 || to > _end - _start) {
+      return null;
+    }
+    var slice = Slice<T>(_list, _start, _start + to);
+    _start += to;
+    return slice;
+  }
+
+  /// {@macro Slice.takeStart}
+  /// Returns None and does not modify the slice if the given range is out of bounds.
+  Option<Slice<T>> takeStartOpt(int to) {
     if (to < 0 || to > _end - _start) {
       return None;
     }
@@ -893,9 +983,22 @@ final class Slice<T> implements List<T> {
     return Some(slice);
   }
 
+  /// {@template Slice.takeEnd}
   /// Returns a new slice of this slice from the end, and removes those elements from this slice.
+  /// {@endtemplate}
+  /// Returns null and does not modify the slice if the given range is out of bounds.
+  Slice<T>? takeEnd(int from) {
+    if (from < 0 || from > _end - _start) {
+      return null;
+    }
+    var slice = Slice<T>(_list, _end - from, _end);
+    _end -= from;
+    return slice;
+  }
+
+  /// {@macro Slice.takeEnd}
   /// Returns None and does not modify the slice if the given range is out of bounds.
-  Option<Slice<T>> takeEnd(int from) {
+  Option<Slice<T>> takeEndOpt(int from) {
     if (from < 0 || from > _end - _start) {
       return None;
     }
@@ -904,8 +1007,8 @@ final class Slice<T> implements List<T> {
     return Some(slice);
   }
 
-  // Returns the first element of this slice, and removes it from this slice.
-  Option<T> takeFirst() {
+  // Returns the first element of this slice, and removes it from this slice. Returns None if empty
+  Option<T> takeFirstOpt() {
     if (isEmpty) {
       return None;
     }
@@ -916,8 +1019,8 @@ final class Slice<T> implements List<T> {
 
 // take_first_mut: Will not implement, mut the same as take_first
 
-  // Returns the last element of this slice, and removes it from this slice.
-  Option<T> takeLast() {
+  // Returns the last element of this slice, and removes it from this slice. Returns None if empty.
+  Option<T> takeLastOpt() {
     if (isEmpty) {
       return None;
     }

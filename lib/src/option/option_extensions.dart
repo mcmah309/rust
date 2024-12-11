@@ -4,7 +4,10 @@ extension Option$OptionOptionExtension<T> on Option<Option<T>> {
   /// Converts from Option<Option<T>> to Option<T>.
   @pragma("vm:prefer-inline")
   Option<T> flatten() {
-    return v as Option<T>;
+    return switch (this) {
+      Some(:final v) => v,
+      _ => None,
+    };
   }
 }
 
@@ -12,7 +15,7 @@ extension Option$OptionNullableExtension<T extends Object> on Option<T?> {
   /// Converts from Option<T?> to Option<T>.
   @pragma("vm:prefer-inline")
   Option<T> flatten() {
-    return Option._(v);
+    return Option.of(toNullable());
   }
 }
 
@@ -28,14 +31,14 @@ extension Option$OptionRecord2Extension<T, U> on Option<(T, U)> {
   }
 }
 
-extension Option$OptionResultExtension<S extends Object, F extends Object>
+extension Option$OptionResultExtension<S, F extends Object>
     on Option<Result<S?, F>> {
   /// Transposes an Option of a Result into a Result of an Option.
   Result<Option<S>, F> transpose() {
     if (isSome()) {
       final val = unwrap();
       if (val.isOk()) {
-        return Ok(Option._(val.unwrap()));
+        return Ok(Option.of(val.unwrap()));
       } else {
         return Err(val.unwrapErr());
       }
@@ -44,7 +47,7 @@ extension Option$OptionResultExtension<S extends Object, F extends Object>
   }
 }
 
-extension Option$FutureOptionResultExtension<S extends Object, F extends Object>
+extension Option$FutureOptionResultExtension<S, F extends Object>
     on FutureOption<Result<S?, F>> {
   /// Transposes an FutureOption of a Result into a Result of an Option.
   @pragma("vm:prefer-inline")
