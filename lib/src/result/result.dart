@@ -84,8 +84,6 @@ sealed class Result<S, F extends Object> {
 
   /// Returns the encapsulated value if this instance represents
   /// [Ok] or the [defaultValue] if it is [Err].
-  /// Note: This should not be used to determine is [Ok] or is [Err], since when the success type is nullable, a
-  /// default value of null can be provided, which is ambiguous in meaning.
   S unwrapOr(S defaultValue);
 
   /// Returns the encapsulated value if this instance represents [Ok]
@@ -100,10 +98,11 @@ sealed class Result<S, F extends Object> {
   /// null is ambiguous in meaning.
   S? unwrapOrNull();
 
-  /// Converts a [Result] into an Option, returning [Some] if the [Result] is [Ok], and [_None] if the [Result] is [Err].
-  /// Note: This should not be used to determine is [Ok] or is [Err], since when the success type is nullable, a
-  /// null is ambiguous in meaning.
+  /// Converts a [Result] into an Option, returning [Some] with the ok value if the [Result] is [Ok], and [_None] if the [Result] is [Err].
   Option<S> ok();
+
+  /// Converts a [Result] into an Option, returning [Some] with the err value if the [Result] is [Err], and [_None] if the [Result] is [Ok].
+  Option<F> err();
 
   /// Returns the err value if [Result] is [Err].
   /// Throws a [Panic] if the [Result] is [Ok].
@@ -256,6 +255,10 @@ final class Ok<S, F extends Object> implements Result<S, F> {
   @override
   @pragma("vm:prefer-inline")
   Some<S> ok() => Some(o);
+
+  @override
+  @pragma("vm:prefer-inline")
+  Option<F> err() => None;
 
   @override
   @pragma("vm:prefer-inline")
@@ -468,6 +471,10 @@ final class Err<S, F extends Object> implements Result<S, F> {
   @override
   @pragma("vm:prefer-inline")
   Option<S> ok() => None;
+
+  @override
+  @pragma("vm:prefer-inline")
+  Some<F> err() => Some(e);
 
   @override
   @pragma("vm:prefer-inline")

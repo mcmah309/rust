@@ -40,6 +40,10 @@ extension Result$FutureResultExtension<S, F extends Object>
     return then((result) => result.ok());
   }
 
+  Future<Option<F>> err() async {
+    return then((result) => result.err());
+  }
+
   @pragma("vm:prefer-inline")
   Future<F> unwrapErr() {
     return then((result) => result.unwrapErr());
