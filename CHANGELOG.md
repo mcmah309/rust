@@ -2,7 +2,7 @@
 
 - Breaking: New sealed type `Option` implementation
 - Breaking: Nullable methods added for every `Option` method and vice versa
-- Breaking: Rename okay/o and e/error on Result to 
+- Breaking: Rename okay/o and e/error on Result to v 
 - Add `Fs` library
 - Add `Env` library
 - Misc additions
