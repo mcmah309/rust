@@ -19,7 +19,7 @@ void main() {
       final a, b;
       switch ((boolOk(), intOk()).toResult()) {
         case Ok(
-            v:final o,
+            v: final o,
           ):
           (a, b) = o;
         case Err(v: final _):

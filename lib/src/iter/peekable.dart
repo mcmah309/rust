@@ -82,7 +82,6 @@ class _PrefixedIterator<T> implements Iterator<T> {
   }
 }
 
-
 extension Result$PeekableExtension<T extends Object> on Peekable<T> {
   /// {@template Peekable.peek}
   /// Returns the next element of the iterator without consuming it.

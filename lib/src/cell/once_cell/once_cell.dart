@@ -100,8 +100,6 @@ class OnceCell<T extends Object> implements OnceCellNullable<T> {
 
   @override
   String toString() {
-    return (_val == null
-        ? "$runtimeType"
-        : "$runtimeType($_val)");
+    return (_val == null ? "$runtimeType" : "$runtimeType($_val)");
   }
 }

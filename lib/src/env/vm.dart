@@ -5,8 +5,7 @@ import 'package:rust/rust.dart';
 class Env {
   static Path get currentDirectory => Path(Directory.current.path);
 
-  static set currentDirectory(Path path) =>
-      Directory.current = path.asString();
+  static set currentDirectory(Path path) => Directory.current = path.asString();
 
   /// joins a collection of Paths appropriately for the PATH environment variable.
   static String joinPaths(Iterable<String> paths) {

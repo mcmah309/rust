@@ -122,8 +122,6 @@ class OnceCellNullable<T> {
 
   @override
   String toString() {
-    return (_isSet
-        ? "$runtimeType($_val)"
-        : "$runtimeType");
+    return (_isSet ? "$runtimeType($_val)" : "$runtimeType");
   }
 }
