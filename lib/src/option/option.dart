@@ -156,9 +156,6 @@ sealed class Option<T> {
 final class Some<T> implements Option<T> {
   final T v;
 
-  @pragma("vm:prefer-inline")
-  T get value => v;
-
   const Some(this.v);
 
   @override
@@ -456,13 +453,13 @@ extension Option$NoneExtension<T> on Option<T> {
 
   /// Returns the contained [Some] value or a provided default.
   T unwrapOr(T defaultValue) {
-    return switch (this) { Some(:final value) => value, _ => defaultValue };
+    return switch (this) { Some(:final v) => v, _ => defaultValue };
   }
 
   /// Returns the option if it contains a value, otherwise returns other.
   T unwrapOrElse(T Function() f) {
     return switch (this) {
-      Some(:final value) => value,
+      Some(:final v) => v,
       _ => f(),
     };
   }

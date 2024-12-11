@@ -5,7 +5,7 @@ extension Option$OptionOptionExtension<T> on Option<Option<T>> {
   @pragma("vm:prefer-inline")
   Option<T> flatten() {
     return switch (this) {
-      Some(:final value) => value,
+      Some(:final v) => v,
       _ => None,
     };
   }

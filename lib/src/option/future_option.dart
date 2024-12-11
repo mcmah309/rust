@@ -55,7 +55,7 @@ extension Option$FutureOptionExtension<T> on FutureOption<T> {
   @pragma("vm:prefer-inline")
   Future<bool> isSomeAnd(FutureOr<bool> Function(T) f) {
     return then((option) => switch (option) {
-          Some(:final value) => f(value),
+          Some(:final v) => f(v),
           _ => false,
         });
   }
@@ -73,7 +73,7 @@ extension Option$FutureOptionExtension<T> on FutureOption<T> {
   @pragma("vm:prefer-inline")
   Future<U> mapOr<U>(U defaultValue, U Function(T) f) {
     return then((option) => switch (option) {
-          Some(:final value) => f(value),
+          Some(:final v) => f(v),
           _ => defaultValue,
         });
     // return then((option) => option.isSome() ? f(option) : defaultValue);
@@ -82,7 +82,7 @@ extension Option$FutureOptionExtension<T> on FutureOption<T> {
   @pragma("vm:prefer-inline")
   Future<U> mapOrElse<U>(U Function() defaultFn, U Function(T) f) {
     return then((option) => switch (option) {
-          Some(:final value) => f(value),
+          Some(:final v) => f(v),
           _ => defaultFn(),
         });
   }

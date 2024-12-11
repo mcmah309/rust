@@ -231,9 +231,6 @@ final class Ok<S, F extends Object> implements Result<S, F> {
 
   final S o;
 
-  @pragma("vm:prefer-inline")
-  S get okay => o;
-
   //************************************************************************//
 
   @override
@@ -445,9 +442,6 @@ final class Err<S, F extends Object> implements Result<S, F> {
   const Err(this.e);
 
   final F e;
-
-  @pragma("vm:prefer-inline")
-  F get error => e;
 
   //************************************************************************//
 

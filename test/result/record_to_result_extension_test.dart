@@ -33,9 +33,9 @@ void main() {
       bool hasErr = false;
       final a, b;
       switch ((boolOk(), intErr()).toResult()) {
-        case Ok(okay: final record):
+        case Ok(o: final record):
           (a, b) = record;
-        case Err(error: final _):
+        case Err(e: final _):
           hasErr = true;
       }
       expect(hasErr, true);
