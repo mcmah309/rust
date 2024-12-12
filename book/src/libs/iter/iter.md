@@ -8,6 +8,14 @@ makes working with collections of `rust` types and regular Dart types a breeze. 
 List<int> list = [1, 2, 3, 4, 5];
 Iter<int> filtered = list.iter().filterMap((e) {
   if (e % 2 == 0) {
+    return e * 2;
+  }
+  return null;
+});
+expect(filtered, [4, 8]);
+// or
+filtered = list.iter().filterMapOpt((e) {
+  if (e % 2 == 0) {
     return Some(e * 2);
   }
   return None;
@@ -27,12 +35,12 @@ for (final e in iter.take(5).map((e) => e * e)) {
   }
 }
 expect(collect, [4, 16]);
-Option<int> next = iter.next();
-expect(next, Some(6));
+int? next = iter.next();
+expect(next, 6);
 collect.add(next.unwrap());
 next = iter.next();
 collect.add(next.unwrap());
-expect(next, Some(7));
+expect(next, 7);
 while(iter.moveNext()){
   collect.add(iter.current * iter.current);
 }

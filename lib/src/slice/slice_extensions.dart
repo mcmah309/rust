@@ -29,6 +29,29 @@ extension Slice$SliceNumExtension<T extends num> on Slice<T> {
   }
 }
 
+/// {@macro null_option_correctness}
+extension Slice$SliceConcreteExtension<T extends Object> on Slice<T> {
+// Returns the first element of this slice, and removes it from this slice. Returns null if empty.
+  T? takeFirst() {
+    if (isEmpty) {
+      return null;
+    }
+    var element = _list[_start];
+    _start++;
+    return element;
+  }
+
+  // Returns the last element of this slice, and removes it from this slice. Returns null if empty.
+  T? takeLast() {
+    if (isEmpty) {
+      return null;
+    }
+    var element = _list[_end - 1];
+    _end--;
+    return element;
+  }
+}
+
 extension Slice$SliceComparableSelfExtension<T extends Comparable<T>>
     on Slice<T> {
   /// Sorts the slice, but might not preserve the order of equal elements.

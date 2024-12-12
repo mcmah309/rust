@@ -1,3 +1,13 @@
+## 3.0.0
+
+- Breaking: New sealed type `Option` implementation
+- Breaking: Nullable methods added for every `Option` method and vice versa
+- Breaking: Rename okay/o and e/error on Result to v 
+- Add `Fs` library
+- Add `Env` library
+- Misc additions
+- Rename/refactor
+
 ## 2.0.2
 
 - Add `Option.of`
@@ -8,14 +18,14 @@
 
 ## 2.0.0
 
+- Breaking: Add `o`/`okay` to `Ok`, `e`/`error` to `Err`, `value` to `Option`
+- Breaking: Change `channel` to `localChannel`
+- Breaking: Remove deprecations
+- Breaking: Remove individual library import files
+- Breaking: Rename extensions
+- Breaking: Rename errors
 - Add `Path`, `UnixPath`, `WindowsPath`
 - Add `KeyedMutex`
-- Add `o`/`okay` to `Ok`, `e`/`error` to `Err`, `value` to `Option`
-- Change `channel` to `localChannel`
-- Remove deprecations
-- Remove individual library import files
-- Rename extensions
-- Rename errors
 
 ## 1.3.7
 

@@ -20,10 +20,10 @@ extension Result$FutureResultResultExtension<S, F extends Object>
   }
 }
 
-extension Result$ResultNullableExtension<S, F extends Object> on Result<S?, F> {
+extension Result$ResultNullableSExtension<S extends Object, F extends Object>
+    on Result<S?, F> {
   /// transposes a [Result] of a nullable type into a nullable [Result].
-  /// Note: [transposeOut] is named as such otherwise there is ambiguity if named the same as [transposeIn] (transpose).
-  Result<S, F>? transposeOut() {
+  Result<S, F>? transpose() {
     if (isOk()) {
       final val = unwrap();
       if (val == null) {
@@ -37,44 +37,18 @@ extension Result$ResultNullableExtension<S, F extends Object> on Result<S?, F> {
   }
 }
 
-extension Result$FutureResultNullableExtension<S extends Object,
+extension Result$FutureResultNullableSExtension<S extends Object,
     F extends Object> on Future<Result<S?, F>> {
   @pragma("vm:prefer-inline")
   Future<Result<S, F>?> transpose() {
-    return then((result) => result.transposeOut());
-  }
-}
-
-extension Result$ResultOptionExtension<S extends Object, F extends Object>
-    on Result<Option<S?>, F> {
-  /// Transposes a Result of an Option into an Option of a Result.
-  Option<Result<S, F>> transpose() {
-    if (isOk()) {
-      final val = unwrap();
-      if (val.v != null) {
-        // ignore: null_check_on_nullable_type_parameter
-        return Some(Ok(val.v!));
-      }
-      return None;
-    } else {
-      return Some(Err(unwrapErr()));
-    }
-  }
-}
-
-extension Result$FutureResultOptionExtension<S extends Object, F extends Object>
-    on Future<Result<Option<S?>, F>> {
-  /// Transposes a FutureResult of an Option into an Option of a Result.
-  @pragma("vm:prefer-inline")
-  Future<Option<Result<S, F>>> transpose() async {
     return then((result) => result.transpose());
   }
 }
 
-extension Result$NullableResultExtension<S, F extends Object> on Result<S, F>? {
+extension Result$NullableResultExtension<S extends Object, F extends Object>
+    on Result<S, F>? {
   /// transposes a nullable [Result] into a non-nullable [Result].
-  /// Note: [transposeIn] is named as such otherwise there is ambiguity if named the same as [transposeOut] (transpose).
-  Result<S?, F> transposeIn() {
+  Result<S?, F> transpose() {
     if (this != null) {
       if (this!.isOk()) {
         return Ok(this!.unwrap());
@@ -83,6 +57,40 @@ extension Result$NullableResultExtension<S, F extends Object> on Result<S, F>? {
       }
     }
     return Ok(null);
+  }
+}
+
+extension Result$FutureNullableResultExtension<S extends Object,
+    F extends Object> on Future<Result<S, F>?> {
+  @pragma("vm:prefer-inline")
+  Future<Result<S?, F>> transpose() {
+    return then((result) => result.transpose());
+  }
+}
+
+extension Result$ResultOptionExtension<S, F extends Object>
+    on Result<Option<S>, F> {
+  /// Transposes a Result of an Option into an Option of a Result.
+  Option<Result<S, F>> transpose() {
+    if (isOk()) {
+      final val = unwrap();
+      if (val.isSome()) {
+        // ignore: null_check_on_nullable_type_parameter
+        return Some(Ok(val.unwrap()));
+      }
+      return None;
+    } else {
+      return Some(Err(unwrapErr()));
+    }
+  }
+}
+
+extension Result$FutureResultOptionExtension<S, F extends Object>
+    on Future<Result<Option<S>, F>> {
+  /// Transposes a FutureResult of an Option into an Option of a Result.
+  @pragma("vm:prefer-inline")
+  Future<Option<Result<S, F>>> transpose() async {
+    return then((result) => result.transpose());
   }
 }
 
@@ -206,10 +214,10 @@ extension Result$ResultFutureToFutureResultExtension<S, F extends Object>
     on Result<Future<S>, F> {
   /// Turns a [Result] of a [Future] into a [FutureResult].
   FutureResult<S, F> toFutureResult() async {
-    if (isErr()) {
-      return (this as Err<Future<S>, F>).into();
-    }
-    return Ok(await unwrap());
+    return switch (this) {
+      Ok(v: final o) => Ok(await o),
+      Err(v: final e) => Err(e),
+    };
   }
 }
 
@@ -233,22 +241,21 @@ extension Result$ToErrExtension<E extends Object> on E {
   }
 }
 
-extension Result$InfallibleOkExtension<S> on Result<S, Infallible> {
+extension Result$InfallibleOkExtension<S> on Result<S, Never> {
   @pragma("vm:prefer-inline")
   S intoOk() {
     return unwrap();
   }
 }
 
-extension Result$InfallibleErrExtension<F extends Object>
-    on Result<Infallible, F> {
+extension Result$InfallibleErrExtension<F extends Object> on Result<Never, F> {
   @pragma("vm:prefer-inline")
   F intoErr() {
     return unwrapErr();
   }
 }
 
-extension Result$InfallibleFutureOkExtension<S> on FutureResult<S, Infallible> {
+extension Result$InfallibleFutureOkExtension<S> on FutureResult<S, Never> {
   @pragma("vm:prefer-inline")
   Future<S> intoOk() {
     return then((result) => result.intoOk());
@@ -256,7 +263,7 @@ extension Result$InfallibleFutureOkExtension<S> on FutureResult<S, Infallible> {
 }
 
 extension Result$InfallibleFutureErrExtension<F extends Object>
-    on FutureResult<Infallible, F> {
+    on FutureResult<Never, F> {
   @pragma("vm:prefer-inline")
   Future<F> intoErr() {
     return then((result) => result.intoErr());

@@ -5,15 +5,14 @@ import 'package:rust/rust.dart';
 /// Equality: Cells are equal if they have the same evaluated value or are unevaluated.
 ///
 /// Hash: Cells hash to their evaluated value or hash the same if unevaluated.
-class NullableLazyCellAsync<T> {
+class LazyCellNullableAsync<T> {
   late final T _val;
   final Future<T> Function() _func;
   bool _isSet = false;
 
-  NullableLazyCellAsync(this._func);
+  LazyCellNullableAsync(this._func);
 
   /// Lazily evaluates the function passed into the constructor.
-  @pragma("vm:prefer-inline")
   Future<T> force() async {
     if (_isSet) {
       return _val!;
@@ -25,7 +24,6 @@ class NullableLazyCellAsync<T> {
 
   /// Returns the previously evaluated asynchronous value of the function passed into the constructor. Will panic
   /// if the value has not yet been evaluated. Prefer [force] for safer context.
-  @pragma("vm:prefer-inline")
   T call() {
     if (!_isSet) {
       panic(
@@ -48,15 +46,13 @@ class NullableLazyCellAsync<T> {
 
   @override
   bool operator ==(Object other) {
-    return other is NullableLazyCellAsync &&
+    return other is LazyCellNullableAsync<T> &&
         ((isEvaluated() && other.isEvaluated() && this() == other()) ||
             (!isEvaluated() && !other.isEvaluated()));
   }
 
   @override
   String toString() {
-    return (_isSet
-        ? "Initialized $runtimeType($_val)"
-        : "Uninitialized $runtimeType");
+    return (_isSet ? "$runtimeType($_val)" : "$runtimeType");
   }
 }

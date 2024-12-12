@@ -214,10 +214,10 @@ main() {
     var list = [1, 1, 1, 3, 3, 2, 2, 2];
     var slice = list.asSlice();
     var iter = slice.chunkBy((num1, num2) => num1 == num2);
-    expect(iter.next().unwrap(), [1, 1, 1]);
-    expect(iter.next().unwrap(), [3, 3]);
-    expect(iter.next().unwrap(), [2, 2, 2]);
-    expect(iter.next().isNone(), true);
+    expect(iter.nextOpt().unwrap(), [1, 1, 1]);
+    expect(iter.nextOpt().unwrap(), [3, 3]);
+    expect(iter.nextOpt().unwrap(), [2, 2, 2]);
+    expect(iter.nextOpt().isNone(), true);
   });
 
   test("chunks", () {
@@ -408,21 +408,21 @@ main() {
   test("lastChunk", () {
     var list = [1, 2, 3, 4, 5];
     var slice = Slice(list, 0, 5);
-    expect(slice.lastChunk(2), Some([4, 5]));
+    expect(slice.lastChunkOpt(2).unwrap(), [4, 5]);
 
     slice = Slice(list, 1, 4);
-    expect(slice.lastChunk(2), Some([3, 4]));
+    expect(slice.lastChunkOpt(2).unwrap(), [3, 4]);
 
     slice = Slice(list, 0, 5);
-    expect(slice.lastChunk(5), Some([1, 2, 3, 4, 5]));
+    expect(slice.lastChunkOpt(5).unwrap(), [1, 2, 3, 4, 5]);
 
     slice = Slice(list, 1, 4);
-    expect(slice.lastChunk(5), None);
+    expect(slice.lastChunkOpt(5), None);
 
     list = [];
     slice = list.asSlice();
-    expect(slice.lastChunk(1), None);
-    expect(slice.lastChunk(0), Some([]));
+    expect(slice.lastChunkOpt(1), None);
+    expect(slice.lastChunkOpt(0).unwrap(), []);
   });
 
   test("partitionDedup", () {
@@ -580,57 +580,57 @@ main() {
   test("takeStart", () {
     var list = [1, 2, 3, 4, 5];
     var slice = Slice(list, 0, 5);
-    var taken = slice.takeStart(3);
-    expect(taken, [1, 2, 3]);
+    var taken = slice.takeStartOpt(3);
+    expect(taken.unwrap(), [1, 2, 3]);
     expect(list, [1, 2, 3, 4, 5]);
 
     list = [1, 2, 3, 4, 5];
     slice = Slice(list, 1, 4);
-    taken = slice.takeStart(3);
-    expect(taken, [2, 3, 4]);
+    taken = slice.takeStartOpt(3);
+    expect(taken.unwrap(), [2, 3, 4]);
     expect(list, [1, 2, 3, 4, 5]);
   });
 
   test("takeEnd", () {
     var list = [1, 2, 3, 4, 5];
     var slice = Slice(list, 0, 5);
-    var taken = slice.takeEnd(3);
-    expect(taken, [3, 4, 5]);
+    var taken = slice.takeEndOpt(3);
+    expect(taken.unwrap(), [3, 4, 5]);
     expect(list, [1, 2, 3, 4, 5]);
 
     list = [1, 2, 3, 4, 5];
     slice = Slice(list, 1, 4);
-    taken = slice.takeEnd(3);
-    expect(taken, [2, 3, 4]);
+    taken = slice.takeEndOpt(3);
+    expect(taken.unwrap(), [2, 3, 4]);
     expect(list, [1, 2, 3, 4, 5]);
   });
 
   test("takeFirst", () {
     var list = [1, 2, 3, 4, 5];
     var slice = Slice(list, 0, 5);
-    var taken = slice.takeFirst();
-    expect(taken, 1);
+    var taken = slice.takeFirstOpt();
+    expect(taken.unwrap(), 1);
     expect(slice, [2, 3, 4, 5]);
 
     list = [1, 2, 3, 4, 5];
     slice = Slice(list, 1, 4);
-    taken = slice.takeFirst();
-    expect(taken, 2);
+    taken = slice.takeFirstOpt();
+    expect(taken.unwrap(), 2);
     expect(slice, [3, 4]);
   });
 
   test("takeLast", () {
     var list = [1, 2, 3, 4, 5];
     var slice = Slice(list, 0, 5);
-    var taken = slice.takeLast();
-    expect(taken, 5);
+    var taken = slice.takeLastOpt();
+    expect(taken.unwrap(), 5);
     expect(slice, [1, 2, 3, 4]);
 
     list = [1, 2, 3, 4, 5];
     slice = Slice(list, 1, 4);
     expect(slice, [2, 3, 4]);
-    taken = slice.takeLast();
-    expect(taken, 4);
+    taken = slice.takeLastOpt();
+    expect(taken.unwrap(), 4);
     expect(slice, [2, 3]);
 
     slice[1] = 10;
@@ -641,8 +641,8 @@ main() {
     var list = [11, 22, 33, 0, 44, 55];
     var slice = Slice(list, 0, 6);
     var iter = slice.rsplit((num) => num == 0);
-    expect(iter.next().unwrap(), [44, 55]);
-    expect(iter.next().unwrap(), [11, 22, 33]);
+    expect(iter.nextOpt().unwrap(), [44, 55]);
+    expect(iter.nextOpt().unwrap(), [11, 22, 33]);
   });
 
   test("rsplitAt", () {
@@ -673,50 +673,51 @@ main() {
 
   test("rsplitOnce", () {
     var list = [1, 2, 3, 2, 4];
-    expect(list.asSlice().rsplitOnce((num) => num == 2).unwrap().$1, [1, 2, 3]);
-    expect(list.asSlice().rsplitOnce((num) => num == 2).unwrap().$2, [4]);
-    expect(list.asSlice().rsplitOnce((num) => num == 0).isNone(), true);
-    expect(list.asSlice().rsplitOnce((num) => num == 1).unwrap().$1, []);
     expect(
-        list.asSlice().rsplitOnce((num) => num == 1).unwrap().$2, [2, 3, 2, 4]);
-    expect(
-        list.asSlice().rsplitOnce((num) => num == 4).unwrap().$1, [1, 2, 3, 2]);
-    expect(list.asSlice().rsplitOnce((num) => num == 4).unwrap().$2, []);
+        list.asSlice().rsplitOnceOpt((num) => num == 2).unwrap().$1, [1, 2, 3]);
+    expect(list.asSlice().rsplitOnceOpt((num) => num == 2).unwrap().$2, [4]);
+    expect(list.asSlice().rsplitOnceOpt((num) => num == 0).isNone(), true);
+    expect(list.asSlice().rsplitOnceOpt((num) => num == 1).unwrap().$1, []);
+    expect(list.asSlice().rsplitOnceOpt((num) => num == 1).unwrap().$2,
+        [2, 3, 2, 4]);
+    expect(list.asSlice().rsplitOnceOpt((num) => num == 4).unwrap().$1,
+        [1, 2, 3, 2]);
+    expect(list.asSlice().rsplitOnceOpt((num) => num == 4).unwrap().$2, []);
   });
 
   test("rsplitn", () {
     var list = [10, 40, 33, 20];
     var iter = Slice(list, 0, 4).rsplitn(2, (num) => num % 3 == 0);
-    expect(iter.next().unwrap(), [20]);
-    expect(iter.next().unwrap(), [10, 40]);
-    expect(iter.next().isNone(), true);
+    expect(iter.nextOpt().unwrap(), [20]);
+    expect(iter.nextOpt().unwrap(), [10, 40]);
+    expect(iter.nextOpt().isNone(), true);
 
     iter = Slice(list, 0, 4).rsplitn(1, (num) => num % 3 == 0);
-    expect(iter.next().unwrap(), [10, 40, 33, 20]);
+    expect(iter.nextOpt().unwrap(), [10, 40, 33, 20]);
 
     iter = Slice(list, 0, 4).rsplitn(2, (num) => num % 5 == 0);
-    expect(iter.next().unwrap(), []);
-    expect(iter.next().unwrap(), [10, 40, 33]);
+    expect(iter.nextOpt().unwrap(), []);
+    expect(iter.nextOpt().unwrap(), [10, 40, 33]);
 
     iter = Slice(list, 0, 4).rsplitn(5, (num) => num % 5 == 0);
-    expect(iter.next().unwrap(), []);
-    expect(iter.next().unwrap(), [33]);
-    expect(iter.next().unwrap(), []);
-    expect(iter.next().unwrap(), []);
-    expect(iter.next().isNone(), true);
+    expect(iter.nextOpt().unwrap(), []);
+    expect(iter.nextOpt().unwrap(), [33]);
+    expect(iter.nextOpt().unwrap(), []);
+    expect(iter.nextOpt().unwrap(), []);
+    expect(iter.nextOpt().isNone(), true);
 
     list = [10, 40, 30, 20, 60, 50];
     iter = Slice(list, 0, 6).rsplitn(2, (num) => num % 3 == 0);
-    expect(iter.next().unwrap(), [50]);
-    expect(iter.next().unwrap(), [10, 40, 30, 20]);
+    expect(iter.nextOpt().unwrap(), [50]);
+    expect(iter.nextOpt().unwrap(), [10, 40, 30, 20]);
 
     list = [];
     iter = Slice(list, 0, 0).rsplitn(2, (p0) => true);
-    expect(iter.next().unwrap(), []);
+    expect(iter.nextOpt().unwrap(), []);
 
     list = [1, 2, 3];
     iter = Slice(list, 0, 0).rsplitn(0, (p0) => true);
-    expect(iter.next().isNone(), true);
+    expect(iter.nextOpt().isNone(), true);
     expect(() => Slice(list, 0, 3).rsplitn(-1, (p0) => true),
         throwsA(isA<Panic>()));
   });
@@ -787,9 +788,9 @@ main() {
   test("split", () {
     var list = [10, 40, 33, 20];
     var iter = Slice(list, 0, 4).split((num) => num % 3 == 0);
-    expect(iter.next().unwrap(), [10, 40]);
-    expect(iter.next().unwrap(), [20]);
-    expect(iter.next().isNone(), true);
+    expect(iter.nextOpt().unwrap(), [10, 40]);
+    expect(iter.nextOpt().unwrap(), [20]);
+    expect(iter.nextOpt().isNone(), true);
   });
 
   test("splitAt", () {
@@ -820,80 +821,81 @@ main() {
 
   test("splitFirst", () {
     var list = [1, 2, 3, 2, 4];
-    expect(list.asSlice().splitFirst().unwrap().$1, 1);
-    expect(list.asSlice().splitFirst().unwrap().$2, [2, 3, 2, 4]);
+    expect(list.asSlice().splitFirstOpt().unwrap().$1, 1);
+    expect(list.asSlice().splitFirstOpt().unwrap().$2, [2, 3, 2, 4]);
     list = [1];
-    expect(list.asSlice().splitFirst().unwrap().$1, 1);
-    expect(list.asSlice().splitFirst().unwrap().$2, []);
+    expect(list.asSlice().splitFirstOpt().unwrap().$1, 1);
+    expect(list.asSlice().splitFirstOpt().unwrap().$2, []);
     list = [];
-    expect(list.asSlice().splitFirst().isNone(), true);
+    expect(list.asSlice().splitFirstOpt().isNone(), true);
   });
 
   test("splitInclusive", () {
     var list = [10, 40, 33, 20];
     var iter = Slice(list, 0, 4).splitInclusive((num) => num % 3 == 0);
-    expect(iter.next().unwrap(), [10, 40, 33]);
-    expect(iter.next().unwrap(), [20]);
-    expect(iter.next().isNone(), true);
+    expect(iter.nextOpt().unwrap(), [10, 40, 33]);
+    expect(iter.nextOpt().unwrap(), [20]);
+    expect(iter.nextOpt().isNone(), true);
   });
 
   test("splitLast", () {
     var list = [1, 2, 3, 2, 4];
-    expect(list.asSlice().splitLast().unwrap().$1, 4);
-    expect(list.asSlice().splitLast().unwrap().$2, [1, 2, 3, 2]);
+    expect(list.asSlice().splitLastOpt().unwrap().$1, 4);
+    expect(list.asSlice().splitLastOpt().unwrap().$2, [1, 2, 3, 2]);
     list = [1];
-    expect(list.asSlice().splitLast().unwrap().$1, 1);
-    expect(list.asSlice().splitLast().unwrap().$2, []);
+    expect(list.asSlice().splitLastOpt().unwrap().$1, 1);
+    expect(list.asSlice().splitLastOpt().unwrap().$2, []);
     list = [];
-    expect(list.asSlice().splitLast().isNone(), true);
+    expect(list.asSlice().splitLastOpt().isNone(), true);
   });
 
   test("splitOnce", () {
     var list = [1, 2, 3, 2, 4];
-    expect(list.asSlice().splitOnce((num) => num == 2).unwrap().$1, [1]);
-    expect(list.asSlice().splitOnce((num) => num == 2).unwrap().$2, [3, 2, 4]);
-    expect(list.asSlice().splitOnce((num) => num == 0).isNone(), true);
-    expect(list.asSlice().splitOnce((num) => num == 1).unwrap().$1, []);
+    expect(list.asSlice().splitOnceOpt((num) => num == 2).unwrap().$1, [1]);
     expect(
-        list.asSlice().splitOnce((num) => num == 1).unwrap().$2, [2, 3, 2, 4]);
-    expect(
-        list.asSlice().splitOnce((num) => num == 4).unwrap().$1, [1, 2, 3, 2]);
-    expect(list.asSlice().splitOnce((num) => num == 4).unwrap().$2, []);
+        list.asSlice().splitOnceOpt((num) => num == 2).unwrap().$2, [3, 2, 4]);
+    expect(list.asSlice().splitOnceOpt((num) => num == 0).isNone(), true);
+    expect(list.asSlice().splitOnceOpt((num) => num == 1).unwrap().$1, []);
+    expect(list.asSlice().splitOnceOpt((num) => num == 1).unwrap().$2,
+        [2, 3, 2, 4]);
+    expect(list.asSlice().splitOnceOpt((num) => num == 4).unwrap().$1,
+        [1, 2, 3, 2]);
+    expect(list.asSlice().splitOnceOpt((num) => num == 4).unwrap().$2, []);
   });
 
   test("splitn", () {
     var list = [10, 40, 33, 20];
     var iter = Slice(list, 0, 4).splitn(2, (num) => num % 3 == 0);
-    expect(iter.next().unwrap(), [10, 40]);
-    expect(iter.next().unwrap(), [20]);
-    expect(iter.next().isNone(), true);
+    expect(iter.nextOpt().unwrap(), [10, 40]);
+    expect(iter.nextOpt().unwrap(), [20]);
+    expect(iter.nextOpt().isNone(), true);
 
     iter = Slice(list, 0, 4).splitn(1, (num) => num % 3 == 0);
-    expect(iter.next().unwrap(), [10, 40, 33, 20]);
+    expect(iter.nextOpt().unwrap(), [10, 40, 33, 20]);
 
     iter = Slice(list, 0, 4).splitn(2, (num) => num % 5 == 0);
-    expect(iter.next().unwrap(), []);
-    expect(iter.next().unwrap(), [40, 33, 20]);
+    expect(iter.nextOpt().unwrap(), []);
+    expect(iter.nextOpt().unwrap(), [40, 33, 20]);
 
     iter = Slice(list, 0, 4).splitn(5, (num) => num % 5 == 0);
-    expect(iter.next().unwrap(), []);
-    expect(iter.next().unwrap(), []);
-    expect(iter.next().unwrap(), [33]);
-    expect(iter.next().unwrap(), []);
-    expect(iter.next().isNone(), true);
+    expect(iter.nextOpt().unwrap(), []);
+    expect(iter.nextOpt().unwrap(), []);
+    expect(iter.nextOpt().unwrap(), [33]);
+    expect(iter.nextOpt().unwrap(), []);
+    expect(iter.nextOpt().isNone(), true);
 
     list = [10, 40, 30, 20, 60, 50];
     iter = Slice(list, 0, 6).splitn(2, (num) => num % 3 == 0);
-    expect(iter.next().unwrap(), [10, 40]);
-    expect(iter.next().unwrap(), [20, 60, 50]);
+    expect(iter.nextOpt().unwrap(), [10, 40]);
+    expect(iter.nextOpt().unwrap(), [20, 60, 50]);
 
     list = [];
     iter = Slice(list, 0, 0).splitn(2, (p0) => true);
-    expect(iter.next().unwrap(), []);
+    expect(iter.nextOpt().unwrap(), []);
 
     list = [1, 2, 3];
     iter = Slice(list, 0, 0).splitn(0, (p0) => true);
-    expect(iter.next().isNone(), true);
+    expect(iter.nextOpt().isNone(), true);
     expect(
         () => list.asSlice().splitn(-1, (p0) => true), throwsA(isA<Panic>()));
   });
@@ -929,59 +931,63 @@ main() {
   test("stripPrefix", () {
     var list = [1, 2, 3, 4, 5];
     var slice = Slice(list, 0, 5);
-    expect(slice.stripPrefix(<int>[].asSlice()).unwrap(), [1, 2, 3, 4, 5]);
-    expect(slice.stripPrefix([1].asSlice()).unwrap(), [2, 3, 4, 5]);
-    expect(slice.stripPrefix([1, 2].asSlice()).unwrap(), [3, 4, 5]);
-    expect(slice.stripPrefix([1, 2, 3].asSlice()).unwrap(), [4, 5]);
-    expect(slice.stripPrefix([1, 2, 3, 4].asSlice()).unwrap(), [5]);
-    expect(slice.stripPrefix([1, 2, 3, 4, 5].asSlice()).unwrap(), []);
-    expect(slice.stripPrefix([1, 2, 3, 4, 5, 6].asSlice()).isNone(), true);
-    expect(slice.stripPrefix([1, 2, 3, 4, 6].asSlice()).isNone(), true);
-    expect(slice.stripPrefix([1, 2, 3, 5].asSlice()).isNone(), true);
-    expect(slice.stripPrefix([1, 2, 4].asSlice()).isNone(), true);
-    expect(slice.stripPrefix([1, 3].asSlice()).isNone(), true);
-    expect(slice.stripPrefix([2].asSlice()).isNone(), true);
+    expect(slice.stripPrefixOpt(<int>[].asSlice()).unwrap(), [1, 2, 3, 4, 5]);
+    expect(slice.stripPrefixOpt([1].asSlice()).unwrap(), [2, 3, 4, 5]);
+    expect(slice.stripPrefixOpt([1, 2].asSlice()).unwrap(), [3, 4, 5]);
+    expect(slice.stripPrefixOpt([1, 2, 3].asSlice()).unwrap(), [4, 5]);
+    expect(slice.stripPrefixOpt([1, 2, 3, 4].asSlice()).unwrap(), [5]);
+    expect(slice.stripPrefixOpt([1, 2, 3, 4, 5].asSlice()).unwrap(), []);
+    expect(slice.stripPrefixOpt([1, 2, 3, 4, 5, 6].asSlice()).isNone(), true);
+    expect(slice.stripPrefixOpt([1, 2, 3, 4, 6].asSlice()).isNone(), true);
+    expect(slice.stripPrefixOpt([1, 2, 3, 5].asSlice()).isNone(), true);
+    expect(slice.stripPrefixOpt([1, 2, 4].asSlice()).isNone(), true);
+    expect(slice.stripPrefixOpt([1, 3].asSlice()).isNone(), true);
+    expect(slice.stripPrefixOpt([2].asSlice()).isNone(), true);
     expect(
-        slice.stripPrefix([1, 2, 3, 4, 5, 6, 7, 8, 9, 10].asSlice()).isNone(),
+        slice
+            .stripPrefixOpt([1, 2, 3, 4, 5, 6, 7, 8, 9, 10].asSlice())
+            .isNone(),
         true);
 
     list = [1, 2, 3, 4, 5];
     slice = Slice(list, 1, 4);
-    expect(slice.stripPrefix(<int>[].asSlice()).unwrap(), [2, 3, 4]);
-    expect(slice.stripPrefix([2, 3].asSlice()).unwrap(), [4]);
-    expect(slice.stripPrefix([2, 3, 4].asSlice()).unwrap(), []);
-    expect(slice.stripPrefix([2, 3, 4, 5].asSlice()).isNone(), true);
-    expect(slice.stripPrefix([2, 3, 4, 5, 6].asSlice()).isNone(), true);
-    expect(slice.stripPrefix([2, 3, 4, 6].asSlice()).isNone(), true);
-    expect(slice.stripPrefix([2, 3, 5].asSlice()).isNone(), true);
-    expect(slice.stripPrefix([2, 5].asSlice()).isNone(), true);
+    expect(slice.stripPrefixOpt(<int>[].asSlice()).unwrap(), [2, 3, 4]);
+    expect(slice.stripPrefixOpt([2, 3].asSlice()).unwrap(), [4]);
+    expect(slice.stripPrefixOpt([2, 3, 4].asSlice()).unwrap(), []);
+    expect(slice.stripPrefixOpt([2, 3, 4, 5].asSlice()).isNone(), true);
+    expect(slice.stripPrefixOpt([2, 3, 4, 5, 6].asSlice()).isNone(), true);
+    expect(slice.stripPrefixOpt([2, 3, 4, 6].asSlice()).isNone(), true);
+    expect(slice.stripPrefixOpt([2, 3, 5].asSlice()).isNone(), true);
+    expect(slice.stripPrefixOpt([2, 5].asSlice()).isNone(), true);
   });
 
   test("stripSuffix", () {
     var list = [1, 2, 3, 4, 5];
     var slice = Slice(list, 0, 5);
-    expect(slice.stripSuffix(<int>[].asSlice()).unwrap(), [1, 2, 3, 4, 5]);
-    expect(slice.stripSuffix([5].asSlice()).unwrap(), [1, 2, 3, 4]);
-    expect(slice.stripSuffix([4, 5].asSlice()).unwrap(), [1, 2, 3]);
-    expect(slice.stripSuffix([3, 4, 5].asSlice()).unwrap(), [1, 2]);
-    expect(slice.stripSuffix([2, 3, 4, 5].asSlice()).unwrap(), [1]);
-    expect(slice.stripSuffix([1, 2, 3, 4, 5].asSlice()).unwrap(), []);
-    expect(slice.stripSuffix([0, 1, 2, 3, 4, 5].asSlice()).isNone(), true);
-    expect(slice.stripSuffix([1, 2, 3, 4, 6].asSlice()).isNone(), true);
-    expect(slice.stripSuffix([0, 2, 3, 5].asSlice()).isNone(), true);
-    expect(slice.stripSuffix([1, 2, 4].asSlice()).isNone(), true);
-    expect(slice.stripSuffix([1, 3].asSlice()).isNone(), true);
-    expect(slice.stripSuffix([2].asSlice()).isNone(), true);
+    expect(slice.stripSuffixOpt(<int>[].asSlice()).unwrap(), [1, 2, 3, 4, 5]);
+    expect(slice.stripSuffixOpt([5].asSlice()).unwrap(), [1, 2, 3, 4]);
+    expect(slice.stripSuffixOpt([4, 5].asSlice()).unwrap(), [1, 2, 3]);
+    expect(slice.stripSuffixOpt([3, 4, 5].asSlice()).unwrap(), [1, 2]);
+    expect(slice.stripSuffixOpt([2, 3, 4, 5].asSlice()).unwrap(), [1]);
+    expect(slice.stripSuffixOpt([1, 2, 3, 4, 5].asSlice()).unwrap(), []);
+    expect(slice.stripSuffixOpt([0, 1, 2, 3, 4, 5].asSlice()).isNone(), true);
+    expect(slice.stripSuffixOpt([1, 2, 3, 4, 6].asSlice()).isNone(), true);
+    expect(slice.stripSuffixOpt([0, 2, 3, 5].asSlice()).isNone(), true);
+    expect(slice.stripSuffixOpt([1, 2, 4].asSlice()).isNone(), true);
+    expect(slice.stripSuffixOpt([1, 3].asSlice()).isNone(), true);
+    expect(slice.stripSuffixOpt([2].asSlice()).isNone(), true);
     expect(
-        slice.stripSuffix([1, 2, 3, 4, 5, 6, 7, 8, 9, 10].asSlice()).isNone(),
+        slice
+            .stripSuffixOpt([1, 2, 3, 4, 5, 6, 7, 8, 9, 10].asSlice())
+            .isNone(),
         true);
 
     list = [1, 2, 3, 4, 5];
     slice = Slice(list, 1, 4);
-    expect(slice.stripSuffix(<int>[].asSlice()).unwrap(), [2, 3, 4]);
-    expect(slice.stripSuffix([4].asSlice()).unwrap(), [2, 3]);
-    expect(slice.stripSuffix([3, 4].asSlice()).unwrap(), [2]);
-    expect(slice.stripSuffix([2, 3, 4].asSlice()).unwrap(), []);
+    expect(slice.stripSuffixOpt(<int>[].asSlice()).unwrap(), [2, 3, 4]);
+    expect(slice.stripSuffixOpt([4].asSlice()).unwrap(), [2, 3]);
+    expect(slice.stripSuffixOpt([3, 4].asSlice()).unwrap(), [2]);
+    expect(slice.stripSuffixOpt([2, 3, 4].asSlice()).unwrap(), []);
   });
 
   test("swap", () {

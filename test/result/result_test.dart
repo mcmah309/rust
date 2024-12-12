@@ -494,9 +494,9 @@ void main() {
     Result<int, String> result = Ok(1);
     int value;
     switch (result) {
-      case Ok(o: final outer):
+      case Ok(v: final outer):
         value = outer;
-      case Err(e: final errorValue):
+      case Err(v: final errorValue):
         final _ = errorValue;
         throw Exception();
     }

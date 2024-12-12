@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('NullableLazyCell Tests', () {
-    NullableLazyCell<int?> lazyCell;
+    LazyCellNullable<int?> lazyCell;
     int callCount = 0;
     initFunc() {
       callCount++;
@@ -15,7 +15,7 @@ void main() {
     });
 
     test('Value is lazily initialized', () {
-      lazyCell = NullableLazyCell<int?>(initFunc);
+      lazyCell = LazyCellNullable<int?>(initFunc);
       expect(callCount, equals(0));
       var value = lazyCell();
       expect(value, equals(10));
@@ -23,7 +23,7 @@ void main() {
     });
 
     test('Subsequent calls return the same value without reinitializing', () {
-      lazyCell = NullableLazyCell<int?>(initFunc);
+      lazyCell = LazyCellNullable<int?>(initFunc);
       var firstCall = lazyCell();
       expect(callCount, equals(1));
 
@@ -33,13 +33,13 @@ void main() {
     });
 
     test('Works with null values', () {
-      var nullLazyCell = NullableLazyCell<int?>(() => null);
+      var nullLazyCell = LazyCellNullable<int?>(() => null);
       expect(nullLazyCell(), isNull);
     });
 
     test('Equality and hashCode', () {
-      lazyCell = NullableLazyCell<int?>(initFunc);
-      var anotherLazyCell = NullableLazyCell<int?>(initFunc);
+      lazyCell = LazyCellNullable<int?>(initFunc);
+      var anotherLazyCell = LazyCellNullable<int?>(initFunc);
       anotherLazyCell();
 
       expect(lazyCell, isNot(equals(anotherLazyCell)));

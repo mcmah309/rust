@@ -9,8 +9,8 @@ They have two uses:
 1. `RangeBounds` can be used to get a `Slice` of an `Arr`, `Slice`, or `List`.
 ```dart
 void func(RangeBounds bounds) {
-    Arr<int> arr = Arr.range(0, 10);
-    Slice<int> slice = arr(bounds);
+    List<int> list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    Slice<int> slice = list(bounds);
     expect(slice, equals([4, 5, 6, 7, 8, 9]));
 }
 

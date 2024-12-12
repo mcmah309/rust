@@ -11,6 +11,8 @@
 - [array](./libs/array/array.md)
 - [cell](./libs/cell/cell.md)
 <!-- - [convert](./libs/convert/convert.md) -->
+- [env](./libs/env/env.md)
+- [fs](./libs/fs/fs.md)
 - [iter](./libs/iter/iter.md)
 - [ops](./libs/ops/ops.md)
 - [option](./libs/option/option.md)

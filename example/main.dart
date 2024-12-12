@@ -16,11 +16,8 @@ void main() {
 void readmeExample() {
   final string = "kl!sd!?!";
   Vec<int> answer = [];
-  Peekable<(int, Arr<String>)> iter = string
-      .chars()
-      .mapWindows(2, identity)
-      .enumerate()
-      .peekable();
+  Peekable<(int, Arr<String>)> iter =
+      string.chars().mapWindows(2, identity).enumerate().peekable();
 
   while (iter.moveNext()) {
     final (index, window) = iter.current;
@@ -29,7 +26,7 @@ void readmeExample() {
         break;
       case ["!", _]:
         answer.push(index);
-      case [_, "!"] when iter.peek().isNone():
+      case [_, "!"] when iter.peekOpt().isNone():
         answer.push(index + 1);
     }
   }
@@ -37,7 +34,6 @@ void readmeExample() {
   assert(answer[0] == 2);
   assert(answer[1] == 7);
 }
-
 
 Result<int, String> usingTheEarlyReturnKeyExample() => Result(($) {
       // Early Return Key
@@ -48,10 +44,10 @@ Result<int, String> usingTheEarlyReturnKeyExample() => Result(($) {
 
 Result<int, String> usingRegularPatternMatchingExample() {
   switch (willAlwaysReturnErr()) {
-    case Err(:final e):
-      return Err(e);
-    case Ok(:final o):
-      return Ok(o.toInt());
+    case Err(v: final error):
+      return Err(error);
+    case Ok(v: final okay):
+      return Ok(okay.toInt());
   }
 }
 
@@ -67,9 +63,9 @@ void iteratorExample() {
       collect.add(e);
     }
   }
-  Option<int> next = iter.next();
+  Option<int> next = iter.nextOpt();
   collect.add(next.unwrap());
-  next = iter.next();
+  next = iter.nextOpt();
   collect.add(next.unwrap());
   while (iter.moveNext()) {
     collect.add(iter.current * iter.current);
@@ -79,7 +75,7 @@ void iteratorExample() {
 void sliceExample() {
   var list = [1, 2, 3, 4, 5];
   var slice = Slice(list, 1, 4);
-  var taken = slice.takeLast();
+  var taken = slice.takeLastOpt();
   slice[1] = 10;
   assert(list[2] == 10);
 }
