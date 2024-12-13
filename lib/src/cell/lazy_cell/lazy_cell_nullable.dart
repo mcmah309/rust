@@ -12,7 +12,7 @@ class LazyCellNullable<T> {
 
   LazyCellNullable(this._func);
 
-  /// Lazily evaluates the function passed into the constructor.
+  /// Lazily evaluates the function passed into the constructor. Equivalent to [call] but more explicit.
   @pragma("vm:prefer-inline")
   T force() => call();
 
