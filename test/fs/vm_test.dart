@@ -27,7 +27,8 @@ main() {
     final openOptions = OpenOptions()
       ..append(true)
       ..read(true);
-    RandomAccessFile file = await openOptions.open("test/fs/vm_test.dart".asPath()).unwrap();
+    RandomAccessFile file =
+        await openOptions.open("test/fs/vm_test.dart".asPath()).unwrap();
     file.closeSync();
     openOptions.read(false);
     file = await openOptions.open("test/fs/vm_test.dart".asPath()).unwrap();
