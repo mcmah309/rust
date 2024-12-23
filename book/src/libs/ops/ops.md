@@ -4,7 +4,7 @@
 
 ## RangeBounds
 
-`RangeBounds` works the same as Rust's `RangeBounds` (usually seen as syntactic sugar e.g. `1..=3`) 
+[RangeBounds](https://pub.dev/documentation/rust/latest/rust/RangeBounds-class.html) works the same as Rust's `RangeBounds` (usually seen as syntactic sugar e.g. `1..=3`) 
 They have two uses:
 1. `RangeBounds` can be used to get a `Slice` of an `Arr`, `Slice`, or `List`.
 ```dart

@@ -1,14 +1,14 @@
 # Cell
 ***
-Cell is library of useful wrappers types (cells) - [pub.dev](https://pub.dev/documentation/rust/latest/cell/cell-library.html).
+Cell is library of useful wrappers types (cells).
 
-[Cell](#cell) - A wrapper with interior mutability.
+[Cell](https://pub.dev/documentation/rust/latest/rust/Cell-class.html) - A wrapper with interior mutability.
 
-[OnceCell](#oncecell) - A cell which can be written to only once.
+[OnceCell](https://pub.dev/documentation/rust/latest/rust/OnceCell-class.html) - A cell which can be written to only once.
 
-[LazyCell](#lazycell) - A value which is initialized on the first access.
+[LazyCell](https://pub.dev/documentation/rust/latest/rust/LazyCell-class.html) - A value which is initialized on the first access.
 
-[LazyCellAsync](#lazycellasync) - A value which is asynchronously initialized on the first access.
+[LazyCellAsync](https://pub.dev/documentation/rust/latest/rust/LazyCellAsync-class.html) - A value which is asynchronously initialized on the first access.
 
 
 ## Cell

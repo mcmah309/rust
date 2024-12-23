@@ -1,7 +1,7 @@
 # Iter
 ***
 A Rust `Iterator` is analogous to the union of a Dart `Iterable` and `Iterator`. Since Dart already has an `Iterator` class, to avoid confusion,
-the Dart implementation of the Rust iterator is `Iter`. `Iter`
+the Dart implementation of the Rust iterator is [Iter](https://pub.dev/documentation/rust/latest/rust/Iter-class.html). `Iter`
 makes working with collections of `rust` types and regular Dart types a breeze. e.g.
 
 ```dart

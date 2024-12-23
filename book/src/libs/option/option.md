@@ -1,6 +1,6 @@
 # Option
 ***
-`Option` represents the union of two types - `Some<T>` and `None`.
+[Option](https://pub.dev/documentation/rust/latest/rust/Option-class.html) represents the union of two types - `Some<T>` and `None`.
 
 `Option` is easy to declare and translate back and forth between nullable types.
 ```dart

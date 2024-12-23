@@ -1,6 +1,6 @@
 # Result
 ***
-`Result<T, E>` is the type used for returning and propagating errors. It is an alternative to throwing exceptions. It is a sealed type with the variants, `Ok(T)`, representing success and containing a value, and `Err(E)`, representing error and containing an error value.
+[Result<T, E>](https://pub.dev/documentation/rust/latest/rust/Result-class.html) is the type used for returning and propagating errors. It is an alternative to throwing exceptions. It is a sealed type with the variants, `Ok(T)`, representing success and containing a value, and `Err(E)`, representing error and containing an error value.
 
 To better understand the motivation around the `Result` type refer to this [article](https://mcmah309.github.io/#/blog/the_result_type_in_dart).
 

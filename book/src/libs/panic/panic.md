@@ -1,6 +1,6 @@
 # Panic
 ***
-As with `Error` in Dart Core, `Panic` represents a state that should never happen and thus should never be caught.
+As with `Error` in Dart Core, [Panic](https://pub.dev/documentation/rust/latest/rust/Panic-class.html) represents a state that should never happen and thus should never be caught.
 Rust vs Dart Error handling terminology:
 
 | Dart Exception Type | Equivalent in Rust |
