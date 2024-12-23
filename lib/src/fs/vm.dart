@@ -401,26 +401,9 @@ class Fs {
     }).map((_) => ());
   }
 
-  // Dev Note: These where added since static extension methods cannot be added to the [File] class
-  // and creating a `OpenOption` class does not make much sense given the options are different in Dart.
-  // Thus the following is the combination of Rust's `File` and `OpenOption` structs.
+  // Dev Note: These where added since static extension methods cannot be added to the [File] class.
   // Additional static File methods
   //************************************************************************//
-
-  /// {@template Fs.open}
-  /// Opens a file. Must call [RandomAccessFile.close] when done.
-  /// {@endtemplate}
-  static FutureResult<RandomAccessFile, IoError> open(
-      Path path, FileMode mode) {
-    return Fs.ioGuard(() async => File(path.asString()).open(mode: mode));
-  }
-
-  /// {@template Fs.openSync}
-  /// Opens a file. Must call [RandomAccessFile.close] when done.
-  /// {@endtemplate}
-  static Result<RandomAccessFile, IoError> openSync(Path path, FileMode mode) {
-    return Fs.ioGuardSync(() => File(path.asString()).openSync(mode: mode));
-  }
 
   /// {@template Fs.createFile}
   /// Creates a file at the specified path if it does not exist, and will truncate it if it does.
@@ -469,6 +452,165 @@ class Fs {
       final file = File(path.asString());
       file.createSync(recursive: false, exclusive: true);
       return file;
+    });
+  }
+}
+
+/// Options and flags which can be used to configure how a file is opened. See [OpenOptions.open].
+class OpenOptions {
+  /// {@template OpenOptions.read}
+  /// The option for read access
+  /// {@endtemplate}
+  bool _hasReadAccess = false;
+
+  /// {@template OpenOptions.write}
+  /// The option for write access.
+  /// {@endtemplate}
+  bool _hasWriteAccess = false;
+
+  /// {@template OpenOptions.append}
+  /// The option for the append mode. If true write access does not need to be set.
+  /// {@endtemplate}
+  bool _hasAppendAccess = false;
+
+  /// {@template OpenOptions.createNew}
+  /// The option to create a new file, failing if it already exists -
+  /// No file is allowed to exist at the target location.
+  /// If set, .create() and .truncate() are ignored.
+  /// {@endtemplate}
+  bool _willCreateNew = false;
+
+  /// {@template OpenOptions.create}
+  /// The option to create a new file, or open it if it already exists.
+  /// {@endtemplate}
+  bool _canCreate = false;
+
+  /// {@template OpenOptions.truncate}
+  /// The option for truncating a previous file. Needs write access to work
+  /// {@endtemplate}
+  bool _willTruncate = false;
+
+  /// {@macro OpenOptions.append}
+  void append(bool append) {
+    _hasAppendAccess = append;
+  }
+
+  // Dev Note: `file.open` creates new if one does not exist
+  /// {@macro OpenOptions.create}
+  void create(bool create) {
+    _canCreate = create;
+  }
+
+  // Dev Note: `file.open` creates new if one does not exist
+  /// {@macro OpenOptions.createNew}
+  void createNew(bool createNew) {
+    _willCreateNew = createNew;
+  }
+
+  /// {@macro OpenOptions.read}
+  void read(bool read) {
+    _hasReadAccess = read;
+  }
+
+  /// {@macro OpenOptions.truncate}
+  void truncate(bool truncate) {
+    _willTruncate = truncate;
+  }
+
+  /// {@macro OpenOptions.write}
+  void write(bool write) {
+    _hasWriteAccess = write;
+  }
+
+  FutureResult<RandomAccessFile, IoError> open(Path path) async {
+    return Fs.ioGuardResult(() async {
+      final file = File(path.asString());
+      if (_willCreateNew) {
+        if (await file.exists()) {
+          return Err(IoError.ioException(FileSystemException(
+              "File already exists, but was expected to create new.",
+              path.asString())));
+        }
+      } else if (!_canCreate) {
+        if (!(await file.exists())) {
+          return Err(IoError.ioException(FileSystemException(
+              "File does not exist and does not have create permission.",
+              path.asString())));
+        }
+      }
+      FileMode mode;
+      if (_hasAppendAccess) {
+        if (_hasReadAccess) {
+          mode = FileMode.writeOnlyAppend;
+        } else {
+          mode = FileMode.append;
+        }
+      } else if (_hasWriteAccess) {
+        if (_hasReadAccess) {
+          mode = FileMode.write;
+        } else {
+          mode = FileMode.writeOnly;
+        }
+      } else if (_hasReadAccess) {
+        mode = FileMode.read;
+      } else {
+        return Err(IoError.ioException(
+            FileSystemException("No access mode specified.", path.asString())));
+      }
+      final randomAccessFile = await file.open(mode: mode);
+      bool doTruncate = !_willCreateNew &&
+          _willTruncate &&
+          (_hasAppendAccess || _hasWriteAccess);
+      if (doTruncate) {
+        return Ok(await randomAccessFile.truncate(0));
+      }
+      return Ok(randomAccessFile);
+    });
+  }
+
+  Result<RandomAccessFile, IoError> openSync(Path path) {
+    return Fs.ioGuardResultSync(() {
+      final file = File(path.asString());
+      if (_willCreateNew) {
+        if (file.existsSync()) {
+          return Err(IoError.ioException(FileSystemException(
+              "File already exists, but was expected to create new.",
+              path.asString())));
+        }
+      } else if (!_canCreate) {
+        if (!(file.existsSync())) {
+          return Err(IoError.ioException(FileSystemException(
+              "File does not exist and does not have create permission.",
+              path.asString())));
+        }
+      }
+      FileMode mode;
+      if (_hasAppendAccess) {
+        if (_hasReadAccess) {
+          mode = FileMode.writeOnlyAppend;
+        } else {
+          mode = FileMode.append;
+        }
+      } else if (_hasWriteAccess) {
+        if (_hasReadAccess) {
+          mode = FileMode.write;
+        } else {
+          mode = FileMode.writeOnly;
+        }
+      } else if (_hasReadAccess) {
+        mode = FileMode.read;
+      } else {
+        return Err(IoError.ioException(
+            FileSystemException("No access mode specified.", path.asString())));
+      }
+      final randomAccessFile = file.openSync(mode: mode);
+      bool doTruncate = !_willCreateNew &&
+          _willTruncate &&
+          (_hasAppendAccess || _hasWriteAccess);
+      if (doTruncate) {
+        randomAccessFile.truncateSync(0);
+      }
+      return Ok(randomAccessFile);
     });
   }
 }

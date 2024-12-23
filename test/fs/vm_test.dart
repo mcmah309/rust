@@ -22,4 +22,20 @@ main() {
     expect(metadata.isOk(), true);
     expect(metadata.unwrap().type, FileSystemEntityType.file);
   });
+
+  test("OpenOptions", () async {
+    final openOptions = OpenOptions()
+      ..append(true)
+      ..read(true);
+    RandomAccessFile file = await openOptions.open("test/fs/vm_test.dart".asPath()).unwrap();
+    file.closeSync();
+    openOptions.read(false);
+    file = await openOptions.open("test/fs/vm_test.dart".asPath()).unwrap();
+    file.closeSync();
+    openOptions.create(true);
+    file = await openOptions.open("test/fs/vm_test.dart".asPath()).unwrap();
+    openOptions.createNew(true);
+    var result = await openOptions.open("test/fs/vm_test.dart".asPath());
+    expect(result.isErr(), true);
+  });
 }

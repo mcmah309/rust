@@ -156,13 +156,6 @@ class Fs {
 
   //************************************************************************//
 
-  static FutureResult<RandomAccessFile, IoError> open(
-          Path path, FileMode mode) =>
-      throw UnsupportedError("'open' is not supported on this platform");
-
-  static Result<RandomAccessFile, IoError> openSync(Path path, FileMode mode) =>
-      throw UnsupportedError("'openSync' is not supported on this platform");
-
   static FutureResult<File, IoError> createFile(Path path) =>
       throw UnsupportedError("'createFile' is not supported on this platform");
 
@@ -177,4 +170,30 @@ class Fs {
   static Result<File, IoError> createNewFileSync(Path path) =>
       throw UnsupportedError(
           "'createNewFileSync' is not supported on this platform");
+}
+
+class OpenOptions {
+  void append(bool append) =>
+      throw UnsupportedError("'append' is not supported on this platform");
+
+  void create(bool create) =>
+      throw UnsupportedError("'create' is not supported on this platform");
+
+  void createNew(bool createNew) =>
+      throw UnsupportedError("'createNew' is not supported on this platform");
+
+  void read(bool read) =>
+      throw UnsupportedError("'read' is not supported on this platform");
+
+  void truncate(bool truncate) =>
+      throw UnsupportedError("'truncate' is not supported on this platform");
+
+  void write(bool write) =>
+      throw UnsupportedError("'write' is not supported on this platform");
+
+  FutureResult<RandomAccessFile, IoError> open(Path path) =>
+      throw UnsupportedError("'open' is not supported on this platform");
+
+  Result<RandomAccessFile, IoError> openSync(Path path) =>
+      throw UnsupportedError("'openSync' is not supported on this platform");
 }
