@@ -1,3 +1,7 @@
+## 3.1.0
+
+- Add `OpenOptions`
+
 ## 3.0.0
 
 - Breaking: New sealed type `Option` implementation
