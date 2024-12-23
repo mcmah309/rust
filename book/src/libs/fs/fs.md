@@ -23,7 +23,7 @@ catch (e) {
 ```
 `OpenOptions` is a more extensive builder pattern for opening files in place of `File(..).open(mode)`
 ```dart
-OpenOptions options = Options()
+OpenOptions options = OpenOptions()
     ..append(true)
     ..create(true)
     ..createNew(true)
