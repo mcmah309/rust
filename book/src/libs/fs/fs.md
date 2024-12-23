@@ -21,7 +21,7 @@ catch (e) {
 }
 // handle
 ```
-`OpenOptions` is a more extensive builder pattern for opening files in place of `File(..).open(mode)`
+`OpenOptions` is a more powerful builder pattern for opening files in place of `File(..).open(mode)`
 ```dart
 OpenOptions options = OpenOptions()
     ..append(true)
